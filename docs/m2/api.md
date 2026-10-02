@@ -15,6 +15,7 @@ JSON 使用 `Content-Type: application/json`，拒绝重复字段、非有限数
 | PATCH | `/api/resumes/{id}` | `{expected_revision,title}`；重命名 |
 | DELETE | `/api/resumes/{id}` | JSON `{expected_revision}`；逻辑删除，无回收站 |
 | POST | `/api/resumes/{id}/copy` | `{expected_revision,title,version:"saved"或"draft",draft?}`；201 独立副本 |
+| GET | `/api/resumes/{id}/avatar?attachment_id=ID` | 读取当前头像，需令牌；无头像返回 404，附件已更换返回 409；不改变修订 |
 | PUT | `/api/resumes/{id}/avatar?expected_revision=N` | PNG/JPEG 原始字节，类型 `application/octet-stream`；返回新修订 |
 | POST | `/api/resumes/{id}/compile` | `{expected_revision}`；202 任务，可能复用已成功任务 |
 | GET | `/api/jobs/{id}` | 任务状态、修订、构建键、页数及安全错误说明 |
@@ -28,5 +29,7 @@ JSON 使用 `Content-Type: application/json`，拒绝重复字段、非有限数
 任务状态为 `queued/running/succeeded/failed/timed_out/cancelled`。任务不接受用户传入 TeX 或命令。`pdf` 是最新修订的成功任务摘要，可能与当前 `build_key` 不同：这代表旧 PDF，不代表当前内容已成功编译。
 
 PDF 响应包含 `X-Resume-Revision` 和 `X-Build-Key`。浏览器以带令牌的 fetch 获取后转成 Blob，交给本地 PDF.js；不能把带令牌的 URL 嵌到第三方查看器。
+
+头像读取同样使用带令牌的 fetch 和临时 Blob URL，禁止把令牌放进图片 URL。前端裁剪为 600×800 的 JPEG 后通过现有 PUT 接口保存，仍受 1 MB 请求限制和后端图片解码校验；取消裁剪不请求写接口。原图不另行保存，备份包含确认后的头像。
 
 常用状态码：403 来源/令牌错误；404 不存在；409 版本冲突、源正在编译或 PDF 未就绪；413 过大；415 类型不符；422 数据/备份非法；429 队列满；503 本地存储写入失败。503 不能显示“已保存”。

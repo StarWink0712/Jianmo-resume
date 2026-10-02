@@ -95,6 +95,24 @@ body[data-view="editor"] .workspace { flex: 1 1 0; width: 100%; height: auto; }
 .check-field input { height: auto; width: auto; }
 .avatar-controls { margin: 24px 0 0; border-top: 1px solid var(--line); padding-top: 20px; display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
 .avatar-controls p { font-size: 11px; color: var(--secondary); width: 100%; margin: 0; }
+.avatar-thumbnail { width: 90px; height: 120px; object-fit: contain; background: #f3f6fc; border: 1px solid var(--border); border-radius: 6px; }
+.avatar-buttons { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; flex: 1; min-width: 180px; }
+.avatar-buttons .check-field { flex-basis: 100%; }
+#avatar-crop-dialog { width: min(760px, calc(100vw - 28px)); max-height: calc(100dvh - 28px); padding: 24px; overflow: auto; }
+#avatar-crop-dialog .dialog-heading h2 { font-size: 22px; }
+#avatar-crop-dialog #crop-help { margin: 10px 0 16px; }
+#crop-canvas { display: block; width: 100%; height: clamp(230px, 43dvh, 440px); border-radius: 6px; background: #edf0f5; touch-action: none; cursor: grab; }
+#crop-canvas:active { cursor: grabbing; }
+#crop-canvas:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+#crop-controls { border: 0; padding: 0; margin: 20px 0 0; min-width: 0; }
+.crop-control { display: grid; grid-template-columns: 32px 32px minmax(0, 1fr) 32px 48px; align-items: center; gap: 10px; margin: 10px 0; font-size: 12px; }
+.crop-control input { width: 100%; min-width: 0; accent-color: var(--blue); cursor: pointer; }
+.crop-control button { width: 32px; height: 32px; border-radius: 5px; background: #f3f6fc; font-size: 22px; }
+.crop-control output { text-align: right; font-variant-numeric: tabular-nums; color: var(--secondary); }
+#avatar-crop-dialog #crop-status { margin: 12px 0 0; min-height: 23px; }
+#crop-status[data-error="true"] { color: var(--red); }
+#avatar-crop-dialog .dialog-actions { margin-top: 16px; }
+@media (max-width: 480px) { #avatar-crop-dialog { padding: 18px; } .crop-control { gap: 6px; grid-template-columns: 28px 30px minmax(0, 1fr) 30px 42px; } }
 .module-row input[type="text"] { border: 1px solid var(--border); width: 160px; min-width: 0; padding: 5px; border-radius: 4px; }
 .add-module { margin-top: 20px; display: flex; gap: 10px; }
 .add-module select { min-width: 0; flex: 1; border: 1px solid var(--border); border-radius: 4px; }

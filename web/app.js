@@ -5,6 +5,7 @@ import {mountMarkdownEditor} from '/assets/markdown-editor.mjs';
 import {EditHistory} from '/assets/markdown-model.mjs';
 import {sectionLabels as labels, entryFields, hasTimeline, createEntry} from '/assets/section-model.mjs';
 import {AVATAR_ACCEPT, AVATAR_HINT, avatarFileError} from '/assets/avatar-model.mjs';
+import {cropAvatar} from '/assets/avatar-crop.mjs';
 const $ = (id) => document.getElementById(id);
 const clone = (value) => structuredClone(value);
 const uid = (prefix) => `${prefix}-${crypto.randomUUID()}`;
@@ -12,6 +13,7 @@ const records = new Map();
 const bodyHistories = new WeakMap();
 const avatarRequests = new Set();
 let summaries = [], active = null, token = '', manage = null, toastTimer, opening = 0, sessionTask, styleConfig;
+let avatarTarget = null, avatarThumbnailUrl = null;
 const busy = (r) => r?.saving || r?.uploading || ['queued', 'running'].includes(r?.job?.status);
 const dirty = (r) => r.epoch !== r.savedEpoch;
 
@@ -89,7 +91,7 @@ async function open(id) {
   active = id; document.body.dataset.view = 'editor'; $('library').hidden = true; $('context').hidden = $('context-actions').hidden = $('editor').hidden = false;
   renderSwitcher(); renderForm(); renderStatus(); await preview(r);
 }
-function home() { ++opening; active = null; document.body.dataset.view = 'library'; $('library').hidden = false; $('context').hidden = $('context-actions').hidden = $('editor').hidden = true; refreshList().catch(showError); }
+function home() { ++opening; active = null; clearAvatarThumbnail(); document.body.dataset.view = 'library'; $('library').hidden = false; $('context').hidden = $('context-actions').hidden = $('editor').hidden = true; refreshList().catch(showError); }
 
 function changed(r) {
   r.epoch++; r.error = r.conflict ? r.error : ''; clearTimeout(r.timer);
@@ -209,6 +211,7 @@ function revealSelectedTab() {
 window.addEventListener('resize', () => requestAnimationFrame(revealSelectedTab));
 function renderForm() {
   const r = records.get(active); if (!r) return;
+  clearAvatarThumbnail();
   if (r.selected !== 'basics' && !r.draft.sections.some((s) => s.id === r.selected)) r.selected = 'basics';
   tabs(r); const content = $('form-content'); content.replaceChildren();
   const intro = el('div', '', 'section-intro'); content.append(intro);
@@ -223,8 +226,23 @@ function renderForm() {
     data.links.forEach((link) => { const row = el('div', '', 'link-row'); row.append(field('显示文字（选填）', link, 'label', r, {placeholder:'留空则显示网址'}), field('网址（HTTP/HTTPS）', link, 'url', r, {max:2048}), button('移除', () => { data.links = data.links.filter((x) => x.id !== link.id); changed(r); renderForm(); })); content.append(row); });
     const addLink = button('＋ 添加链接', () => { data.links.push({id:uid('link'), label:'', url:'https://example.com'}); changed(r); renderForm(); }); addLink.disabled = data.links.length >= 6; content.append(addLink);
     const avatar = el('div', '', 'avatar-controls');
-    avatar.append(button(data.avatar_attachment_id ? '更换头像' : '上传头像', () => $('avatar-file').click()), check('在 PDF 中显示头像', data, 'avatar_visible', r), el('p', AVATAR_HINT));
-    if (data.avatar_attachment_id) avatar.append(button('移除头像', () => { if (!confirm('确认移除这份简历的头像？')) return; data.avatar_attachment_id = null; r.draft.attachments = []; changed(r); renderForm(); }));
+    const avatarButtons = el('div', '', 'avatar-buttons');
+    if (data.avatar_attachment_id) {
+      const thumbnail = el('img', '', 'avatar-thumbnail'); thumbnail.alt = '当前头像'; avatar.append(thumbnail);
+      showAvatarThumbnail(r, thumbnail);
+      avatarButtons.append(button('调整头像', () => adjustAvatar(r)));
+    }
+    avatarButtons.append(button(data.avatar_attachment_id ? '更换头像' : '上传头像', () => {
+      if (avatarRequests.has(r.id)) throw new Error('请先完成当前头像调整。');
+      avatarTarget = r.id; $('avatar-file').click();
+    }));
+    if (data.avatar_attachment_id) avatarButtons.append(button('移除头像', () => {
+      if (avatarRequests.has(r.id)) throw new Error('请等待头像调整完成。');
+      if (!confirm('确认移除这份简历的头像？')) return;
+      data.avatar_attachment_id = null; r.draft.attachments = []; changed(r); renderForm();
+    }, 'text-button muted'));
+    avatarButtons.append(check('在 PDF 中显示头像', data, 'avatar_visible', r));
+    avatar.append(avatarButtons, el('p', AVATAR_HINT));
     content.append(avatar);
   } else {
     const section = r.draft.sections.find((s) => s.id === r.selected);
@@ -325,17 +343,45 @@ act('import', () => $('import-file').click());
 $('import-file').addEventListener('change', async () => { const file = $('import-file').files[0]; if (!file) return; try { const result = await json('/api/import',{method:'POST',raw:file,type:'application/zip'}); records.set(result.resume.id,record(result)); await refreshList(); await open(result.resume.id); notify('工程已导入为新副本，没有覆盖任何原简历。'); } catch(error){showError(error);} finally{$('import-file').value='';} });
 $('avatar-file').accept = AVATAR_ACCEPT;
 $('avatar-file').addEventListener('change', async () => {
-  const file = $('avatar-file').files[0], r = records.get(active); if (!file || !r) return;
+  const file = $('avatar-file').files[0], r = records.get(avatarTarget);
+  $('avatar-file').value = ''; avatarTarget = null; if (!file || !r) return;
   const validationError = avatarFileError(file);
-  if (validationError || r.uploading || avatarRequests.has(r.id)) { notify(validationError || '请等待当前头像上传完成。'); $('avatar-file').value=''; return; }
+  if (validationError) { notify(validationError); return; }
+  await adjustAvatar(r, file);
+});
+function clearAvatarThumbnail() {
+  if (avatarThumbnailUrl) URL.revokeObjectURL(avatarThumbnailUrl);
+  avatarThumbnailUrl = null;
+}
+async function avatarBlob(r) {
+  const id = r.draft.basics.avatar_attachment_id;
+  return (await api(`/api/resumes/${r.id}/avatar?attachment_id=${encodeURIComponent(id)}`)).blob();
+}
+async function showAvatarThumbnail(r, image) {
+  try {
+    const blob = await avatarBlob(r);
+    if (!image.isConnected || active !== r.id) return;
+    clearAvatarThumbnail(); avatarThumbnailUrl = URL.createObjectURL(blob); image.src = avatarThumbnailUrl;
+  } catch { if (image.isConnected) image.alt = '头像暂时无法加载，请重新载入'; }
+}
+async function adjustAvatar(r, file) {
+  if (r.uploading || avatarRequests.has(r.id)) { notify('请先完成当前头像调整。'); return; }
   avatarRequests.add(r.id);
   try {
+    const cropped = await cropAvatar(file || await avatarBlob(r));
+    if (!cropped) return;
     await save(r); r.uploading = true; renderStatus();
-    const result = await json(`/api/resumes/${r.id}/avatar?expected_revision=${r.saved.revision}`,{method:'PUT',raw:file,type:'application/octet-stream'});
+    const result = await json(`/api/resumes/${r.id}/avatar?expected_revision=${r.saved.revision}`,{method:'PUT',raw:cropped,type:'application/octet-stream'});
     r.saved = result.resume; serverFields(r,result.resume); r.draft.attachments = clone(result.resume.attachments); r.draft.basics.avatar_attachment_id = result.resume.basics.avatar_attachment_id; r.draft.basics.avatar_visible = true; metadata(r,result);
-    if (active === r.id) renderForm(); notify('头像已保存到本地。');
-  } catch(error){r.error=error.message;showError(error);} finally {avatarRequests.delete(r.id);r.uploading=false;$('avatar-file').value='';renderStatus();if(dirty(r)){clearTimeout(r.timer);r.timer=setTimeout(()=>save(r).catch(()=>{}),1000);}}
-});
+    if (active === r.id) renderForm(); await refreshList(); notify('头像已保存，点击“保存并预览”更新 PDF。');
+  } catch(error) {
+    if (error.code === 'revision_conflict') { r.conflict = true; r.error = error.message; }
+    showError(error);
+  } finally {
+    avatarRequests.delete(r.id); r.uploading = false; renderStatus();
+    if (dirty(r) && !r.conflict) { clearTimeout(r.timer); r.timer = setTimeout(() => save(r).catch(() => {}), 1000); }
+  }
+}
 act('modules', () => {moduleList();$('modules-dialog').showModal();});
 act('add-module', () => { const r=records.get(active),type=$('module-kind').value; const section={id:uid('section'),type,title:labels[type],visible:true,entries:[newEntry(type)]}; r.draft.sections.push(section);r.selected=section.id;changed(r);moduleList();renderForm(); });
 // Keep the module picker and entry factory on the same supported type list.

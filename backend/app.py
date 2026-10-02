@@ -102,6 +102,7 @@ def create_app(directory, runtime=None, origin='http://127.0.0.1:8770', compiler
               'markdown-model.mjs': ROOT / 'web/markdown-model.mjs', 'markdown-editor.mjs': ROOT / 'web/markdown-editor.mjs',
               'section-model.mjs': ROOT / 'web/section-model.mjs',
               'avatar-model.mjs': ROOT / 'web/avatar-model.mjs',
+              'avatar-crop-model.mjs': ROOT / 'web/avatar-crop-model.mjs', 'avatar-crop.mjs': ROOT / 'web/avatar-crop.mjs',
               'style-config.json': ROOT / 'web/style-config.json',
               'app.css': ROOT / 'web/app.css', 'editor.css': ROOT / 'docs/m0/editor-wireframe.css',
               'pdf.min.mjs': ROOT / 'web/vendor/pdfjs/pdf.min.mjs',
@@ -175,6 +176,11 @@ def create_app(directory, runtime=None, origin='http://127.0.0.1:8770', compiler
         return Response(bytes(job['pdf']), media_type='application/pdf', headers={
             'Content-Disposition': f'{disposition}; filename="{job["resume_id"]}-r{job["revision"]}.pdf"',
             'X-Resume-Revision': str(job['revision']), 'X-Build-Key': job['build_key']})
+
+    @app.get('/api/resumes/{resume_id}/avatar')
+    def read_avatar(resume_id: str, attachment_id: str):
+        content, media_type = service.read_avatar(resume_id, attachment_id)
+        return Response(content, media_type=media_type)
 
     @app.put('/api/resumes/{resume_id}/avatar')
     async def avatar(resume_id: str, request: Request, expected_revision: int):

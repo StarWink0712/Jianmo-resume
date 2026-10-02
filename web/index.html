@@ -51,8 +51,21 @@
     <p>同一条目中需要另起一行时，将光标放在两段内容之间，点击“换行”或按 Shift+Enter，不需要添加黑点。普通 Enter 是 Markdown 软换行，空一行用于分段。</p>
     <p>快捷键：⌘/Ctrl+B 加粗，⌘/Ctrl+I 斜体，Shift+Enter 换行，⌘/Ctrl+Z 撤销，⌘/Ctrl+Shift+Z 重做。撤销/重做仅作用于当前正文框，切换模块后保留，刷新页面后清空；可在格式按钮未启用时继续手写 Markdown。</p>
     <p>可以创建多份简历、复制旧版本、上传 PNG/JPEG 头像。工程备份包含已保存的内容和头像，导入始终创建新副本。</p>
+    <p>上传头像后可拖动、缩放或旋转，裁剪为 3:4 矩形；确认后保存，取消不替换原头像。“调整头像”基于当前已保存的图片，若要恢复裁掉的部分，请重新上传原图。</p>
     <p>PDF 生成失败不会丢失已保存内容，仍可查看上次预览。导出上次成功版本需要确认，文件不包含之后的修改。</p>
     <p>简历仅保存在这台电脑上，请勿删除应用数据，重要内容请定期导出工程备份。使用时请保持本地服务运行，退出服务后无法保存。</p>
+  </dialog>
+  <dialog id="avatar-crop-dialog" aria-labelledby="crop-title" aria-describedby="crop-help">
+    <div class="dialog-heading"><h2 id="crop-title">裁剪头像</h2><button id="crop-close" class="icon-button" type="button" aria-label="关闭头像裁剪">×</button></div>
+    <p id="crop-help">拖动图片调整位置，使用下方控件缩放或旋转。裁剪为 3:4 竖版矩形。</p>
+    <canvas id="crop-canvas" tabindex="0" role="img" aria-label="头像裁剪区域，可拖动图片或使用方向键调整位置"></canvas>
+    <fieldset id="crop-controls" disabled>
+      <div class="crop-control"><label for="crop-zoom">缩放</label><button id="crop-zoom-out" type="button" aria-label="缩小头像">−</button><input id="crop-zoom" type="range" min="1" max="4" step="0.01" value="1"><button id="crop-zoom-in" type="button" aria-label="放大头像">＋</button><output id="crop-zoom-value" for="crop-zoom">100%</output></div>
+      <div class="crop-control"><label for="crop-rotation">旋转</label><button id="crop-left" type="button" aria-label="向左旋转 90 度">↶</button><input id="crop-rotation" type="range" min="-180" max="180" step="1" value="0"><button id="crop-right" type="button" aria-label="向右旋转 90 度">↷</button><output id="crop-rotation-value" for="crop-rotation">0°</output></div>
+      <button id="crop-reset" class="text-button muted" type="button">重置裁剪</button>
+    </fieldset>
+    <p id="crop-status" role="status"></p>
+    <div class="dialog-actions"><button id="crop-cancel" class="button" type="button">取消</button><button id="crop-confirm" class="button primary" type="button" disabled>确认裁剪</button></div>
   </dialog>
   <input id="import-file" type="file" accept=".zip,.resume.zip,application/zip" hidden><input id="avatar-file" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png" hidden>
   <div id="toast" class="toast" role="status" hidden></div>

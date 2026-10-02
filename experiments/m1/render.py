@@ -208,8 +208,8 @@ def render_resume(resume, assets=None):
     with_avatar = avatar is not None and basics['avatar_visible']
     if with_avatar:
         # Symmetric side columns keep the text centered on the page, not beside the photo.
-        result.append('\\noindent\\begin{minipage}[t]{0.15\\linewidth}\\vspace{0pt}\\mbox{}\\end{minipage}%\n'
-                      '\\begin{minipage}[t]{0.70\\linewidth}\\vspace{0pt}\n')
+        result.append('\\noindent\\begin{minipage}[t]{26mm}\\vspace{0pt}\\mbox{}\\end{minipage}%\n'
+                      '\\begin{minipage}[t]{\\dimexpr\\linewidth-52mm\\relax}\\vspace{0pt}\n')
     result.append('\\begingroup\\centering\n')
     header_rows = []
     if basics['name']:
@@ -230,7 +230,7 @@ def render_resume(resume, assets=None):
     result.append(fixed_gap('header_line_gap_px', keep=True).join(header_rows))
     result.append('\\par\\endgroup\n')
     if with_avatar:
-        result.append('\\end{minipage}%\n\\begin{minipage}[t]{0.15\\linewidth}\\vspace{0pt}\\raggedleft\\includegraphics[width=18mm,height=24mm,keepaspectratio]{avatar.png}\\end{minipage}\\par\n')
+        result.append('\\end{minipage}%\n\\begin{minipage}[t]{26mm}\\vspace{0pt}\\raggedleft\\includegraphics[width=24mm,height=32mm,keepaspectratio]{avatar.png}\\end{minipage}\\par\n')
     for section in resume['sections']:
         entries = [entry for entry in section['entries'] if entry['visible']]
         if not section['visible'] or not entries:

@@ -86,6 +86,16 @@ class Service:
             self.store.save(resume_id, revision, document)
             return self.detail(resume_id)
 
+    def read_avatar(self, resume_id, attachment_id):
+        with self.store.lock:
+            document = self.store.get(resume_id)
+            if not document['attachments']:
+                raise AppError(404, 'no_avatar', '这份简历尚未设置头像。')
+            item = document['attachments'][0]
+            if item['id'] != attachment_id:
+                raise AppError(409, 'avatar_changed', '头像已在其他页面修改，请重新载入简历后再调整。')
+            return self.store.assets(document)[attachment_path(item)], item['media_type']
+
     def avatar(self, resume_id, revision, content):
         metadata, data = decode_avatar(content)
         with self.store.lock:

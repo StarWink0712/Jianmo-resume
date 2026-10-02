@@ -81,8 +81,9 @@ class RenderingTests(unittest.TestCase):
             self.assertIn(r'女 \textbar{} 25岁 \textbar{} 示例市', header)
             self.assertNotIn(r'\centering', source.split(r'\par\endgroup')[1])
             if case_id == 'avatar':
-                self.assertEqual(source.count(r'{0.15\linewidth}'), 2)
-                self.assertIn(r'{0.70\linewidth}', source)
+                self.assertEqual(source.count(r'{26mm}'), 2)
+                self.assertIn(r'{\dimexpr\linewidth-52mm\relax}', source)
+                self.assertIn(r'width=24mm,height=32mm,keepaspectratio', source)
 
     def test_missing_or_cleared_demographics_do_not_print_placeholders(self):
         resume, assets = build_case(next(case for case in cases() if case['id'] == 'blank'))

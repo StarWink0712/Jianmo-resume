@@ -1,6 +1,6 @@
 export const MAX_AVATAR_UPLOAD_BYTES = 1_000_000;
 export const AVATAR_ACCEPT = '.jpg,.jpeg,.png,image/jpeg,image/png';
-export const AVATAR_HINT = '支持 JPG、JPEG、PNG，文件不超过 1 MB；无需固定尺寸或比例。图片仅发送到本机，并自动优化尺寸、清理元数据。';
+export const AVATAR_HINT = '支持 JPG、JPEG、PNG，原图不超过 1 MB。上传后可拖动、缩放和旋转裁剪；图片仅保存在本机。';
 
 export function avatarFileError(file) {
   if (!/\.(jpe?g|png)$/i.test(file.name || '')) return '请选择 JPG、JPEG 或 PNG 格式的图片。';

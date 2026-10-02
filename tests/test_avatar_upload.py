@@ -6,7 +6,7 @@ import unittest
 
 from PIL import Image
 
-from backend.domain import AppError, AVATAR_STORED_MAX_EDGE, MAX_AVATAR_UPLOAD_BYTES, decode_avatar
+from backend.domain import AppError, AVATAR_STORED_MAX_EDGE, MAX_AVATAR_UPLOAD_BYTES, MAX_AVATAR_DECODE_PIXELS, decode_avatar
 from backend.backup import export_backup, import_backup
 from experiments.m1.render import normalized_avatar
 from scripts.check_contracts import ROOT, build_case, cases, attachment_path
@@ -23,6 +23,9 @@ class AvatarUploadTests(unittest.TestCase):
         limit = json.loads(subprocess.check_output(['node', '--input-type=module', '-e',
             "import {MAX_AVATAR_UPLOAD_BYTES} from './web/avatar-model.mjs'; console.log(JSON.stringify(MAX_AVATAR_UPLOAD_BYTES));"], cwd=ROOT))
         self.assertEqual(limit, MAX_AVATAR_UPLOAD_BYTES)
+        pixels = json.loads(subprocess.check_output(['node', '--input-type=module', '-e',
+            "import {MAX_AVATAR_DECODE_PIXELS} from './web/avatar-crop-model.mjs'; console.log(JSON.stringify(MAX_AVATAR_DECODE_PIXELS));"], cwd=ROOT))
+        self.assertEqual(pixels, MAX_AVATAR_DECODE_PIXELS)
 
     def test_jpeg_png_and_exact_limit_are_supported(self):
         for fmt in ('JPEG', 'PNG'):

@@ -294,6 +294,53 @@ class BackendTests(unittest.TestCase):
         self.assertEqual(len(self.app.state.service.list()),1)
         self.assertEqual(self.app.state.service.store.get(source['id'])['revision'],1)
 
+    def test_avatar_read_is_authenticated_and_keeps_resume_unchanged(self):
+        source = self.create()
+        path = f'/api/resumes/{source["id"]}/avatar'
+        self.assertEqual(self.client.get(path, params={'attachment_id': 'missing'}).status_code, 404)
+        source = self.client.put(path + '?expected_revision=1', content=synthetic_png(),
+                                 headers={'Content-Type': 'application/octet-stream'}).json()['resume']
+        params = {'attachment_id': source['attachments'][0]['id']}
+        response = self.client.get(path, params=params)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers['content-type'], 'image/png')
+        self.assertEqual(response.headers['cache-control'], 'no-store')
+        self.assertEqual(response.content, next(iter(self.app.state.service.store.assets(source).values())))
+        self.assertEqual(self.client.get(path, params=params, headers={'X-Resume-Token': 'wrong'}).status_code, 403)
+        self.assertEqual(self.client.get(path, params=params, headers={'Origin': 'https://evil.example'}).status_code, 403)
+        self.assertEqual(self.app.state.service.store.get(source['id']), source)
+
+    def test_avatar_read_rejects_other_resumes_and_replaced_attachments(self):
+        source, other = self.create(), self.create()
+        path = f'/api/resumes/{source["id"]}/avatar'
+        source = self.client.put(path + '?expected_revision=1', content=synthetic_png(),
+                                 headers={'Content-Type': 'application/octet-stream'}).json()['resume']
+        previous_id = source['attachments'][0]['id']
+        self.assertEqual(self.client.get(f'/api/resumes/{other["id"]}/avatar',
+                                        params={'attachment_id': previous_id}).status_code, 404)
+        source = self.client.put(path + '?expected_revision=2', content=synthetic_png(),
+                                 headers={'Content-Type': 'application/octet-stream'}).json()['resume']
+        self.assertEqual(self.client.get(path, params={'attachment_id': previous_id}).status_code, 409)
+        self.assertEqual(self.client.get(path, params={'attachment_id': source['attachments'][0]['id']}).status_code, 200)
+
+    def test_cropped_portrait_survives_backup_and_stale_replacement_is_rejected(self):
+        from PIL import Image
+        image = io.BytesIO()
+        Image.new('RGB', (600, 800), '#2457a7').save(image, format='JPEG')
+        source = self.create()
+        path = f'/api/resumes/{source["id"]}/avatar?expected_revision=1'
+        source = self.client.put(path, content=image.getvalue(),
+                                 headers={'Content-Type': 'application/octet-stream'}).json()['resume']
+        item = source['attachments'][0]
+        self.assertEqual((item['width_px'], item['height_px']), (600, 800))
+        self.assertEqual(self.client.put(path, content=synthetic_png(),
+                                        headers={'Content-Type': 'application/octet-stream'}).status_code, 409)
+        self.assertEqual(self.app.state.service.store.get(source['id']), source)
+        archive = self.client.get(f'/api/resumes/{source["id"]}/backup?expected_revision=2').content
+        restored, assets = import_backup(archive)
+        self.assertEqual(restored, source)
+        self.assertEqual(assets, self.app.state.service.store.assets(source))
+
     def test_avatar_upload_limit_cannot_bypass_backend_or_replace_previous_avatar(self):
         from backend.domain import MAX_AVATAR_UPLOAD_BYTES
         source = self.create()
@@ -385,7 +432,8 @@ class BackendTests(unittest.TestCase):
         self.assertIn("worker-src 'self'", response.headers['content-security-policy'])
         self.assertEqual(self.client.get('/assets/resumes.sqlite3').status_code, 404)
         self.assertEqual(self.client.get('/assets/app.py').status_code, 404)
-        for name in ('markdown-model.mjs', 'markdown-editor.mjs', 'section-model.mjs', 'avatar-model.mjs'):
+        for name in ('markdown-model.mjs', 'markdown-editor.mjs', 'section-model.mjs', 'avatar-model.mjs',
+                     'avatar-crop-model.mjs', 'avatar-crop.mjs'):
             response = self.client.get('/assets/' + name)
             self.assertEqual(response.status_code, 200)
             self.assertIn('javascript', response.headers['content-type'])
