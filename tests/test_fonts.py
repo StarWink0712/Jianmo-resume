@@ -42,6 +42,9 @@ class BundledFontTests(unittest.TestCase):
         self.assertNotIn('https://', css)
         self.assertIn("$('font-warning').hidden = false", (ROOT / 'web/app.js').read_text())
 
+    def test_middle_dot_uses_latin_for_exact_pdf_text(self):
+        self.assertIn(r'\xeCJKDeclareCharClass{Default}{"00B7}', PREAMBLE)
+
     def test_pdf_font_check_rejects_fallback_and_unembedded_fonts(self):
         info = {'embedded': True, 'unicode_map': True}
         self.assertTrue(uses_bundled_fonts({'/ABCDEF+NotoSansCJKsc-Regular-Identity-H': info}))

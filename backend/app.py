@@ -69,10 +69,10 @@ async def fields(request, required, optional=()):
     return value
 
 
-def create_app(directory, runtime=None, origin='http://127.0.0.1:8770', compiler=None):
+def create_app(directory, runtime=None, origin='http://127.0.0.1:8770', compiler=None, seed_examples=True):
     from experiments.m1.fonts import FONT_FILES, font_media_type, verify_fonts
 
-    service = Service(directory, runtime, compiler)
+    service = Service(directory, runtime, compiler, seed_examples=seed_examples)
     fonts_root = verify_fonts(getattr(service.compiler, 'fonts_root', ROOT / 'assets/fonts'))
     token = secrets.token_urlsafe(32)
 

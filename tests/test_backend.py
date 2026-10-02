@@ -47,7 +47,7 @@ class BackendTests(unittest.TestCase):
         self.start()
 
     def start(self):
-        self.app = create_app(self.root, compiler=self.compiler)
+        self.app = create_app(self.root, compiler=self.compiler, seed_examples=False)
         self.client = TestClient(self.app, base_url=ORIGIN)
         self.client.__enter__()
         response = self.client.get('/api/session', headers={'X-Resume-Bootstrap': '1'})

@@ -25,7 +25,10 @@ class Store:
         if version not in (0, 1):
             self.db.close()
             raise AppError(503, 'database_version', '数据版本高于当前程序，拒绝打开。')
-        self.db.executescript('''
+        existing = self.db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='resumes'").fetchone()
+        initial_examples = 'skipped-existing' if existing else 'pending'
+        self.db.executescript(f'''
+            BEGIN IMMEDIATE;
             CREATE TABLE IF NOT EXISTS resumes(id TEXT PRIMARY KEY, revision INTEGER NOT NULL);
             CREATE TABLE IF NOT EXISTS revisions(
                 resume_id TEXT NOT NULL REFERENCES resumes(id) ON DELETE CASCADE,
@@ -38,7 +41,10 @@ class Store:
                 pages INTEGER, pdf BLOB, created_at TEXT NOT NULL,
                 FOREIGN KEY(resume_id,revision) REFERENCES revisions(resume_id,revision) ON DELETE CASCADE);
             CREATE INDEX IF NOT EXISTS jobs_build ON jobs(build_key,status);
+            CREATE TABLE IF NOT EXISTS app_metadata(key TEXT PRIMARY KEY, value TEXT NOT NULL);
+            INSERT OR IGNORE INTO app_metadata VALUES('bundled_examples', '{initial_examples}');
             PRAGMA user_version=1;
+            COMMIT;
         ''')
         self.db.execute("UPDATE jobs SET status='failed',error='服务上次退出时任务未完成，请重新编译。' WHERE status IN ('queued','running')")
 
@@ -84,11 +90,25 @@ class Store:
         for item in document['attachments']:
             self.db.execute('INSERT OR IGNORE INTO blobs VALUES(?,?)', (item['sha256'], assets[attachment_path(item)]))
 
+    def _insert(self, document, assets):
+        self.put_blobs(document, assets)
+        self.db.execute('INSERT INTO resumes VALUES(?,?)', (document['id'], document['revision']))
+        self.db.execute('INSERT INTO revisions VALUES(?,?,?)', (document['id'], document['revision'], json_bytes(document).decode()))
+
+    def initialize_examples(self, factory, enabled=True):
+        with self.transaction():
+            state = self.db.execute("SELECT value FROM app_metadata WHERE key='bundled_examples'").fetchone()[0]
+            if state != 'pending':
+                return
+            # A durable marker, not an empty-list check, prevents deleted examples returning.
+            if enabled and not self.db.execute('SELECT 1 FROM resumes LIMIT 1').fetchone():
+                for document, assets in factory():
+                    self._insert(document, assets)
+            self.db.execute("UPDATE app_metadata SET value='complete' WHERE key='bundled_examples'")
+
     def insert(self, document, assets):
         with self.transaction():
-            self.put_blobs(document, assets)
-            self.db.execute('INSERT INTO resumes VALUES(?,?)', (document['id'], document['revision']))
-            self.db.execute('INSERT INTO revisions VALUES(?,?,?)', (document['id'], document['revision'], json_bytes(document).decode()))
+            self._insert(document, assets)
         return document
 
     def save(self, resume_id, revision, document, added_assets=None):

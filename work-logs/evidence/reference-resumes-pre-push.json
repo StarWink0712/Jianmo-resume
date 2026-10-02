@@ -1,0 +1,157 @@
+{
+  "scope": "source-code pre-push checks, not installer or browser acceptance",
+  "full": true,
+  "checks": [
+    {
+      "name": "dependencies",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.66
+    },
+    {
+      "name": "contracts",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.37
+    },
+    {
+      "name": "python-tests",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 5.13
+    },
+    {
+      "name": "node-tests",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.21
+    },
+    {
+      "name": "syntax-app.js",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.08
+    },
+    {
+      "name": "syntax-avatar-crop-model.mjs",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.08
+    },
+    {
+      "name": "syntax-avatar-crop.mjs",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.08
+    },
+    {
+      "name": "syntax-avatar-model.mjs",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.08
+    },
+    {
+      "name": "syntax-markdown-editor.mjs",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.08
+    },
+    {
+      "name": "syntax-markdown-model.mjs",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.08
+    },
+    {
+      "name": "syntax-section-model.mjs",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.08
+    },
+    {
+      "name": "syntax-style-editor.mjs",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.08
+    },
+    {
+      "name": "syntax-style-model.mjs",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.08
+    },
+    {
+      "name": "syntax-viewer.js",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.08
+    },
+    {
+      "name": "check_backend",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 19.27
+    },
+    {
+      "name": "check_english_resume",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 8.82
+    },
+    {
+      "name": "check_achievement_modules",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 9.73
+    },
+    {
+      "name": "check_style",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 20.19
+    },
+    {
+      "name": "check_entry_headings",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 5.08
+    },
+    {
+      "name": "check_fixed_spacing",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 6.15
+    },
+    {
+      "name": "check_date_alignment",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 9.33
+    },
+    {
+      "name": "check_markdown_toolbar",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 2.72
+    },
+    {
+      "name": "check_avatar_crop",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 7.92
+    },
+    {
+      "name": "check_reference_resumes",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 18.84
+    },
+    {
+      "name": "diff-whitespace",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.03
+    }
+  ],
+  "passed": true
+}

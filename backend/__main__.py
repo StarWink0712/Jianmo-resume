@@ -15,6 +15,7 @@ def main():
     parser.add_argument('--port', type=int, default=8770)
     parser.add_argument('--data-dir', type=Path, default=ROOT / '.local-data')
     parser.add_argument('--runtime', type=Path, default=ROOT / '.m1-build/local-install/current')
+    parser.add_argument('--no-examples', action='store_true', help='Start a new data directory without bundled reference resumes.')
     args = parser.parse_args()
     if not 1024 <= args.port <= 65535:
         parser.error('port must be between 1024 and 65535')
@@ -23,7 +24,7 @@ def main():
     listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     try:
         listener.bind(('127.0.0.1', args.port))
-        app = create_app(args.data_dir, args.runtime, origin=f'http://127.0.0.1:{args.port}')
+        app = create_app(args.data_dir, args.runtime, origin=f'http://127.0.0.1:{args.port}', seed_examples=not args.no_examples)
     except (OSError, AppError, ValueError) as error:
         listener.close()
         raise SystemExit('无法启动本地服务，请检查端口、数据目录或专用运行时：' + str(error))

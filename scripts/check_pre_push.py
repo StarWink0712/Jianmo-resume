@@ -10,13 +10,13 @@ ROOT = Path(__file__).resolve().parents[1]
 PDF_CHECKS = (
     'check_backend.py', 'check_english_resume.py', 'check_achievement_modules.py',
     'check_style.py', 'check_entry_headings.py', 'check_fixed_spacing.py',
-    'check_date_alignment.py', 'check_markdown_toolbar.py', 'check_avatar_crop.py',
+    'check_date_alignment.py', 'check_markdown_toolbar.py', 'check_avatar_crop.py', 'check_reference_resumes.py',
 )
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--full', action='store_true', help='Also run real HTTP/TeX/PDF checks with the installed runtime.')
+    parser.add_argument('--full', action='store_true', help='Also run real HTTP/TeX/PDF and reference-resume checks with the installed runtime.')
     args = parser.parse_args()
     output = ROOT / 'tmp/pre-push'
     output.mkdir(parents=True, exist_ok=True)

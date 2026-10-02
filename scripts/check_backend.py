@@ -28,10 +28,11 @@ from scripts.check_contracts import build_case, cases, json_bytes, synthetic_png
 
 
 class Harness:
-    def __init__(self, root, runtime, port):
+    def __init__(self, root, runtime, port, seed_examples=False):
         self.root, self.runtime, self.port = root, runtime, port
         self.origin = f'http://127.0.0.1:{port}'
         self.process = None
+        self.seed_examples = seed_examples
         self.client = httpx.Client(base_url=self.origin, timeout=15, trust_env=False)
 
     def start(self, name='primary'):
@@ -39,7 +40,8 @@ class Harness:
             probe.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             probe.bind(('127.0.0.1', self.port))
         self.process = subprocess.Popen([sys.executable, '-m', 'backend', '--port', str(self.port),
-            '--data-dir', str(self.root / name), '--runtime', str(self.runtime)], cwd=ROOT,
+            '--data-dir', str(self.root / name), '--runtime', str(self.runtime),
+            *([] if self.seed_examples else ['--no-examples'])], cwd=ROOT,
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         deadline = time.monotonic() + 40
         while time.monotonic() < deadline:

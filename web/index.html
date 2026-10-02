@@ -19,8 +19,8 @@
   <main id="library" class="library-view">
     <div class="library-heading"><div><p class="library-eyebrow">个人工作空间</p><h1>我的简历</h1><p>为不同岗位保留不同版本。从旧简历创建副本，独立编辑。</p></div><div class="footer-actions"><button id="import" class="button" type="button">导入工程</button><button id="create" class="button primary" type="button">＋ 新建简历</button></div></div>
     <div class="library-toolbar"><p><strong id="count">0</strong> 份简历 <span>保存在本机</span></p><label class="library-search"><span class="sr-only">搜索简历</span><input id="search" type="search" placeholder="搜索名称或求职方向"></label></div>
-    <div id="cards" class="resume-grid"></div><div id="empty" class="library-empty" hidden><h2>从第一份简历开始</h2><p>创建空白简历，或从虚构示例开始编辑。</p><button id="empty-create" class="button primary" type="button">新建简历</button></div>
-    <div class="library-tip"><p>简历保存在这台电脑上，建议定期导出工程备份。</p></div>
+    <div id="cards" class="resume-grid"></div><div id="empty" class="library-empty" hidden><h2>从第一份简历开始</h2><p>创建空白简历，或选择 Java 开发、算法、测试参考内容。</p><button id="empty-create" class="button primary" type="button">新建简历</button></div>
+    <div class="library-tip"><p>内置参考简历均为虚构，可直接编辑、创建副本或删除；删除后不会自动恢复。简历保存在本机，建议定期导出工程备份。</p></div>
   </main>
   <main id="editor" class="workspace" hidden>
     <section class="panel editor-panel"><div class="panel-heading"><h1>简历编辑器</h1><div class="heading-actions"><button id="modules" class="text-button" type="button">模块管理</button><button id="settings" class="text-button" type="button">样式设置</button></div></div>
@@ -36,7 +36,7 @@
       <footer class="panel-footer preview-footer"><button id="old-export" class="text-button muted" type="button" disabled>导出上次成功版本</button><div class="footer-actions"><button id="backup" class="button" type="button">工程备份</button><button id="export" class="button primary" type="button" disabled>导出 PDF</button></div></footer>
     </section>
   </main>
-  <dialog id="manage-dialog"><div class="dialog-heading"><h2 id="manage-title">新建简历</h2><button data-close="manage-dialog" class="icon-button" type="button" aria-label="关闭">×</button></div><form id="manage-form"><label class="field">简历名称<input id="manage-name" maxlength="80" required autocomplete="off"></label><label id="kind-field" class="field">开始方式<select id="kind"><option value="blank">空白简历</option><option value="sample">使用虚构示例</option></select></label><label id="version-field" class="field" hidden>复制内容<select id="version"><option value="saved">已保存的内容</option><option value="draft">包含本页未保存修改的草稿</option></select></label><p id="manage-error" class="form-error" role="alert"></p><div class="dialog-actions"><button class="button" type="button" data-close="manage-dialog">取消</button><button id="manage-submit" class="button primary" type="submit">确认</button></div></form></dialog>
+  <dialog id="manage-dialog"><div class="dialog-heading"><h2 id="manage-title">新建简历</h2><button data-close="manage-dialog" class="icon-button" type="button" aria-label="关闭">×</button></div><form id="manage-form"><label class="field">简历名称<input id="manage-name" maxlength="80" required autocomplete="off"></label><label id="kind-field" class="field">开始方式<select id="kind"><option value="blank">空白简历</option><optgroup label="使用虚构示例"><option value="java">Java 开发参考简历</option><option value="algorithm">算法工程师参考简历</option><option value="testing">测试工程师参考简历</option></optgroup></select></label><label id="version-field" class="field" hidden>复制内容<select id="version"><option value="saved">已保存的内容</option><option value="draft">包含本页未保存修改的草稿</option></select></label><p id="manage-error" class="form-error" role="alert"></p><div class="dialog-actions"><button class="button" type="button" data-close="manage-dialog">取消</button><button id="manage-submit" class="button primary" type="submit">确认</button></div></form></dialog>
   <dialog id="modules-dialog"><div class="dialog-heading"><h2>模块管理</h2><button data-close="modules-dialog" class="icon-button" type="button" aria-label="关闭">×</button></div><p>隐藏只影响 PDF，不删除内容；顺序与标题会自动保存。</p><div id="module-list"></div><div class="add-module"><label class="sr-only" for="module-kind">新增模块类型</label><select id="module-kind"><option value="education">教育经历</option><option value="employment">工作与实习</option><option value="project">项目经历</option><option value="skills">专业技能</option><option value="awards">获奖经历</option><option value="custom">自定义</option></select><button id="add-module" class="button" type="button">新增模块</button></div></dialog>
   <dialog id="settings-dialog" aria-labelledby="style-title">
     <div class="dialog-heading"><h2 id="style-title">简历样式</h2><button data-close="settings-dialog" class="icon-button" type="button" aria-label="关闭样式设置">×</button></div>
@@ -51,6 +51,7 @@
     <p>同一条目中需要另起一行时，将光标放在两段内容之间，点击“换行”或按 Shift+Enter，不需要添加黑点。普通 Enter 是 Markdown 软换行，空一行用于分段。</p>
     <p>快捷键：⌘/Ctrl+B 加粗，⌘/Ctrl+I 斜体，Shift+Enter 换行，⌘/Ctrl+Z 撤销，⌘/Ctrl+Shift+Z 重做。撤销/重做仅作用于当前正文框，切换模块后保留，刷新页面后清空；可在格式按钮未启用时继续手写 Markdown。</p>
     <p>可以创建多份简历、复制旧版本、上传 PNG/JPEG 头像。工程备份包含已保存的内容和头像，导入始终创建新副本。</p>
+    <p>首次使用会提供 Java 开发、算法和测试三份虚构参考简历。可以直接编辑或删除，删除后不会因刷新或重启而恢复。若主动需要，可在“新建简历”中重新选择参考内容。</p>
     <p>上传头像后可拖动、缩放或旋转，裁剪为 3:4 矩形；确认后保存，取消不替换原头像。“调整头像”基于当前已保存的图片，若要恢复裁掉的部分，请重新上传原图。</p>
     <p>PDF 生成失败不会丢失已保存内容，仍可查看上次预览。导出上次成功版本需要确认，文件不包含之后的修改。</p>
     <p>简历仅保存在这台电脑上，请勿删除应用数据，重要内容请定期导出工程备份。使用时请保持本地服务运行，退出服务后无法保存。</p>

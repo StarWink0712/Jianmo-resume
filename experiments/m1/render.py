@@ -176,6 +176,8 @@ PREAMBLE = r'''\documentclass[a4paper]{article}
 \setmainfont[Path=fonts/,BoldFont=NotoSans-Bold.ttf,ItalicFont=NotoSans-Italic.ttf,BoldItalicFont=NotoSans-BoldItalic.ttf]{NotoSans-Regular.ttf}
 \setCJKmainfont[Path=fonts/,BoldFont=NotoSansCJKsc-Bold.otf,ItalicFont=NotoSansCJKsc-Regular.otf,ItalicFeatures={FakeSlant=0.2},BoldItalicFont=NotoSansCJKsc-Bold.otf,BoldItalicFeatures={FakeSlant=0.2}]{NotoSansCJKsc-Regular.otf}
 \xeCJKDeclareCharClass{CJK}{"2190 -> "2BFF}
+% CJK shares the middle-dot glyph with U+30FB; use Latin to preserve U+00B7.
+\xeCJKDeclareCharClass{Default}{"00B7}
 \pagestyle{empty}
 \raggedbottom
 \setlength{\parindent}{0pt}

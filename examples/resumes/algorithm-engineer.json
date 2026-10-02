@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "id": "resume-reference-algorithm",
+  "revision": 1,
+  "title": "算法工程师参考简历（虚构）",
+  "basics": {
+    "name": "许知遥（虚构）", "headline": "算法工程师 · 推荐与检索",
+    "gender": "", "age": null, "email": "xu.zhiyao@example.com", "phone": "1XX-XXXX-XXXX", "location": "示例市",
+    "links": [{"id": "link-algorithm", "label": "研究与项目", "url": "https://example.com/algorithm-portfolio"}],
+    "avatar_attachment_id": null, "avatar_visible": false
+  },
+  "sections": [
+    {
+      "id": "section-algorithm-education", "type": "education", "title": "教育背景", "visible": true,
+      "entries": [
+        {"id": "entry-algorithm-master", "visible": true, "school": "示例信息大学（虚构）", "degree": "硕士", "field_of_study": "计算机技术", "location": "",
+          "start_date": "2023-09", "end_date": "2026-06", "ongoing": false,
+          "body": "研究方向为表示学习与信息检索，关注数据划分、负样本构造、离线评估及推理效率。"},
+        {"id": "entry-algorithm-bachelor", "visible": true, "school": "示例理工学院（虚构）", "degree": "本科", "field_of_study": "计算机科学与技术", "location": "",
+          "start_date": "2019-09", "end_date": "2023-06", "ongoing": false,
+          "body": "主修线性代数、概率统计、最优化方法、机器学习、数据库与算法设计。"}
+      ]
+    },
+    {
+      "id": "section-algorithm-skills", "type": "skills", "title": "专业技能", "visible": true,
+      "entries": [{"id": "entry-algorithm-skills", "visible": true, "label": "",
+        "body": "- **算法基础**：理解逻辑回归、树模型、矩阵分解与对比学习；能够分析过拟合、样本偏差和评估指标之间的关系。\n- **建模工具**：使用 Python、PyTorch、scikit-learn 开展训练和实验，掌握梯度累积、混合精度及模型检查点管理。\n- **推荐与检索**：熟悉召回、排序、重排链路，了解双塔模型、向量索引、负采样以及 Recall@K、NDCG 等离线指标。\n- **数据与工程**：使用 SQL、Pandas 清洗数据，关注时间切分、特征泄漏、可复现实验及批量推理；可用 FastAPI 封装模型服务。"}]
+    },
+    {
+      "id": "section-algorithm-employment", "type": "employment", "title": "实习经历", "visible": true,
+      "entries": [{"id": "entry-algorithm-employment", "visible": true, "organization": "示例智能实验室（虚构）", "role": "推荐算法实习生", "employment_type": "internship", "location": "",
+        "start_date": "2025-06", "end_date": "2025-10", "ongoing": false,
+        "body": "- 参与内容推荐离线实验，梳理曝光、点击与停留事件，建立样本去重、异常过滤和标签延迟处理规则。\n- 构建热门内容、协同过滤与双塔召回基线，使用相同时间切分比较覆盖率、召回率和长尾内容表现。\n- 针对高频内容占比过大的问题，尝试样本重加权与分层负采样；记录不同用户活跃度下的分组指标。\n- 将训练配置、随机种子和评估脚本纳入版本管理，形成可复现报告；结论限定为离线实验，不等同线上收益。"}]
+    },
+    {
+      "id": "section-algorithm-projects", "type": "project", "title": "项目经历", "visible": true,
+      "entries": [
+        {"id": "entry-algorithm-retrieval", "visible": true, "name": "多模态内容检索实验（虚构）", "role": "模型与评估负责人", "url": null,
+          "start_date": "2025-01", "end_date": "2025-05", "ongoing": false,
+          "body": "**技术栈：** PyTorch、Transformers、Faiss。\n- 使用公开许可样例和合成数据搭建图文检索流程，将数据来源、清洗规则和许可信息随实验记录保存。\n- 建立预训练编码器基线，对比冻结特征、投影层训练和小范围微调，保持评估集固定以避免选择偏差。\n- 分别评估随机负样本与难负样本策略，增加相似图片、短文本和噪声描述等子集分析，说明各方案适用边界。\n- 建立精确搜索与近似向量索引的对照，记录召回损失、索引体积和不同批量大小下的查询耗时。"},
+        {"id": "entry-algorithm-ranking", "visible": true, "name": "推荐排序与实验评估平台（虚构）", "role": "独立开发", "url": null,
+          "start_date": "2025-11", "end_date": "2026-03", "ongoing": false,
+          "body": "**技术栈：** Python、LightGBM、Pandas、SQL。\n- 围绕用户、内容和上下文建立特征流水线，明确每个特征的统计窗口与可用时刻，避免未来信息进入训练。\n- 对比逻辑回归与梯度提升树基线，按时间窗口和用户维度做稳定性验证，报告整体及分组的 AUC、NDCG。\n- 将特征消融、参数搜索与重复实验组织成统一任务，输出均值、波动范围和错误案例，不以单次最优结果下结论。"}
+      ]
+    },
+    {
+      "id": "section-algorithm-academic", "type": "academic", "title": "学术与研究成果", "visible": true,
+      "entries": [{"id": "entry-algorithm-academic", "visible": true, "heading": "检索表示学习实验报告（虚构）", "role": "主要作者", "url": null,
+        "start_date": "2025-10", "end_date": "2026-03", "ongoing": false,
+        "body": "- 整理负采样、编码器微调与索引参数之间的交互影响，补充对照实验、消融分析和失败案例。\n- 提供配置清单与复现实验步骤；这是示例课程研究报告，未发表于任何真实期刊或会议。"}]
+    },
+    {
+      "id": "section-algorithm-competition", "type": "competition", "title": "竞赛成果", "visible": true,
+      "entries": [{"id": "entry-algorithm-competition", "visible": true, "heading": "示例数据挖掘挑战赛（虚构）", "role": "团队成员 · 特征与验证", "url": null,
+        "start_date": "2024-09", "end_date": "2024-12", "ongoing": false,
+        "body": "负责交叉验证方案、特征工程和融合实验；维护统一的本地验证记录，分析验证集与榜单分布差异。"}]
+    },
+    {
+      "id": "section-algorithm-note", "type": "custom", "title": "参考说明", "visible": true,
+      "entries": [{"id": "entry-algorithm-note", "visible": true, "heading": "", "role": "", "url": null, "start_date": null, "end_date": null, "ongoing": false,
+        "body": "*本简历全部人物、学校、单位、研究与竞赛经历均为虚构。请使用真实数据、真实成果和可核验材料替换示例内容。*"}]
+    }
+  ],
+  "template": {"id": "cn-single-column", "version": "0.1.0"},
+  "style": {"version": 3, "paper": "a4", "theme_color": "#334155", "name_size_px": 22, "section_title_size_px": 16, "content_size_px": 13, "line_height": 1.35, "section_gap_px": 8, "margins_px": {"top": 28, "bottom": 28, "left": 32, "right": 32}},
+  "attachments": [],
+  "created_at": "2026-10-02T00:00:00Z", "updated_at": "2026-10-02T00:00:00Z"
+}

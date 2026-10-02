@@ -7,6 +7,7 @@ import shutil
 import threading
 
 from backend import backup
+from backend.examples import EXAMPLES, example_document
 from backend.compiler import Compiler
 from backend.domain import AppError, clone_resume, decode_avatar, expected, identifier, new_resume, now, title, validate
 from backend.store import Store
@@ -14,7 +15,7 @@ from scripts.check_contracts import attachment_path
 
 
 class Service:
-    def __init__(self, directory, runtime=None, compiler=None):
+    def __init__(self, directory, runtime=None, compiler=None, seed_examples=True):
         self.directory = Path(directory).resolve()
         self.directory.mkdir(parents=True, exist_ok=True, mode=0o700)
         self.lease = (self.directory / '.instance-lock').open('a')
@@ -26,12 +27,22 @@ class Service:
         try:
             self.compiler = compiler or Compiler(runtime)
             self.store = Store(self.directory / 'resumes.sqlite3')
+            self.store.initialize_examples(self._examples, enabled=seed_examples)
         except BaseException:
+            if hasattr(self, 'store'):
+                self.store.close()
             self.lease.close()
             raise
         self.executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix='resume-compile')
         self.closed = False
         self.submit_lock = threading.Lock()
+
+    @staticmethod
+    def _examples():
+        # Reverse insertion keeps the library's newest-first order Java, algorithm, testing.
+        for kind in reversed(EXAMPLES):
+            document = example_document(kind)
+            yield clone_resume(document, {}, document['title'])
 
     def key(self, document):
         value = [document['id'], document['revision'], document['template'], self.compiler.fingerprint]

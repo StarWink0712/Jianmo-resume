@@ -7,6 +7,7 @@ import warnings
 
 from PIL import Image, ImageOps
 
+from backend.examples import EXAMPLES, example_document
 from experiments.m1.render import normalized_avatar, RenderError
 from experiments.m1.style import STYLE_CONFIG
 from scripts.check_contracts import attachment_path, build_case, cases, validate_resume
@@ -77,8 +78,10 @@ def clone_resume(document, assets, name):
 
 
 def new_resume(name, kind):
+    if isinstance(kind, str) and kind in EXAMPLES:
+        return clone_resume(example_document(kind), {}, name)
     if kind not in ('blank', 'sample'):
-        raise AppError(422, 'invalid_kind', '请选择空白或虚构示例。')
+        raise AppError(422, 'invalid_kind', '请选择空白简历或受支持的参考简历。')
     case_id = 'blank' if kind == 'blank' else 'standard-one-page-target'
     document, assets = build_case(next(item for item in cases() if item['id'] == case_id))
     document['basics'].update(gender='', age=None)

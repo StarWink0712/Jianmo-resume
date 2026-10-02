@@ -9,7 +9,7 @@ JSON 使用 `Content-Type: application/json`，拒绝重复字段、非有限数
 | GET | `/api/health` | `status`、阶段、编译实现指纹，不返回路径或个人数据 |
 | GET | `/api/session` | 当前实例随机令牌 |
 | GET | `/api/resumes` | 按最近保存排序的摘要列表 |
-| POST | `/api/resumes` | `{title,kind:"blank"或"sample"}`；201 详情 |
+| POST | `/api/resumes` | `{title,kind}`；`blank` 空白、`java` Java 开发、`algorithm` 算法、`testing` 测试；201 详情。旧 `sample` 保留兼容 |
 | GET | `/api/resumes/{id}` | 详情：`resume,latest_job,pdf,build_key` |
 | PUT | `/api/resumes/{id}` | `{expected_revision,resume}`；更新内容并返回实际提交的修订 |
 | PATCH | `/api/resumes/{id}` | `{expected_revision,title}`；重命名 |

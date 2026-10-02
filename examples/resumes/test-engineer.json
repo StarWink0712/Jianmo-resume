@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "id": "resume-reference-testing",
+  "revision": 1,
+  "title": "测试工程师参考简历（虚构）",
+  "basics": {
+    "name": "程安宁（虚构）", "headline": "测试工程师 · 自动化与质量保障",
+    "gender": "", "age": null, "email": "cheng.anning@example.com", "phone": "1XX-XXXX-XXXX", "location": "示例市",
+    "links": [{"id": "link-testing", "label": "测试项目", "url": "https://example.com/testing-portfolio"}],
+    "avatar_attachment_id": null, "avatar_visible": false
+  },
+  "sections": [
+    {
+      "id": "section-testing-education", "type": "education", "title": "教育背景", "visible": true,
+      "entries": [{"id": "entry-testing-education", "visible": true, "school": "示例工程大学（虚构）", "degree": "本科", "field_of_study": "计算机科学与技术", "location": "",
+        "start_date": "2022-09", "end_date": "2026-06", "ongoing": false,
+        "body": "主修软件测试、数据库、计算机网络与程序设计；在课程项目中承担测试计划、接口验证和缺陷跟踪。"}]
+    },
+    {
+      "id": "section-testing-skills", "type": "skills", "title": "专业技能", "visible": true,
+      "entries": [{"id": "entry-testing-skills", "visible": true, "label": "",
+        "body": "- **测试设计**：掌握等价类、边界值、判定表和状态迁移方法，能将需求拆为可验证场景并识别风险。\n- **接口与自动化**：使用 Python、pytest、Requests 编写接口测试，了解数据准备、参数化、断言和失败清理。\n- **Web 与性能**：使用 Playwright 维护关键页面回归，使用 JMeter 观察响应时间、吞吐量与错误率。\n- **定位与协作**：熟悉 SQL、Linux 日志、HTTP 协议、Git 和持续集成，能提供明确的复现步骤和缺陷证据。"}]
+    },
+    {
+      "id": "section-testing-employment", "type": "employment", "title": "实习经历", "visible": true,
+      "entries": [{"id": "entry-testing-employment", "visible": true, "organization": "示例协作软件团队（虚构）", "role": "测试实习生", "employment_type": "internship", "location": "",
+        "start_date": "2025-07", "end_date": "2025-12", "ongoing": false,
+        "body": "- 参与需求评审，围绕权限、任务流转和附件上传建立测试矩阵，明确正常、异常与边界条件。\n- 独立执行功能与接口回归，使用请求记录、数据库查询和服务日志定位问题，跟踪缺陷直至验证关闭。\n- 将登录、创建任务、角色授权等稳定流程沉淀为自动化用例，使用独立测试数据减少用例之间的干扰。\n- 发布前检查配置和关键业务链路，发布后执行冒烟测试，整理剩余风险与可回退方案。"}]
+    },
+    {
+      "id": "section-testing-projects", "type": "project", "title": "项目经历", "visible": true,
+      "entries": [
+        {"id": "entry-testing-api", "visible": true, "name": "订单系统接口自动化（虚构）", "role": "测试开发", "url": null,
+          "start_date": "2025-02", "end_date": "2025-06", "ongoing": false,
+          "body": "**技术栈：** Python、pytest、Requests、MySQL。\n- 建立接口封装、业务场景、测试数据三层结构，覆盖下单、取消、支付回调与查询流程。\n- 使用参数化组合测试缺失字段、非法枚举、重复请求和越权访问，校验响应内容与数据库最终状态。\n- 为每次运行生成独立的数据标识，使用 fixture 完成初始化与清理，避免重跑污染已有结果。\n- 将用例接入持续集成，输出失败请求与断言信息；对令牌和个人字段脱敏，便于开发复现。"},
+        {"id": "entry-testing-web", "visible": true, "name": "协作平台端到端与性能回归（虚构）", "role": "质量负责人", "url": null,
+          "start_date": "2026-01", "end_date": "2026-04", "ongoing": false,
+          "body": "- 使用 Playwright 覆盖创建、编辑、检索和权限切换，优先使用语义定位与明确状态等待，减少固定延时。\n- 通过网络失败、重复点击和页面刷新等场景验证数据一致性，保存截图和必要日志作为故障证据。\n- 使用 JMeter 在固定资源与数据集下开展阶梯压测，区分响应时间、吞吐量与错误率，不将单次峰值作为容量结论。\n- 分析测试环境瓶颈与不稳定用例，明确问题归属、修复验证及发布前必须通过的核心清单。"}
+      ]
+    },
+    {
+      "id": "section-testing-awards", "type": "awards", "title": "其他能力", "visible": true,
+      "entries": [{"id": "entry-testing-awards", "visible": true, "heading": "", "body": "能够清晰编写测试计划、缺陷报告和复盘记录；重视沟通、风险分级与可重复验证。"}]
+    },
+    {
+      "id": "section-testing-note", "type": "custom", "title": "参考说明", "visible": true,
+      "entries": [{"id": "entry-testing-note", "visible": true, "heading": "", "role": "", "url": null, "start_date": null, "end_date": null, "ongoing": false,
+        "body": "*本简历的人物、学校、单位与项目均为虚构，仅作写法参考；投递前请替换为真实经历和能够说明的测试结果。*"}]
+    }
+  ],
+  "template": {"id": "cn-single-column", "version": "0.1.0"},
+  "style": {"version": 3, "paper": "a4", "theme_color": "#0F766E", "name_size_px": 22, "section_title_size_px": 16, "content_size_px": 13, "line_height": 1.35, "section_gap_px": 8, "margins_px": {"top": 28, "bottom": 28, "left": 32, "right": 32}},
+  "attachments": [],
+  "created_at": "2026-10-02T00:00:00Z", "updated_at": "2026-10-02T00:00:00Z"
+}

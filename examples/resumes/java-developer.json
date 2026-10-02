@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "id": "resume-reference-java",
+  "revision": 1,
+  "title": "Java 开发参考简历（虚构）",
+  "basics": {
+    "name": "林砚（虚构）",
+    "headline": "Java 后端开发工程师",
+    "gender": "",
+    "age": null,
+    "email": "lin.yan@example.com",
+    "phone": "1XX-XXXX-XXXX",
+    "location": "示例市",
+    "links": [{"id": "link-java", "label": "项目主页", "url": "https://example.com/java-portfolio"}],
+    "avatar_attachment_id": null,
+    "avatar_visible": false
+  },
+  "sections": [
+    {
+      "id": "section-java-education", "type": "education", "title": "教育背景", "visible": true,
+      "entries": [{
+        "id": "entry-java-education", "visible": true,
+        "school": "示例科技大学（虚构）", "degree": "本科", "field_of_study": "软件工程", "location": "",
+        "start_date": "2022-09", "end_date": "2026-06", "ongoing": false,
+        "body": "主修数据结构、操作系统、计算机网络、数据库原理；通过课程项目完成接口设计、测试和部署。"
+      }]
+    },
+    {
+      "id": "section-java-skills", "type": "skills", "title": "专业技能", "visible": true,
+      "entries": [{
+        "id": "entry-java-skills", "visible": true, "label": "",
+        "body": "- **Java 基础**：熟悉集合、泛型、异常处理与并发工具；理解线程池、锁机制及 JVM 内存模型，能够结合日志排查问题。\n- **服务端开发**：使用 Spring Boot、Spring MVC、MyBatis 构建 REST API，关注参数校验、异常处理和接口幂等。\n- **存储与中间件**：掌握 MySQL 索引、事务与执行计划分析；了解 Redis 缓存一致性、消息队列重试和消费去重。\n- **工程实践**：熟悉 Git、Maven、JUnit、Docker 和 Linux，能够编写单元测试、维护构建流程和基础监控。"
+      }]
+    },
+    {
+      "id": "section-java-employment", "type": "employment", "title": "实习经历", "visible": true,
+      "entries": [{
+        "id": "entry-java-employment", "visible": true,
+        "organization": "示例云服务工作室（虚构）", "role": "Java 开发实习生", "employment_type": "internship", "location": "",
+        "start_date": "2025-07", "end_date": "2025-11", "ongoing": false,
+        "body": "- 参与任务协作系统开发，负责任务查询、状态流转与操作记录等接口，补齐参数校验和异常返回约定。\n- 根据慢查询日志定位多表关联与分页问题，通过复合索引和批量查询减少重复访问，并保留执行计划对比记录。\n- 为关键写接口增加请求唯一标识和数据库约束，覆盖重复提交、事务回滚与消息重试等边界场景。\n- 使用 JUnit 与集成测试验证核心流程，参与代码评审、测试环境部署和发布后日志检查。"
+      }]
+    },
+    {
+      "id": "section-java-projects", "type": "project", "title": "项目经历", "visible": true,
+      "entries": [
+        {
+          "id": "entry-java-orders", "visible": true, "name": "轻量订单与库存系统（虚构）", "role": "后端开发", "url": null,
+          "start_date": "2025-03", "end_date": "2025-06", "ongoing": false,
+          "body": "**技术栈：** Java、Spring Boot、MySQL、Redis、RabbitMQ。\n- 将下单、库存扣减、支付回调拆分为清晰的业务步骤，使用唯一约束与状态机避免重复处理。\n- 通过本地事务与待投递记录保证业务数据和消息状态一致，设计重试、补偿及定时对账流程。\n- 使用缓存承接商品读请求，针对热点失效加入互斥重建；在固定数据集上比较压测结果，而非只报告单次峰值。\n- 编写并发下单、超时取消、重复回调与服务重启用例，形成接口文档和部署说明。"
+        },
+        {
+          "id": "entry-java-rpc", "visible": true, "name": "简易 RPC 调用框架（虚构）", "role": "独立开发", "url": null,
+          "start_date": "2025-12", "end_date": "2026-03", "ongoing": false,
+          "body": "- 基于 Netty 实现请求与响应编解码，通过请求 ID 关联异步结果，处理粘包、半包与超时清理。\n- 使用动态代理屏蔽远程调用细节，提供服务发现、轮询负载均衡和可替换的序列化接口。\n- 明确区分连接失败、业务异常与调用超时，限制自动重试范围，避免非幂等请求被重复执行。"
+        }
+      ]
+    },
+    {
+      "id": "section-java-awards", "type": "awards", "title": "其他经历", "visible": true,
+      "entries": [{"id": "entry-java-awards", "visible": true, "heading": "", "body": "参与校内技术分享，整理事务、缓存与并发问题的复现笔记；可阅读英文技术文档。"}]
+    },
+    {
+      "id": "section-java-note", "type": "custom", "title": "参考说明", "visible": true,
+      "entries": [{"id": "entry-java-note", "visible": true, "heading": "", "role": "", "url": null, "start_date": null, "end_date": null, "ongoing": false,
+        "body": "*本简历的人物、学校、单位与经历均为虚构，仅供结构和写法参考；使用前请替换为真实信息。*"}]
+    }
+  ],
+  "template": {"id": "cn-single-column", "version": "0.1.0"},
+  "style": {"version": 3, "paper": "a4", "theme_color": "#2457A7", "name_size_px": 22, "section_title_size_px": 16, "content_size_px": 13, "line_height": 1.35, "section_gap_px": 8, "margins_px": {"top": 28, "bottom": 28, "left": 32, "right": 32}},
+  "attachments": [],
+  "created_at": "2026-10-02T00:00:00Z",
+  "updated_at": "2026-10-02T00:00:00Z"
+}
