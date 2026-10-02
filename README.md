@@ -34,6 +34,16 @@ Git 仓库不包含 `.venv`、已构建的运行时或个人简历数据。运�
 
 界面与 PDF 现在共用随项目/运行时分发的 Noto Sans CJK SC 2.004，无需安装系统字体或联网下载字体。旧运行时需重新构建并安装；资源缺失会明确报错。方案与验证边界见 [统一字体](docs/m2/fonts.md)。
 
+## 推送前检查
+
+在依赖与专用 TeX 运行时已准备好的本机执行：
+
+```bash
+.venv/bin/python scripts/check_pre_push.py --full
+```
+
+省略 `--full` 可只跑依赖、契约、单元测试和前端语法检查。日志与汇总写入 `tmp/pre-push/`；完整检查使用隔离的虚构数据，并刷新对应回归报告，不操作个人简历。实际测试结果、浏览器下载/备份验证以及尚未验证的边界见 [源码推送前检查](docs/pre-push-checklist.md)。
+
 ## 项目入口
 
 - [完整开发与验收规划](resume-editor-development-plan.md)
