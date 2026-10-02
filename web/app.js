@@ -38,7 +38,7 @@ async function api(path, {method = 'GET', data, raw, type} = {}, retry = true) {
   if (type) headers['Content-Type'] = type;
   let response;
   try { response = await fetch(path, {method, headers, body: data === undefined ? raw : JSON.stringify(data), cache: 'no-store'}); }
-  catch { throw new Error('无法连接本地服务。输入仍在本页，请启动后端后重试。'); }
+  catch { throw new Error('无法连接本地服务。输入仍在本页，请重新启动本地服务后重试，暂勿关闭页面。'); }
   if (response.status === 403 && retry) { await session(); return api(path, {method, data, raw, type}, false); }
   if (!response.ok) {
     const info = await response.json().catch(() => ({}));
@@ -68,7 +68,7 @@ function renderList() {
     for (const name of ['教育经历', '工作与项目', '技能']) { const part = el('div', '', 'thumbnail-section'); part.append(el('strong', name), el('div', '', 'thumbnail-line'), el('div', '', 'thumbnail-line short')); paper.append(part); }
     thumb.append(paper, el('span', '内容示意', 'resume-type'));
     const content = el('div', '', 'resume-card-content'), heading = el('div', '', 'resume-card-heading');
-    heading.append(el('h2', item.title), el('span', r && dirty(r) ? '本页有草稿' : `已保存 r${item.revision}`, 'resume-card-status'));
+    heading.append(el('h2', item.title), el('span', r && dirty(r) ? '有未保存修改' : '已保存', 'resume-card-status'));
     content.append(heading, el('p', item.headline || '未填写求职方向', 'resume-role'), el('p', `更新于 ${new Date(item.updated_at).toLocaleString()}`, 'resume-provenance'));
     const actions = el('div', '', 'resume-card-actions');
     actions.append(button('编辑', () => open(item.id), 'button primary'), button('创建副本', () => dialog('copy', item.id), 'text-button'), button('重命名', () => dialog('rename', item.id), 'text-button muted'), button('删除', () => remove(item.id), 'text-button muted delete-action'));
@@ -126,13 +126,18 @@ async function save(r, compile = false) {
 
 function renderStatus() {
   const r = records.get(active); if (!r) return;
-  $('save-status').textContent = r.conflict ? '版本冲突 · 本页草稿保留' : r.error && dirty(r) ? '保存未确认 · 请重试' : r.saving || r.uploading ? '正在保存…' : dirty(r) ? '有未保存修改' : `已保存到本地 r${r.saved.revision}`;
+  $('save-status').textContent = r.conflict ? '内容有冲突 · 本页草稿保留' : r.error && dirty(r) ? '保存未确认 · 请重试' : r.saving || r.uploading ? '正在保存…' : dirty(r) ? '有未保存修改' : '已保存到本机';
   $('save-status').dataset.state = r.error ? 'failed' : dirty(r) ? 'dirty' : 'saved';
   $('editor-error').hidden = !r.error; $('editor-error').textContent = r.error;
   $('conflict-actions').hidden = !r.conflict;
   const running = ['queued','running'].includes(r.job?.status);
   const current = r.pdf && r.pdf.build_key === r.buildKey && !dirty(r) && !r.conflict;
-  $('preview-status').textContent = running ? `${r.job.status === 'queued' ? '等待编译' : '正在生成 PDF'} r${r.job.revision}${r.pdf ? ` · 保留上次成功 r${r.pdf.revision}` : ''}` : r.pdf ? `${current ? '当前版本' : '旧版预览'} r${r.pdf.revision} · ${r.pdf.pages} 页${r.job?.status === 'failed' || r.job?.status === 'timed_out' ? ' · 最新编译未成功' : ''}` : '尚无成功的 PDF，请点击保存并预览';
+  const failed = ['failed', 'timed_out'].includes(r.job?.status);
+  $('preview-status').textContent = running
+    ? `${r.job.status === 'queued' ? '等待生成 PDF…' : '正在生成 PDF…'}${r.pdf ? ' · 暂显示上次预览' : ''}`
+    : r.pdf
+      ? `${failed ? '更新失败 · 显示上次预览' : current ? '预览已更新' : '预览待更新'} · ${r.pdf.pages} 页`
+      : failed ? 'PDF 生成失败，请点击“保存并预览”重试' : '点击“保存并预览”生成 PDF';
   $('save').disabled = Boolean(r.saving || r.uploading || r.conflict || running);
   $('rename').disabled = $('copy').disabled = Boolean(busy(r));
   $('export').disabled = !current || Boolean(r.saving || running);
@@ -165,7 +170,7 @@ setInterval(async () => {
         const detail = await json(`/api/resumes/${r.id}`);
         if (r.job?.id !== jobId || r.saving || r.uploading || detail.resume.revision < r.saved.revision) continue;
         metadata(r, detail);
-        if (detail.resume.revision !== r.saved.revision && !r.saving) { r.conflict = true; r.error = '服务端版本已变化。本页输入保留，请重新载入或创建副本。'; }
+        if (detail.resume.revision !== r.saved.revision && !r.saving) { r.conflict = true; r.error = '这份简历已有其他修改。本页输入仍保留，请重新载入或将草稿另存副本。'; }
         if (result.error) r.error = result.error;
         await preview(r);
       } else r.job = result;
@@ -208,7 +213,7 @@ function renderForm() {
   tabs(r); const content = $('form-content'); content.replaceChildren();
   const intro = el('div', '', 'section-intro'); content.append(intro);
   if (r.selected === 'basics') {
-    intro.append(el('h2', '基本信息'), el('p', '停下输入约 1 秒自动保存。点击“保存并预览”生成真实 PDF。'));
+    intro.append(el('h2', '基本信息'), el('p', '填写个人信息，选填项留空即可。'));
     const grid = el('div', '', 'form-grid basic-grid'), data = r.draft.basics;
     grid.append(field('姓名', data, 'name', r), field('求职意向', data, 'headline', r));
     grid.append(field('性别', data, 'gender', r, {max:20, placeholder:'选填'}), field('年龄（岁）', data, 'age', r, {type:'number', min:0, maxValue:150, step:1, nullable:true, placeholder:'选填，留空不显示'}));
@@ -224,7 +229,7 @@ function renderForm() {
   } else {
     const section = r.draft.sections.find((s) => s.id === r.selected);
     const simple = contentOnly(section, styleConfig);
-    intro.append(el('h2', section.title), el('p', '使用正文框上方按钮设置格式，停下输入后自动保存；点击“保存并预览”查看 PDF 效果。'));
+    intro.append(el('h2', section.title), el('p', '使用正文框上方的按钮设置文字和列表格式。'));
     content.append(check('显示这个模块', section, 'visible', r));
     section.entries.forEach((entry, index) => {
       const box = el('div', '', 'entry-box'), caption = el('div', '', 'entry-caption'), actions = el('div', '', 'entry-actions');
@@ -268,7 +273,7 @@ function moduleList() {
 }
 
 async function dialog(mode, id = active) {
-  const r = mode === 'create' ? null : await load(id); if (busy(r)) throw new Error('请等待保存或编译完成。');
+  const r = mode === 'create' ? null : await load(id); if (busy(r)) throw new Error('请等待保存或 PDF 生成完成。');
   manage = {mode,id}; $('manage-title').textContent = {create:'新建简历',copy:'创建独立副本',rename:'重命名简历'}[mode];
   $('manage-name').value = mode === 'create' ? '未命名简历' : mode === 'copy' ? [...r.draft.title].slice(0,76).join('')+'（副本）' : r.draft.title;
   $('kind-field').hidden = mode !== 'create'; $('version-field').hidden = mode !== 'copy'; $('version').value = r?.conflict ? 'draft' : 'saved'; $('manage-error').textContent = ''; $('manage-dialog').showModal();
@@ -296,7 +301,7 @@ $('manage-form').addEventListener('submit', async (event) => {
   finally { $('manage-submit').disabled = false; }
 });
 async function remove(id) {
-  const r = await load(id); if (busy(r)) throw new Error('请等待保存或编译完成。');
+  const r = await load(id); if (busy(r)) throw new Error('请等待保存或 PDF 生成完成。');
   if (!confirm(`删除“${r.draft.title}”？${dirty(r)?'本页未保存草稿也会丢弃。':''}其他简历和副本不受影响，此操作不可撤销。`)) return;
   await json(`/api/resumes/${id}`,{method:'DELETE',data:{expected_revision:r.saved.revision}}); clearTimeout(r.timer); if (r.blob) URL.revokeObjectURL(r.blob); records.delete(id); await refreshList();
 }
@@ -312,9 +317,9 @@ for (const id of ['create','empty-create']) act(id, () => dialog('create'));
 act('copy', () => dialog('copy')); act('conflict-copy', () => dialog('copy')); act('rename', () => dialog('rename'));
 $('search').addEventListener('input',renderList); $('switcher').addEventListener('change', () => open($('switcher').value).catch(showError));
 act('save', () => save(records.get(active),true));
-act('reload', async () => { const r = records.get(active); if (!confirm('丢弃本页未保存输入，载入服务端最新版本？')) return; clearTimeout(r.timer); if (r.blob) URL.revokeObjectURL(r.blob); records.delete(active); await open(active); });
+act('reload', async () => { const r = records.get(active); if (!confirm('丢弃本页未保存输入，载入最新保存的内容？')) return; clearTimeout(r.timer); if (r.blob) URL.revokeObjectURL(r.blob); records.delete(active); await open(active); });
 act('export', async () => { const r = records.get(active); if (dirty(r) || r.pdf?.build_key !== r.buildKey) throw new Error('请先保存并生成最新版 PDF。'); await download(`/api/jobs/${r.pdf.id}/pdf?download=true`,`${r.saved.title}-r${r.pdf.revision}.pdf`); });
-act('old-export', async () => { const r = records.get(active), pdf = r.pdf; if (!pdf) return; if (confirm(`导出“${r.saved.title}”上次成功版本 r${pdf.revision}？不包含之后的修改。`)) await download(`/api/jobs/${pdf.id}/pdf?download=true`,`${r.saved.title}-旧版-r${pdf.revision}.pdf`); });
+act('old-export', async () => { const r = records.get(active), pdf = r.pdf; if (!pdf) return; if (confirm(`导出“${r.saved.title}”上次成功生成的 PDF？不包含之后的修改。`)) await download(`/api/jobs/${pdf.id}/pdf?download=true`,`${r.saved.title}-旧版-r${pdf.revision}.pdf`); });
 act('backup', async () => { const r = records.get(active); await save(r); if (dirty(r)) throw new Error('请等待当前修改保存后再备份。'); await download(`/api/resumes/${r.id}/backup?expected_revision=${r.saved.revision}`,`${r.saved.title}-r${r.saved.revision}.resume.zip`); });
 act('import', () => $('import-file').click());
 $('import-file').addEventListener('change', async () => { const file = $('import-file').files[0]; if (!file) return; try { const result = await json('/api/import',{method:'POST',raw:file,type:'application/zip'}); records.set(result.resume.id,record(result)); await refreshList(); await open(result.resume.id); notify('工程已导入为新副本，没有覆盖任何原简历。'); } catch(error){showError(error);} finally{$('import-file').value='';} });
@@ -348,7 +353,7 @@ document.querySelectorAll('[data-close]').forEach((node)=>node.addEventListener(
 window.addEventListener('beforeunload',(event)=>{if([...records.values()].some((r)=>dirty(r)||r.saving||r.uploading)){event.preventDefault();event.returnValue='';}});
 
 try {
-  await session(); styleConfig = await json('/assets/style-config.json'); await refreshList(); $('connection').textContent='本地服务已连接 · 自动保存到本机 · 点击“保存并预览”更新 PDF';
+  await session(); styleConfig = await json('/assets/style-config.json'); await refreshList(); $('connection').textContent='自动保存到本机 · 点击“保存并预览”更新 PDF';
 } catch(error){$('connection').textContent=error.message;showError(error);}
 
 document.documentElement.dataset.fontStatus = 'loading';

@@ -81,10 +81,9 @@ export function mountStyleEditor(host, initial, config, onChange, onValidity) {
   };
   addSelect('模块标题大小', 'section_title_size_px'); addSelect('模块内容大小', 'content_size_px'); addSelect('姓名大小', 'name_size_px');
   layout.append(number('模块间距 (px)', style, 'section_gap_px', 0, 40));
-  const rhythm = config.rhythm;
-  layout.append(node('p', `固定留白：正文行高 ${rhythm.body_line_height} 倍，顶部信息行额外 ${rhythm.header_line_gap_px}px，列表项 ${rhythm.list_item_gap_px}px，段落 ${rhythm.paragraph_gap_px}px，同模块条目 ${rhythm.entry_gap_px}px。无需逐项调整。`, 'fixed-rhythm-note'));
+  layout.append(node('p', '行距、段落及条目间的留白已统一设置，无需逐项调整。', 'fixed-rhythm-note'));
   const margins = node('fieldset', '', 'style-margins'); margins.append(node('legend', '页边距 (px)'));
   for (const [key, label] of [['top', '上'], ['bottom', '下'], ['left', '左'], ['right', '右']]) margins.append(number(label, style.margins_px, key, 0, 120));
-  layout.append(margins, node('p', '模块间距可单独调整；其余行文留白由模板统一控制。px 按 96 px/英寸换算到 PDF，不随预览缩放改变。', 'field-hint'));
+  layout.append(margins, node('p', '缩放预览不影响导出文件的字号和间距。', 'field-hint'));
   host.append(tabs, colors, layout, error); sync();
 }

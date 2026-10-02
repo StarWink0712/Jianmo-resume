@@ -2,7 +2,7 @@ const $ = (id) => document.getElementById(id);
 let library, documentTask, pdf, job, renderTask, generation = 0, rendering = 0, page = 1, resizeTimer;
 
 function failure() {
-  $('pdf-render-error').textContent = '浏览器未能渲染这份 PDF。文件已生成，可点击“导出 PDF”下载查看。';
+  $('pdf-render-error').textContent = 'PDF 预览加载失败，文件已生成。可在浏览器打开，或使用下方导出按钮下载查看。';
   $('pdf-render-error').hidden = false;
 }
 function reset() {

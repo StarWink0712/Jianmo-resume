@@ -48,6 +48,27 @@ class EditorLayoutTests(unittest.TestCase):
         identifiers = [node['attrs']['id'] for node in self.page.nodes if 'id' in node['attrs']]
         self.assertEqual(len(identifiers), len(set(identifiers)))
 
+    def test_user_interface_has_no_development_badge_or_validation_copy(self):
+        root = Path(__file__).resolve().parents[1]
+        for filename in ('index.html', 'app.js', 'style-editor.mjs', 'viewer.js'):
+            source = (root / 'web' / filename).read_text()
+            for phrase in ('M2', '开发版', '数据库', '服务端', '真实 PDF', '编译', '96 px/英寸'):
+                with self.subTest(filename=filename, phrase=phrase):
+                    self.assertNotIn(phrase, source)
+        self.assertFalse(any('prototype-badge' in node['attrs'].get('class', '').split()
+                             for node in self.page.nodes))
+
+    def test_safety_warnings_and_accessible_statuses_are_retained(self):
+        self.assertEqual(self.page.by_id('connection')['parent']['attrs'].get('role'), 'status')
+        for identifier in ('save-status', 'preview-status', 'toast'):
+            self.assertEqual(self.page.by_id(identifier)['attrs'].get('role'), 'status')
+        for identifier in ('font-warning', 'editor-error', 'pdf-render-error', 'manage-error'):
+            self.assertEqual(self.page.by_id(identifier)['attrs'].get('role'), 'alert')
+        source = (Path(__file__).resolve().parents[1] / 'web/index.html').read_text()
+        for phrase in ('数据仅在本机', '工程备份', '不包含之后的修改', '退出服务后无法保存',
+                       '使用虚构示例', 'Markdown', '草稿'):
+            self.assertIn(phrase, source)
+
 
 if __name__ == '__main__':
     unittest.main()
