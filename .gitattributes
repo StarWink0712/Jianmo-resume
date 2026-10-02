@@ -6,3 +6,4 @@
 *.jpeg -text
 *.pdf -text
 *.zip -text
+*.xz -text

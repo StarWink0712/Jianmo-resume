@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "version": "texlive-2026-light-1",
+  "platform": "darwin-arm64",
+  "baseline_sha256": "c439c4ee1102e48c36f5c11348301dd381b61bbcf1f190db98c8534117a84701",
+  "support": {
+    "archive": "tex-support.tar.xz",
+    "bytes": 5359024,
+    "sha256": "eabc484b835f2244d96dc7683cc2745b470af12c9dce31ce26d75de8aa92d0ae",
+    "unpacked_bytes": 28567082,
+    "inventory_sha256": "d0e9014d2112f6153fd75b020fcde1ef101917dc95a01e66672d8116dfc3d617"
+  },
+  "engines": [
+    {
+      "name": "xetex.universal-darwin",
+      "revision": "77987",
+      "urls": [
+        "https://mirrors.ustc.edu.cn/CTAN/systems/texlive/tlnet/archive/xetex.universal-darwin.tar.xz",
+        "https://ctan.math.illinois.edu/systems/texlive/tlnet/archive/xetex.universal-darwin.tar.xz",
+        "https://mirrors.ibiblio.org/CTAN/systems/texlive/tlnet/archive/xetex.universal-darwin.tar.xz",
+        "https://texlive.info/tlnet-archive/2026/03/23/tlnet/archive/xetex.universal-darwin.tar.xz"
+      ],
+      "archive_bytes": 15435116,
+      "archive_sha512": "c5c2506b85549fcdbf29b75d20d485d09fd81fd21e62b8d842899a5f9143bc87b308955221781cad8b23f957bc4f33849185bebc412e7377038f6efefc852f6f",
+      "member": "bin/universal-darwin/xetex",
+      "target": "tex/bin/xelatex",
+      "bytes": 54256576,
+      "sha256": "593df4b2c196aa1cdeabcb6b4fafd20af3b182e05a3cee030418f14707597f0e"
+    },
+    {
+      "name": "dvipdfmx.universal-darwin",
+      "revision": "78429",
+      "urls": [
+        "https://mirrors.ustc.edu.cn/CTAN/systems/texlive/tlnet/archive/dvipdfmx.universal-darwin.tar.xz",
+        "https://ctan.math.illinois.edu/systems/texlive/tlnet/archive/dvipdfmx.universal-darwin.tar.xz",
+        "https://mirrors.ibiblio.org/CTAN/systems/texlive/tlnet/archive/dvipdfmx.universal-darwin.tar.xz",
+        "https://texlive.info/tlnet-archive/2026/03/23/tlnet/archive/dvipdfmx.universal-darwin.tar.xz"
+      ],
+      "archive_bytes": 807288,
+      "archive_sha512": "98bebd0d1f38be7edf76763adb61db283000c681bc3aca011a449dafeb47e8ffd77a7df5902218ad0df62c639e6f67a6bc89c4de87f1c38513d7a3b1393ff795",
+      "member": "bin/universal-darwin/xdvipdfmx",
+      "target": "tex/bin/xdvipdfmx",
+      "bytes": 2200800,
+      "sha256": "f0d7d9f5bb71c468837922ac4e95dee6f6c19b86ae4f528738a1b6398c47479c"
+    }
+  ]
+}

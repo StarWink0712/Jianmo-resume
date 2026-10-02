@@ -1,6 +1,6 @@
 # M1 专用运行时与安装验证
 
-**当前可迁移启动流程：** 见 [源码启动与正式 TeX 基线更新](tex-baseline-update.md)。普通用户使用 `sh scripts/start-local.sh`；系统预生成的 `xelatex.fmt` 不再是跨机器校验基线，改为校验源文件并在项目中生成格式。下方早期体积/版本数据为历史记录，以当前 `managed-artifact.json` 和 `managed-results.json` 为准。
+**当前普通安装已改用 [精简 TeX 运行时](../../runtime/README.md)**：只下载约 16.2 MB 的引擎包，复用随源码提供的支持文件和字体，不需系统 TeX。本文及 `managed-artifact.json`、`managed-results.json` 描述的冻结 Python 包是维护者的历史实验路线，不是普通启动下载的包。正式源基线规则见 [基线更新](tex-baseline-update.md)。
 
 日期：2026-10-01。本轮按用户要求跳过干净 macOS 验收，不安装虚拟机、不使用另一台电脑。跳过不是通过，也不是整个产品已经可用。
 

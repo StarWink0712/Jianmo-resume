@@ -25,13 +25,12 @@ Start with a built-in Java, algorithm, or QA reference resume, or create a blank
 
 ### 安装与启动
 
-环境：**macOS（Apple Silicon）**、[Homebrew](https://brew.sh/)、Python 3.12+、TeX Live 2026。
+环境：**macOS（Apple Silicon）**、Python 3.12+。**无需安装 MacTeX 或其他完整 TeX 发行版。**
 
-安装依赖，已有兼容版本可跳过：
+如果尚未安装 Python，可通过 [Homebrew](https://brew.sh/) 安装，已有兼容版本可跳过：
 
 ```bash
-brew install python openssl@3 zstd mpdecimal
-brew install --cask mactex-no-gui
+brew install python
 ```
 
 拉取项目并启动：
@@ -42,7 +41,7 @@ cd Jianmo-resume
 sh scripts/start-local.sh
 ```
 
-首次启动会自动准备运行环境，需要联网，耗时取决于下载和构建速度。启动后打开 [http://127.0.0.1:8770/](http://127.0.0.1:8770/)。
+首次启动自动安装 Python 依赖，并下载约 **16.2 MB** 的 TeX 引擎包。必要的宏包和字体已随项目提供，不下载完整 TeX；安装后编译简历无需联网。启动后打开 [http://127.0.0.1:8770/](http://127.0.0.1:8770/)。
 
 以后在项目目录运行 `sh scripts/start-local.sh` 即可。保持终端运行，按 `Ctrl+C` 退出；端口被占用时可用 `sh scripts/start-local.sh --port 8775`，并打开对应端口。
 
@@ -86,13 +85,12 @@ Three editable reference resumes are included. Click a preview to view its PDF, 
 
 ### Install and Run
 
-Requirements: **macOS (Apple Silicon)**, [Homebrew](https://brew.sh/), Python 3.12+, and TeX Live 2026.
+Requirements: **macOS (Apple Silicon)** and Python 3.12+. **No MacTeX or full TeX distribution is needed.**
 
-Install dependencies if needed:
+If Python is not installed, install it with [Homebrew](https://brew.sh/). Skip this if you already have a compatible version:
 
 ```bash
-brew install python openssl@3 zstd mpdecimal
-brew install --cask mactex-no-gui
+brew install python
 ```
 
 Clone and start:
@@ -103,7 +101,7 @@ cd Jianmo-resume
 sh scripts/start-local.sh
 ```
 
-The first launch prepares the runtime automatically and needs an internet connection. Once ready, open [http://127.0.0.1:8770/](http://127.0.0.1:8770/).
+The first launch installs Python dependencies and downloads approximately **16.2 MB** of TeX engine packages. Required TeX support files and fonts are included with the project; a full TeX installation is not downloaded. Once installed, resume compilation works offline. Open [http://127.0.0.1:8770/](http://127.0.0.1:8770/).
 
 Run `sh scripts/start-local.sh` for subsequent launches. Keep the terminal running; press `Ctrl+C` to stop. If the port is occupied, use `sh scripts/start-local.sh --port 8775` and open the matching address.
 
@@ -119,4 +117,4 @@ References can be edited or deleted and will not reappear automatically. Use the
 
 ## 许可证 / License
 
-[MIT](LICENSE) · [字体 / Fonts (OFL)](assets/fonts/README.md) · [PDF.js (Apache-2.0)](web/vendor/pdfjs/README.md)
+[MIT](LICENSE) · [字体 / Fonts (OFL)](assets/fonts/README.md) · [PDF.js (Apache-2.0)](web/vendor/pdfjs/README.md) · [TeX 资源 / TeX Resources](runtime/README.md)

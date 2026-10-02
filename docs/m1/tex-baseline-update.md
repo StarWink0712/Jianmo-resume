@@ -2,21 +2,20 @@
 
 ## 普通使用：不修改哈希
 
-当前支持 macOS Apple Silicon。安装 Homebrew 后，可准备依赖并启动源码：
+当前支持 macOS Apple Silicon 和 Python 3.12+。普通用户不需要 MacTeX、TeX Live 或 PyInstaller。没有 Python 时可通过 Homebrew 安装，再启动源码：
 
 ```bash
-brew install python openssl@3 zstd mpdecimal
-brew install --cask mactex-no-gui
+brew install python
 git clone https://github.com/StarWink0712/Jianmo-resume.git
 cd Jianmo-resume
 sh scripts/start-local.sh
 ```
 
-已有 Python 3.12+、兼容 TeX Live 2026 和 Homebrew 构建依赖时，只需最后三个命令。MacTeX 下载较大，不是一个小型安装包。安装后的常规启动仍为 `sh scripts/start-local.sh`；可附加 `--port 8775`，然后打开对应的 `http://127.0.0.1:8775/`。第一次使用需联网安装 Python 依赖，此脚本不是无网络安装器。
+已有 Python 3.12+ 时只需最后三个命令。首次安装 Python 依赖并下载约 16.2 MB 的两个 TeX 引擎包，必要宏包和字体已随源码提供；不会下载安装完整 TeX。常规启动仍为 `sh scripts/start-local.sh`，可附加 `--port 8775`。环境准备完毕后，可用 `.venv/bin/python -m backend` 离线启动。
 
-脚本自动创建本项目的 `.venv`、安装依赖、构建并安装缺失/基线过旧的运行时、执行完整性检查并启动后端。任何步骤失败立即退出，不继续执行不存在的安装器。它不修改原有简历库，也不会删除已有运行时版本。不要从其他机器直接拷贝 `.venv`；可以通过 `PYTHON=/path/to/python3 sh scripts/start-local.sh` 指定兼容解释器。
+脚本自动创建本项目的 `.venv`、安装依赖、安装精简运行时、执行完整性及真实 PDF 检查并启动后端。失败时立即停止，不切换到半成品；不修改简历库或删除旧运行时。不要跨机复制 `.venv`；可以用 `PYTHON=/path/to/python3 sh scripts/start-local.sh` 指定解释器。
 
-`kpsewhich` 自动发现 TeX 根目录，`brew --prefix` 发现构建依赖；没有固定原开发机的 TeX 年份目录或 Homebrew 安装前缀。`/Library/TeX/texbin` 仅作为 MacTeX 注册入口的 PATH 后备，不是某台机器的 TeX 根目录。
+运行时来源、校验、缓存及离线迁移见 [精简运行时](../../runtime/README.md)。只有维护者重建 TeX 资源时才需要本机 TeX；`kpsewhich` 自动发现其位置。普通启动不读取系统 TeX 路径、宏包或格式缓存。
 
 ## 为什么不再校验宿主格式文件
 
@@ -27,7 +26,7 @@ sh scripts/start-local.sh
 安全校验分为两层：
 
 1. **源输入基线**：严格校验实际使用的引擎、宏包、字体、CMap、许可文件及生成格式所需的源文件。原机定制的根目录 `texmf.cnf` 由项目受控配置替代；上游默认配置仍有校验。未批准的真实源码变化继续拒绝，不能用“兼容性”名义跳过。
-2. **生成物完整性**：本次生成的 `formats/xelatex.fmt` 记录自己的哈希，并纳入安装包完整清单；冻结运行时真实 PDF 自检通过后才输出新的安装包和安装脚本。安装时继续校验包大小、SHA-256、文件清单和权限。
+2. **生成物完整性**：本次生成的 `formats/xelatex.fmt` 记录自己的哈希并纳入本地安装清单；只有真实 PDF 自检通过才切换当前版本。下载包大小/SHA-512、支持包 SHA-256、引擎和源文件哈希均独立校验。
 
 这解决的是“同一支持的 TeX 源码，在不同电脑拥有不同格式缓存”的可迁移性。并不意味着任意 TeX Live 版本、任意新增宏包或其他操作系统都自动受支持。上游真实输入变化需要维护者按下面流程更新基线；普通用户不应反复审批自己的机器哈希。
 
@@ -70,8 +69,8 @@ sh scripts/start-local.sh
 ```bash
 .venv/bin/python -m experiments.m1.build_runtime
 .venv/bin/python -m experiments.m1.validate_managed
-/bin/sh output/runtime/install-runtime.sh --prefix "$PWD/.m1-build/local-install"
-.m1-build/local-install/current/resume-runtime verify
+.venv/bin/python -m scripts.build_light_runtime
+.venv/bin/python -m scripts.light_runtime
 .venv/bin/python scripts/check_pre_push.py --full
 ```
 
@@ -81,12 +80,12 @@ sh scripts/start-local.sh
 
 ## 尚未提供的承诺
 
-本项目目前没有可验证的公开预构建运行时下载地址。不要编造 GitHub Release URL、放宽下载哈希或宣称已经签名/公证。若未来公开预构建包，应固定版本及大小/SHA-256，完成第三方再分发审核，并由实际下载机器验证安装和离线使用。
+普通安装直接从锁定的 TeX Live 包安装必要引擎，有经过验证的 HTTPS 镜像及带日期的历史快照后备，不依赖本项目 GitHub Release。不要把维护者的旧冻结运行时包当成公开发行版；对它另行分发仍需处理静态库源码及再分发义务，也不能宣称已有签名/公证。
 
 RSS 保护仍为采样式监控，不是硬内存上限。当前源码启动脚本仅支持 macOS arm64；Windows/Linux 及 Intel Mac 需要另行实现和验证。此处不把原开发机的测试冒充用户新电脑验收。
 
 ## English Summary
 
-On Apple Silicon macOS with Homebrew, install Python and the documented build libraries, install a compatible TeX Live 2026 distribution, clone the repository, and run `sh scripts/start-local.sh`. It creates the environment, builds/installs the required runtime, verifies it, and starts the backend, stopping immediately on failure.
+On Apple Silicon macOS with Python 3.12+, clone the repository and run `sh scripts/start-local.sh`. Setup downloads only about 16.2 MB of hash-pinned upstream TeX engines, uses the included support files and fonts, generates a private format, verifies real PDFs, and starts the backend. No full TeX distribution or PyInstaller is needed. Only maintainers rebuilding the support archive need a compatible local TeX tree.
 
 The build discovers paths instead of using the original developer's directories. A host-generated `xelatex.fmt` is no longer an input: the project generates its own format from reviewed, hash-pinned TeX sources in a restricted environment. The resulting format is hashed as part of this build and the packaged runtime must pass real PDF self-tests. Actual upstream source changes still require the complete candidate, review, approval, package, and application validation workflow described above.
