@@ -2,6 +2,8 @@
 
 `resumes/standard.json` 是覆盖五类模块的完整虚构简历。姓名和机构均显式注明虚构，链接只使用保留的 `example.com`，电话留空。
 
+`resumes/english.json` 是独立的全英文虚构回归样例，使用保留域名及虚构电话号码，覆盖长英文段落、引号/撇号、连续连字符、百分号、加粗/斜体、论文链接与六类模块。通过 `.venv/bin/python scripts/check_english_resume.py` 在隔离数据库中进行 12px/14px 真实编译、备份、副本与重启验证。它不包含用户提供的真实英文简历内容。
+
 `cases.json` 定义基线上的确定性变体，`patches` 用数组路径和 `set` 操作覆盖字段，避免维护大量重复 JSON。`scripts/check_contracts.py` 的 `build_case` 在内存中生成独立样例，不修改基线；命令行 `--show <case-id>` 可打印实际 JSON。
 
 ```bash

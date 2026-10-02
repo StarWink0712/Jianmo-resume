@@ -44,6 +44,16 @@ body { font-family: "Resume Latin", "Resume Sans", sans-serif; font-synthesis: n
 .thumbnail-sheet h3 { font-family: inherit; }
 .font-warning { padding: 8px 18px; color: var(--red); background: #fff6f4; }
 
+body[data-view="editor"] { display: flex; flex-direction: column; height: 100dvh; }
+.app-header, .font-warning { flex-shrink: 0; }
+.workspace-context { flex: 0 0 auto; display: flex; align-items: center; gap: 16px; min-height: 30px; padding: 6px 24px; background: #f3f6fc; border-bottom: 1px solid var(--line); }
+body[data-view="editor"] .workspace-context { min-height: 45px; background: white; }
+.workspace-context .context-start { flex: 0 1 460px; gap: 12px; }
+.workspace-context .context-start > button { flex-shrink: 0; }
+.workspace-context .context-actions { flex: 0 0 auto; margin-left: auto; }
+.connection-note { display: flex; align-items: center; gap: 7px; flex: 1 1 0; min-width: 0; color: #758197; font-size: 11px; line-height: 1.6; overflow-wrap: anywhere; }
+body[data-view="editor"] .workspace { flex: 1 1 0; width: 100%; height: auto; }
+
 .error-box { flex: 0 0 auto; color: var(--red); background: #fff6f4; padding: 10px 18px; font-size: 12px; }
 .conflict-actions { display: flex; gap: 8px; padding: 8px 16px; flex-wrap: wrap; }
 .pdf-container { flex: 1; min-height: 0; min-width: 0; position: relative; background: #eef1f6; overflow: auto; }
@@ -93,7 +103,7 @@ body { font-family: "Resume Latin", "Resume Sans", sans-serif; font-synthesis: n
 .resume-thumbnail { cursor: pointer; }
 .resume-card-heading h2 { overflow-wrap: anywhere; }
 .section-tools { display: flex; gap: 12px; align-items: center; margin: 14px 0; }
-#switcher { max-width: 350px; min-width: 0; border: 0; background: #f5f7fb; padding: 5px 10px; border-radius: 4px; }
+#switcher { flex: 1; width: 0; max-width: 350px; min-width: 0; border: 0; background: #f5f7fb; padding: 5px 10px; border-radius: 4px; text-overflow: ellipsis; }
 .tabs { min-height: 48px; }
 .entry-actions { display: flex; gap: 8px; align-items: center; }
 .entry-actions button { font-size: 11px; color: var(--secondary); }
@@ -134,4 +144,16 @@ body { font-family: "Resume Latin", "Resume Sans", sans-serif; font-synthesis: n
 #style-fields [aria-invalid="true"] { border-color: var(--red); }
 .style-footer { display: flex; justify-content: flex-end; gap: 10px; padding-top: 18px; margin-top: 4px; border-top: 1px solid var(--line); }
 @media (max-width: 480px) { #settings-dialog { padding: 18px; } .palette-group { display: block; } .palette-swatches { margin-top: 8px; gap: 14px; } .style-margins { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 1100px) {
+  .workspace-context { flex-wrap: wrap; gap: 6px 12px; }
+  .workspace-context .context-start { flex: 1 1 0; }
+  .connection-note { flex-basis: 100%; order: 3; }
+}
+@media (max-width: 760px) {
+  body[data-view="editor"] { display: block; height: auto; min-height: 100dvh; }
+  .workspace-context { padding: 8px 12px; }
+  .workspace-context .context-start { gap: 8px; }
+  .workspace-context .context-actions { gap: 10px; }
+  #switcher { font-size: 12px; padding: 5px 6px; }
+}
 @media (max-width: 760px) { .library-heading { flex-wrap: wrap; } .library-heading > .footer-actions { margin-top: 6px; } .editor-panel { max-height: 800px; } .preview-panel { height: 700px; } .link-row { grid-template-columns: 1fr; } .pdf-empty { padding-top: 100px; } .context-actions { margin-left: 0; } .module-row { flex-wrap: wrap; } }

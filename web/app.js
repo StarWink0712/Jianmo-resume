@@ -86,10 +86,10 @@ async function load(id) { if (!records.has(id)) records.set(id, record(await jso
 async function open(id) {
   const sequence = ++opening, r = await load(id);
   if (sequence !== opening) return;
-  active = id; document.body.dataset.view = 'editor'; $('library').hidden = true; $('context').hidden = $('editor').hidden = false;
+  active = id; document.body.dataset.view = 'editor'; $('library').hidden = true; $('context').hidden = $('context-actions').hidden = $('editor').hidden = false;
   renderSwitcher(); renderForm(); renderStatus(); await preview(r);
 }
-function home() { ++opening; active = null; document.body.dataset.view = 'library'; $('library').hidden = false; $('context').hidden = $('editor').hidden = true; refreshList().catch(showError); }
+function home() { ++opening; active = null; document.body.dataset.view = 'library'; $('library').hidden = false; $('context').hidden = $('context-actions').hidden = $('editor').hidden = true; refreshList().catch(showError); }
 
 function changed(r) {
   r.epoch++; r.error = r.conflict ? r.error : ''; clearTimeout(r.timer);

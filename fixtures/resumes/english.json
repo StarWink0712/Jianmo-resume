@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "id": "resume-english-fictional",
+  "revision": 1,
+  "title": "English CV regression (fictional)",
+  "basics": {
+    "name": "Alex Morgan (Fictional)", "headline": "Research Engineer", "email": "alex@example.com", "phone": "+1-202-555-0100", "location": "Example City",
+    "links": [{"id": "link-portfolio", "label": "Portfolio", "url": "https://example.com/portfolio"}],
+    "avatar_attachment_id": null, "avatar_visible": false
+  },
+  "sections": [
+    {"id": "section-education", "type": "education", "title": "EDUCATION", "visible": true, "entries": [
+      {"id": "entry-education", "visible": true, "school": "Example Institute of Computing and Applied Sciences", "degree": "Master of Science", "field_of_study": "Computer Vision", "location": "Example City", "start_date": "2024-09", "end_date": "2026-06", "ongoing": false, "body": "Research on reproducible scientific visualization and cross-domain reconstruction. GPA: **3.90/4.00**."}
+    ]},
+    {"id": "section-publications", "type": "academic", "title": "PUBLICATIONS", "visible": true, "entries": [
+      {"id": "entry-publication-1", "visible": true, "heading": "", "role": "", "url": null, "start_date": null, "end_date": null, "ongoing": false, "body": "[1] **Alex Morgan**, Jordan Taylor, and Casey Chen. Semantic-consistent Reconstruction with Cross-domain Representations and Reproducible Evaluation. *Journal of Fictional Scientific Computing*, pp. 123-145, 2026. [Paper](https://example.com/papers/reconstruction?version=1&format=pdf)\n\nInvestigated the fundamental relationship between reconstruction and generation, preserving structural consistency across heterogeneous observations. The experimental framework combines representation learning, independently reproducible measurements, and comprehensive uncertainty estimation. All institutions, authors, and publications in this fixture are fictional."},
+      {"id": "entry-publication-2", "visible": true, "heading": "", "role": "", "url": null, "start_date": null, "end_date": null, "ongoing": false, "body": "[2] **Alex Morgan** and Jordan Taylor. A Practitioner's Guide to \"Reliable Reconstruction\": End-to-End Evaluation. *Proceedings of the Fictional Research Symposium*, 2025. [Supplement](https://example.com/research/supplement)\n\nDeveloped interactive web tools for audio signal analysis and machine learning visualization, including a DFT/spectrogram analysis tool and a nonlinear transformation visualization tool. Evaluated computational efficiency, implementation reliability, and interoperability using independently maintained reference datasets."}
+    ]},
+    {"id": "section-employment", "type": "employment", "title": "RESEARCH EXPERIENCE", "visible": true, "entries": [
+      {"id": "entry-employment", "visible": true, "organization": "Example Laboratory for Interdisciplinary Computational Research", "role": "Research Assistant", "employment_type": "internship", "location": "Example City", "start_date": "2025-01", "end_date": "2026-06", "ongoing": false, "body": "- Led end-to-end implementation of a reconstruction pipeline, including data validation, training, evaluation, and deployment.\n- Improved throughput by **12.5%** without changing measurement definitions; documented failure modes and uncertainty estimates.\n- Preserved an engineer's literal input: \"double quotes\", 'single quotes', --double-hyphens, ---triple-hyphens, C/C++, R&D, and $4,200.\n- Maintained efficient office workflows and scientific artifacts with **bold**, *italic*, and ***bold italic*** emphasis."}
+    ]},
+    {"id": "section-additional", "type": "custom", "title": "ADDITIONAL EXPERIENCE", "visible": true, "entries": [
+      {"id": "entry-additional", "visible": true, "heading": "Open Research Toolkit", "role": "Independent Developer", "url": null, "start_date": "2024-02", "end_date": "2024-06", "ongoing": false, "body": "Designed reproducible experiments and documented supported formats. [Project](https://example.com/projects/toolkit)\n\n1. Established deterministic regression datasets.\n2. Verified restart, backup, and independent-copy behavior."}
+    ]},
+    {"id": "section-awards", "type": "awards", "title": "AWARDS AND HONORS", "visible": true, "entries": [
+      {"id": "entry-awards", "visible": true, "heading": "", "body": "- **First Prize**, the fictional \"Open Science\" competition, 2025.\n- **Outstanding Contributor**, the fictional Students' Research Forum, 2024."}
+    ]},
+    {"id": "section-skills", "type": "skills", "title": "SKILLS AND ADDITIONAL INFORMATION", "visible": true, "entries": [
+      {"id": "entry-skills", "visible": true, "label": "", "body": "- **Languages:** Python, C/C++, JavaScript, SQL, and HTML/CSS.\n- **Tools:** Git, LaTeX, SQLite, and automated testing.\n- **Service:** Fictional reviewer and volunteer roles used only for software verification."}
+    ]}
+  ],
+  "template": {"id": "cn-single-column", "version": "0.1.0"},
+  "style": {"version": 3, "paper": "a4", "theme_color": "#16324F", "name_size_px": 24, "section_title_size_px": 15, "content_size_px": 14, "line_height": 1.35, "section_gap_px": 8, "margins_px": {"top": 32, "bottom": 32, "left": 40, "right": 40}},
+  "attachments": [],
+  "created_at": "2026-10-02T00:00:00Z",
+  "updated_at": "2026-10-02T00:00:00Z"
+}

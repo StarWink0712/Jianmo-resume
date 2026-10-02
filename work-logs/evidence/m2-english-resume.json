@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "checks": {
+    "real_compilation": true,
+    "literal_text_and_punctuation": true,
+    "bundled_fonts_and_emphasis": true,
+    "external_links_preserved": true,
+    "preview_equals_download": true,
+    "no_unrequested_chinese_labels": true,
+    "backup_roundtrip": true,
+    "copy_independence": true,
+    "restart_retains_resume_and_pdf": true
+  },
+  "pdfs": [
+    {
+      "size_px": 12,
+      "pages": 1,
+      "sha256": "b17e350fa6c2c1a7f5ec042c3fe8c2b9cac42217006f6e39fb54b7af23afdd54"
+    },
+    {
+      "size_px": 14,
+      "pages": 1,
+      "sha256": "092fde246e59d4f2c51cd57546ac6105b80ea39938ecd7283782c98db9a820e6"
+    }
+  ]
+}

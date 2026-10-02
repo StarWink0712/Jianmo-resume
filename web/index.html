@@ -11,14 +11,17 @@
 <body data-view="library">
   <div id="font-warning" class="font-warning" role="alert" hidden>内置字体未加载成功，界面暂用替代字体。请检查安装资源后刷新；PDF 不会改用系统字体。</div>
   <header class="app-header"><button id="home" class="brand" type="button"><span class="brand-mark">简</span>本地简历</button><nav class="app-nav"><button id="nav-library" class="active" type="button">我的简历</button><button id="guide" type="button">使用说明</button></nav><div class="header-meta"><span>数据仅在本机</span><span class="prototype-badge">M2 本地开发版</span></div></header>
-  <div class="prototype-note"><span class="note-dot"></span><span id="connection">正在连接本地服务…</span></div>
+  <div class="workspace-context">
+    <div id="context" class="context-start" hidden><button id="back" class="text-button muted" type="button">← 我的简历</button><label class="sr-only" for="switcher">切换简历</label><select id="switcher"></select></div>
+    <div class="connection-note" role="status"><span class="note-dot" aria-hidden="true"></span><span id="connection">正在连接本地服务…</span></div>
+    <div id="context-actions" class="context-actions" hidden><button id="rename" class="text-button muted" type="button">重命名</button><button id="copy" class="text-button" type="button">创建副本</button></div>
+  </div>
   <main id="library" class="library-view">
     <div class="library-heading"><div><p class="library-eyebrow">个人工作空间</p><h1>我的简历</h1><p>为不同岗位保留不同版本。从旧简历创建副本，独立编辑。</p></div><div class="footer-actions"><button id="import" class="button" type="button">导入工程</button><button id="create" class="button primary" type="button">＋ 新建简历</button></div></div>
     <div class="library-toolbar"><p><strong id="count">0</strong> 份简历 <span>已保存到本地数据库</span></p><label class="library-search"><span class="sr-only">搜索简历</span><input id="search" type="search" placeholder="搜索名称或求职方向"></label></div>
     <div id="cards" class="resume-grid"></div><div id="empty" class="library-empty" hidden><h2>从第一份简历开始</h2><p>选择空白简历，或用虚构示例试一遍真实保存和 PDF 编译。</p><button id="empty-create" class="button primary" type="button">新建简历</button></div>
     <div class="library-tip"><p>已确认保存的内容在刷新、关闭页面和服务重启后仍会保留。未保存或保存失败的输入仍需先处理，不会假报“已保存”。</p></div>
   </main>
-  <div id="context" class="editor-context" hidden><div class="context-start"><button id="back" class="text-button muted" type="button">← 我的简历</button><label class="sr-only" for="switcher">切换简历</label><select id="switcher"></select></div><div class="context-actions"><button id="rename" class="text-button muted" type="button">重命名</button><button id="copy" class="text-button" type="button">创建副本</button></div></div>
   <main id="editor" class="workspace" hidden>
     <section class="panel editor-panel"><div class="panel-heading"><h1>简历编辑器</h1><div class="heading-actions"><button id="modules" class="text-button" type="button">模块管理</button><button id="settings" class="text-button" type="button">样式设置</button></div></div>
       <div id="tabs" class="tabs" role="tablist" aria-label="简历模块"></div>

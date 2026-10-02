@@ -167,6 +167,8 @@ PREAMBLE = r'''\documentclass[a4paper]{article}
 \usepackage{needspace}
 \usepackage{graphicx}
 \usepackage[unicode,hidelinks]{hyperref}
+% User text is literal: do not turn quotes or repeated hyphens into TeX punctuation.
+\defaultfontfeatures[\rmfamily,\sffamily]{Ligatures=TeXOff}
 \setmainfont[Path=fonts/,BoldFont=NotoSans-Bold.ttf,ItalicFont=NotoSans-Italic.ttf,BoldItalicFont=NotoSans-BoldItalic.ttf]{NotoSans-Regular.ttf}
 \setCJKmainfont[Path=fonts/,BoldFont=NotoSansCJKsc-Bold.otf,ItalicFont=NotoSansCJKsc-Regular.otf,ItalicFeatures={FakeSlant=0.2},BoldItalicFont=NotoSansCJKsc-Bold.otf,BoldItalicFeatures={FakeSlant=0.2}]{NotoSansCJKsc-Regular.otf}
 \xeCJKDeclareCharClass{CJK}{"2190 -> "2BFF}
@@ -174,7 +176,8 @@ PREAMBLE = r'''\documentclass[a4paper]{article}
 \raggedbottom
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0pt}
-\setlength{\emergencystretch}{2em}
+% Keep words intact so PDF text extraction matches the saved content.
+\hyphenpenalty=10000
 \tracinglostchars=3
 \clubpenalty=10000
 \widowpenalty=10000
@@ -194,6 +197,7 @@ def render_resume(resume, assets=None):
     result = [PREAMBLE, '\\geometry{' + ','.join(f'{key}={px(value)}' for key, value in margins.items()) + '}\n']
     result.append('\\setlist{nosep,leftmargin=1.5em,topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=' + px(RHYTHM['list_item_gap_px']) + '}\n')
     result.append('\\begin{document}\n')
+    result.append('\\setlength{\\emergencystretch}{.1\\linewidth}\n')
     size, leading = style['content_size_px'], style['content_size_px'] * style['line_height']
     result.append(f"\\fontsize{{{px(size)}}}{{{px(leading)}}}\\selectfont\n")
     basics = resume['basics']
