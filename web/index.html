@@ -44,7 +44,16 @@
     <div id="style-fields"></div>
     <div class="style-footer"><button class="button" data-close="settings-dialog" type="button">返回编辑</button><button id="style-preview" class="button primary" type="button">保存并预览</button></div>
   </dialog>
-  <dialog id="guide-dialog"><div class="dialog-heading"><h2>本地使用说明</h2><button data-close="guide-dialog" class="icon-button" type="button" aria-label="关闭">×</button></div><p>停下输入约 1 秒后自动保存。只有数据库提交成功才显示“已保存”；PDF 需要点击“保存并预览”更新。</p><p>正文框上方提供加粗、斜体、黑点列表和编号列表按钮。先选中文字再设置加粗/斜体；列表作用于当前行或选中多行，再次点击取消。编辑区保留 Markdown 标记：**文字** 显示为粗体，行首“- ”在 PDF 中显示为黑点，不需要自己输入黑点字符。</p><p>快捷键：⌘/Ctrl+B 加粗，⌘/Ctrl+I 斜体，⌘/Ctrl+Z 撤销，⌘/Ctrl+Shift+Z 重做。撤销/重做仅作用于当前正文框，切换模块后保留，刷新页面后清空；可在格式按钮未启用时继续手写 Markdown。</p><p>可以创建多份简历、复制旧版本、上传 PNG/JPEG 头像。工程备份包含已保存的内容和头像，导入始终创建新副本。</p><p>编译失败不会丢失已保存内容。上次成功 PDF 会保留并标为旧版，只有明确确认后才可导出旧版。</p><p>这是 M2 开发版本，尚非正式发行包。不要删除数据目录；重要内容请另存工程备份。关闭后端进程后网页无法继续保存。</p></dialog>
+  <dialog id="guide-dialog">
+    <div class="dialog-heading"><h2>本地使用说明</h2><button data-close="guide-dialog" class="icon-button" type="button" aria-label="关闭">×</button></div>
+    <p>停下输入约 1 秒后自动保存。只有数据库提交成功才显示“已保存”；PDF 需要点击“保存并预览”更新。</p>
+    <p>正文框上方提供加粗、斜体、换行、黑点列表和编号列表按钮。先选中文字再设置加粗/斜体；列表作用于当前行或选中多行，再次点击取消。编辑区保留 Markdown 标记：**文字** 显示为粗体，行首“- ”在 PDF 中显示为黑点，不需要自己输入黑点字符。</p>
+    <p>同一条目中需要另起一行时，将光标放在两段内容之间，点击“换行”或按 Shift+Enter，不需要添加黑点。普通 Enter 是 Markdown 软换行，空一行用于分段。</p>
+    <p>快捷键：⌘/Ctrl+B 加粗，⌘/Ctrl+I 斜体，Shift+Enter 换行，⌘/Ctrl+Z 撤销，⌘/Ctrl+Shift+Z 重做。撤销/重做仅作用于当前正文框，切换模块后保留，刷新页面后清空；可在格式按钮未启用时继续手写 Markdown。</p>
+    <p>可以创建多份简历、复制旧版本、上传 PNG/JPEG 头像。工程备份包含已保存的内容和头像，导入始终创建新副本。</p>
+    <p>编译失败不会丢失已保存内容。上次成功 PDF 会保留并标为旧版，只有明确确认后才可导出旧版。</p>
+    <p>这是 M2 开发版本，尚非正式发行包。不要删除数据目录；重要内容请另存工程备份。关闭后端进程后网页无法继续保存。</p>
+  </dialog>
   <input id="import-file" type="file" accept=".zip,.resume.zip,application/zip" hidden><input id="avatar-file" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png" hidden>
   <div id="toast" class="toast" role="status" hidden></div>
 </body>

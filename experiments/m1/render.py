@@ -91,6 +91,9 @@ def render_markdown(source):
                 parts.append(escape_text(token.content))
             elif token.type == 'softbreak':
                 parts.append(' ')
+            elif token.type == 'hardbreak':
+                # Unlike \\\\, newline cannot interpret a following [2] as a length.
+                parts.append('\\newline{}\n')
             elif token.type in ('strong_open', 'em_open'):
                 parts.append(r'\textbf{' if token.type == 'strong_open' else r'\textit{')
             elif token.type in ('strong_close', 'em_close', 'link_close'):

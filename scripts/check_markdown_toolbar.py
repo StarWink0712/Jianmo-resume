@@ -23,7 +23,12 @@ const bullet = f(bold.text, bold.start, bold.end, 'bullet');
 const extra = 'Italic proof\nNumbered proof';
 const italic = f(extra, 0, extra.length, 'italic');
 const ordered = f(italic.text, italic.start, italic.end, 'ordered');
-console.log(JSON.stringify({bullet:bullet.text, ordered:ordered.text}));
+let references = '[1] **Alex Example**. First paper. [Paper](https://example.com/paper)\n[2] *Second paper*.\n[3] 第三条内容';
+for (const label of ['[2]', '[3]']) {
+  const caret = references.indexOf(label);
+  references = f(references, caret, caret, 'linebreak').text;
+}
+console.log(JSON.stringify({bullet:bullet.text, ordered:ordered.text, references}));
 '''], cwd=ROOT, text=True)
     values = json.loads(generated)
     resume, _ = build_case(cases()[0])
@@ -33,6 +38,9 @@ console.log(JSON.stringify({bullet:bullet.text, ordered:ordered.text}));
          'entries':[{'id':'entry-toolbar-skills', 'visible':True, 'label':'', 'body':values['bullet']}]},
         {'id':'section-toolbar-custom', 'type':'custom', 'title':'编号与斜体', 'visible':True,
          'entries':[{'id':'entry-toolbar-custom', 'visible':True, 'heading':'', 'body':values['ordered']}]},
+        {'id':'section-toolbar-references', 'type':'academic', 'title':'同一条目内的无黑点换行', 'visible':True,
+         'entries':[{'id':'entry-toolbar-references', 'visible':True, 'heading':'', 'role':'', 'url':None,
+                     'start_date':None, 'end_date':None, 'ongoing':False, 'body':values['references']}]},
     ]
     with tempfile.TemporaryDirectory(prefix='markdown-toolbar-', dir=ROOT / 'tmp/pdfs') as temporary:
         root = Path(temporary)
@@ -54,10 +62,21 @@ console.log(JSON.stringify({bullet:bullet.text, ordered:ordered.text}));
         assert '1.' in info['text'] and '2.' in info['text']
         assert '**' not in info['text'] and '*Italic' not in info['text']
         assert all(font['embedded'] for font in info['fonts'].values())
+        lines = [line.strip() for page in reader.pages for line in page.extract_text(extraction_mode='layout').splitlines()]
+        for marker, content in [('[1]', 'First paper.'), ('[2]', 'Second paper.'), ('[3]', '第三条内容')]:
+            matching = [line for line in lines if line.startswith(marker)]
+            assert len(matching) == 1 and compact(content) in compact(matching[0]), matching
+            assert not any(other in matching[0] for other in ('[1]', '[2]', '[3]') if other != marker)
+        assert 'https://example.com/paper' in info['links']
+        assert '  \n' in values['references']
+        output = ROOT / 'output/pdf/markdown-toolbar.pdf'
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_bytes((root / 'main.pdf').read_bytes())
     report = {'passed':True, 'pages':1, 'toolbar_markdown_compiles':True,
               'chinese_and_latin_bold_runs':True, 'latin_italic_runs':True,
               'bullet_count':2, 'numbered_items':2, 'markdown_markers_hidden':True,
-              'fonts_embedded':True}
+              'fonts_embedded':True, 'explicit_linebreaks_in_one_entry':True,
+              'reference_labels_are_not_bullets':True, 'linebreak_link_preserved':True}
     (ROOT / 'work-logs/evidence/m2-markdown-toolbar-pdf.json').write_bytes(json_bytes(report))
     print(report)
 

@@ -73,6 +73,46 @@ test('matching adjacent lists stay connected while paragraphs are separated', ()
 test('nested bullet indentation is preserved', () => {
   assert.equal(format('- 父项\n  - 子项', 'bold').text, '- **父项**\n  - **子项**');
 });
+test('linebreak inserts a CommonMark hard break at the caret without bullets', () => {
+  assert.deepEqual(format('第一条第二条', 'linebreak', 3, 3), {text:'第一条  \n第二条', start:6, end:6});
+  assert.deepEqual(format('🙂Next', 'linebreak', 2, 2), {text:'🙂  \nNext', start:5, end:5});
+});
+test('linebreak preserves selected text and inserts after it', () => {
+  assert.deepEqual(format('FirstSecond', 'linebreak', 0, 5), {text:'First  \nSecond', start:8, end:8});
+});
+test('linebreak upgrades either side of a soft newline between references', () => {
+  const text = '[1] First\n[2] Second', newline = text.indexOf('\n');
+  for (const caret of [newline, newline + 1]) {
+    const result = format(text, 'linebreak', caret, caret);
+    assert.equal(result.text, '[1] First  \n[2] Second');
+    assert.equal(result.start, result.text.indexOf('[2]'));
+    assert.equal(result.end, result.start);
+  }
+});
+test('linebreak reuses existing hard breaks and normalizes trailing whitespace', () => {
+  for (const text of ['First  \nSecond', 'First\\\nSecond']) {
+    const result = format(text, 'linebreak', text.indexOf('\n'), text.indexOf('\n'));
+    assert.equal(result.text, text);
+    assert.equal(result.start, text.indexOf('Second'));
+  }
+  assert.equal(format('First \t \nSecond', 'linebreak', 8, 8).text, 'First  \nSecond');
+});
+test('linebreak on blank lines does not add Markdown indentation or placeholders', () => {
+  assert.deepEqual(format('', 'linebreak', 0, 0), {text:'\n', start:1, end:1});
+  assert.equal(format('  ', 'linebreak', 2, 2).text, '\n');
+  assert.equal(format('First  \n', 'linebreak', 8, 8).text, 'First  \n\n');
+  assert.equal(format('\nNext', 'linebreak', 0, 0).text, '\nNext');
+});
+test('linebreak is reversible without changing inline formatting or list markers', () => {
+  const text = '**First**Next', history = new EditHistory(text);
+  history.selection({text, start:9, end:9});
+  const result = format(text, 'linebreak', 9, 9);
+  history.push(result);
+  assert.equal(result.text, '**First**  \nNext');
+  assert.equal(history.undo().text, text);
+  assert.deepEqual(history.redo(), result);
+  assert.equal(format('- FirstNext', 'linebreak', 7, 7).text, '- First  \nNext');
+});
 test('history stores formatting and typing, selection, undo and redo', () => {
   const history = new EditHistory('原文');
   history.selection({text:'原文', start:0, end:2});

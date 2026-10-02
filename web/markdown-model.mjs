@@ -68,11 +68,25 @@ function list(text, start, end, kind) {
   return result;
 }
 
+function linebreak(text, end) {
+  let from = end, to = end;
+  // Upgrade an adjacent soft break instead of inserting an unwanted blank paragraph.
+  if (text[end] === '\n') to++;
+  else if (end < text.length && text[end - 1] === '\n') from--;
+  const lineStart = from === 0 ? 0 : text.lastIndexOf('\n', from - 1) + 1;
+  const existingSlashBreak = to > from && (text.slice(lineStart, from).match(/\\+$/)?.[0].length || 0) % 2 === 1;
+  while (from > lineStart && /[ \t]/.test(text[from - 1])) from--;
+  const marker = from > lineStart && !existingSlashBreak ? '  \n' : '\n';
+  const caret = from + marker.length;
+  return replace(text, from, to, marker, caret, caret);
+}
+
 export function formatMarkdown(text, start, end, action) {
   start = Math.max(0, Math.min(text.length, start));
   end = Math.max(start, Math.min(text.length, end));
   if (action === 'bold' || action === 'italic') return inline(text, start, end, action);
   if (action === 'bullet' || action === 'ordered') return list(text, start, end, action);
+  if (action === 'linebreak') return linebreak(text, end);
   throw new Error('Unknown Markdown action');
 }
 

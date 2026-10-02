@@ -7,7 +7,7 @@ export function mountMarkdownEditor({id, label, value, history = new EditHistory
   toolbar.setAttribute('role', 'group'); toolbar.setAttribute('aria-label', `${label}格式工具`);
   const area = document.createElement('textarea'); area.id = id; area.value = value; area.maxLength = 10000;
   const hint = document.createElement('p'); hint.id = `${id}-hint`; hint.className = 'markdown-hint';
-  hint.textContent = '选中文字设置加粗/斜体；列表作用于当前行或选中的多行，再点可取消。编辑区的 - 会在 PDF 中显示为黑点。';
+  hint.textContent = '选中文字设置加粗/斜体；点击“换行”或按 Shift+Enter 可在同一条目内换行，不加黑点。普通 Enter 是 Markdown 软换行，空一行可分段；列表按钮再点可取消。';
   area.setAttribute('aria-describedby', hint.id);
   const status = document.createElement('p'); status.className = 'markdown-status'; status.setAttribute('role', 'status');
   root.append(heading, toolbar, area, hint, status);
@@ -32,12 +32,13 @@ export function mountMarkdownEditor({id, label, value, history = new EditHistory
     }
     const result = formatMarkdown(area.value, area.selectionStart, area.selectionEnd, action);
     if (result.text.length > area.maxLength) { status.textContent = '添加格式后超过 10000 字符，请先缩短正文。原文未改动。'; return; }
-    if (result.text === area.value) return;
+    if (result.text === area.value) { if (action === 'linebreak') apply(result); return; }
     history.push(result); apply(result);
   }
   const definitions = [
     ['bold', 'B', '加粗', '选中文字后加粗或取消（⌘/Ctrl+B）'],
     ['italic', 'I', '斜体', '选中文字后倾斜或取消（⌘/Ctrl+I）'],
+    ['linebreak', '↵', '换行', '光标处换行，不添加黑点；有选区时在选区后换行（Shift+Enter）'],
     ['bullet', '•', '黑点列表', '当前行或选中多行添加/取消黑点列表'],
     ['ordered', '1.', '编号列表', '当前行或选中多行添加/取消编号列表'],
     ['undo', '↶', '撤销', '撤销本正文框的编辑（⌘/Ctrl+Z）'],
@@ -67,7 +68,11 @@ export function mountMarkdownEditor({id, label, value, history = new EditHistory
   area.addEventListener('compositionend', () => { composing = false; history.push(snapshot()); emitChange(); sync(); });
   area.addEventListener('select', () => { if (!composing) history.selection(snapshot()); });
   area.addEventListener('keydown', (event) => {
-    if (composing || event.isComposing || event.altKey || !(event.metaKey || event.ctrlKey)) return;
+    if (composing || event.isComposing || event.altKey) return;
+    if (event.key === 'Enter' && event.shiftKey && !event.metaKey && !event.ctrlKey) {
+      event.preventDefault(); run('linebreak'); return;
+    }
+    if (!(event.metaKey || event.ctrlKey)) return;
     const key = event.key.toLowerCase();
     const action = key === 'z' ? (event.shiftKey ? 'redo' : 'undo') : key === 'y' ? 'redo' : !event.shiftKey ? {b:'bold', i:'italic'}[key] : null;
     if (action) { event.preventDefault(); run(action); }

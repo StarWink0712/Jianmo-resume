@@ -74,6 +74,16 @@ class BackendTests(unittest.TestCase):
             self.assertEqual(hashlib.sha256(response.content).hexdigest(), sha256)
         self.assertEqual(self.client.get('/assets/PingFang.ttc').status_code, 404)
 
+    def test_explicit_linebreaks_survive_save_and_backup(self):
+        document = self.create()
+        body = '[1] **Example Author**. First paper.  \n[2] *Second paper*.\n\nNew paragraph.'
+        document['sections'][0]['entries'][0]['body'] = body
+        saved = self.save(document).json()['resume']
+        restored = self.client.get('/api/resumes/' + document['id']).json()['resume']
+        self.assertEqual(restored['sections'][0]['entries'][0]['body'], body)
+        archive = self.client.get(f'/api/resumes/{saved["id"]}/backup?expected_revision={saved["revision"]}').content
+        self.assertEqual(import_backup(archive)[0]['sections'][0]['entries'][0]['body'], body)
+
     def test_pixel_style_and_awards_survive_restart_copy_backup(self):
         document = self.create()
         self.assertEqual(document['style']['version'], 3)
