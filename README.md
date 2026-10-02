@@ -91,6 +91,8 @@ python3 -m venv .venv
 .venv/bin/python -m backend
 ```
 
+你能让 AI 帮你写一个启动脚本放到桌面，这样就可以轻松启动该项目。
+
 打开 **http://127.0.0.1:8770/**，保持终端中的服务运行。用 `Ctrl+C` 正常退出。不要用 `file://` 或 `localhost` 替换该地址。端口可用 `--port 8775` 调整，浏览器地址也要相应改变。
 
 安装好的专用运行时无需系统 LaTeX，但网页后端仍需上述 Python 环境。没有公开预构建下载包；完整应用尚未纳入冻结安装包。仅阅读文档、查看示例或通过 Git 推送源码，不需要安装 LaTeX。
@@ -208,6 +210,8 @@ Once a compatible runtime is installed:
 ```bash
 .venv/bin/python -m backend
 ```
+
+You can ask AI to create a launcher script on your desktop, making the project easy to start.
 
 Open **http://127.0.0.1:8770/** and keep the service running. Press `Ctrl+C` to exit normally. Do not substitute `file://` or `localhost`. Use `--port 8775` and the matching URL if needed.
 
