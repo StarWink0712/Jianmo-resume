@@ -1,0 +1,97 @@
+{
+  "scope": "source-code pre-push checks, not installer or browser acceptance",
+  "full": false,
+  "checks": [
+    {
+      "name": "dependencies",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 1.76
+    },
+    {
+      "name": "contracts",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.62
+    },
+    {
+      "name": "python-tests",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 7.74
+    },
+    {
+      "name": "node-tests",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.22
+    },
+    {
+      "name": "syntax-app.js",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.09
+    },
+    {
+      "name": "syntax-avatar-crop-model.mjs",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.09
+    },
+    {
+      "name": "syntax-avatar-crop.mjs",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.08
+    },
+    {
+      "name": "syntax-avatar-model.mjs",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.09
+    },
+    {
+      "name": "syntax-markdown-editor.mjs",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.09
+    },
+    {
+      "name": "syntax-markdown-model.mjs",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.09
+    },
+    {
+      "name": "syntax-section-model.mjs",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.08
+    },
+    {
+      "name": "syntax-style-editor.mjs",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.08
+    },
+    {
+      "name": "syntax-style-model.mjs",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.08
+    },
+    {
+      "name": "syntax-viewer.js",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.08
+    },
+    {
+      "name": "diff-whitespace",
+      "passed": true,
+      "exit_code": 0,
+      "seconds": 0.02
+    }
+  ],
+  "passed": true
+}
