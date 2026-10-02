@@ -1,0 +1,665 @@
+{
+  "base": "resumes/standard.json",
+  "cases": [
+    {
+      "id": "standard-one-page-target",
+      "valid": true,
+      "coverage": [
+        "完整五类模块",
+        "一页目标，待真实编译"
+      ],
+      "patches": []
+    },
+    {
+      "id": "blank",
+      "valid": true,
+      "coverage": [
+        "空白草稿"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "basics"
+          ],
+          "value": {
+            "name": "",
+            "headline": "",
+            "email": "",
+            "phone": "",
+            "location": "",
+            "links": [],
+            "avatar_attachment_id": null,
+            "avatar_visible": true
+          }
+        },
+        {
+          "op": "set",
+          "path": [
+            "sections"
+          ],
+          "value": []
+        }
+      ]
+    },
+    {
+      "id": "two-page-target",
+      "valid": true,
+      "coverage": [
+        "长内容",
+        "多项目",
+        "两页目标，待真实编译"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "sections",
+            2,
+            "entries"
+          ],
+          "value": [
+            {
+              "id": "entry-project-0",
+              "visible": true,
+              "name": "虚构项目 1",
+              "role": "独立开发",
+              "url": "https://example.com/projects/reading-list",
+              "start_date": "2024-07",
+              "end_date": null,
+              "ongoing": true,
+              "body": "围绕离线数据管理完成需求梳理、方案设计和自动化测试。\n\n- 将结构化数据持久化至本地，并提供清晰的失败反馈。\n- 通过虚构数据验证特殊字符、长字段和备份恢复。\n- 记录版本、测试环境和已知限制，避免把未测试项目标记为通过。\n- 与其他模块约定稳定接口，处理并发保存与旧任务晚到。\n\n以上仅为排版测试文字，不代表任何真实经历。"
+            },
+            {
+              "id": "entry-project-1",
+              "visible": true,
+              "name": "虚构项目 2",
+              "role": "独立开发",
+              "url": "https://example.com/projects/reading-list",
+              "start_date": "2024-07",
+              "end_date": null,
+              "ongoing": true,
+              "body": "围绕离线数据管理完成需求梳理、方案设计和自动化测试。\n\n- 将结构化数据持久化至本地，并提供清晰的失败反馈。\n- 通过虚构数据验证特殊字符、长字段和备份恢复。\n- 记录版本、测试环境和已知限制，避免把未测试项目标记为通过。\n- 与其他模块约定稳定接口，处理并发保存与旧任务晚到。\n\n以上仅为排版测试文字，不代表任何真实经历。"
+            },
+            {
+              "id": "entry-project-2",
+              "visible": true,
+              "name": "虚构项目 3",
+              "role": "独立开发",
+              "url": "https://example.com/projects/reading-list",
+              "start_date": "2024-07",
+              "end_date": null,
+              "ongoing": true,
+              "body": "围绕离线数据管理完成需求梳理、方案设计和自动化测试。\n\n- 将结构化数据持久化至本地，并提供清晰的失败反馈。\n- 通过虚构数据验证特殊字符、长字段和备份恢复。\n- 记录版本、测试环境和已知限制，避免把未测试项目标记为通过。\n- 与其他模块约定稳定接口，处理并发保存与旧任务晚到。\n\n以上仅为排版测试文字，不代表任何真实经历。"
+            },
+            {
+              "id": "entry-project-3",
+              "visible": true,
+              "name": "虚构项目 4",
+              "role": "独立开发",
+              "url": "https://example.com/projects/reading-list",
+              "start_date": "2024-07",
+              "end_date": null,
+              "ongoing": true,
+              "body": "围绕离线数据管理完成需求梳理、方案设计和自动化测试。\n\n- 将结构化数据持久化至本地，并提供清晰的失败反馈。\n- 通过虚构数据验证特殊字符、长字段和备份恢复。\n- 记录版本、测试环境和已知限制，避免把未测试项目标记为通过。\n- 与其他模块约定稳定接口，处理并发保存与旧任务晚到。\n\n以上仅为排版测试文字，不代表任何真实经历。"
+            },
+            {
+              "id": "entry-project-4",
+              "visible": true,
+              "name": "虚构项目 5",
+              "role": "独立开发",
+              "url": "https://example.com/projects/reading-list",
+              "start_date": "2024-07",
+              "end_date": null,
+              "ongoing": true,
+              "body": "围绕离线数据管理完成需求梳理、方案设计和自动化测试。\n\n- 将结构化数据持久化至本地，并提供清晰的失败反馈。\n- 通过虚构数据验证特殊字符、长字段和备份恢复。\n- 记录版本、测试环境和已知限制，避免把未测试项目标记为通过。\n- 与其他模块约定稳定接口，处理并发保存与旧任务晚到。\n\n以上仅为排版测试文字，不代表任何真实经历。"
+            },
+            {
+              "id": "entry-project-5",
+              "visible": true,
+              "name": "虚构项目 6",
+              "role": "独立开发",
+              "url": "https://example.com/projects/reading-list",
+              "start_date": "2024-07",
+              "end_date": null,
+              "ongoing": true,
+              "body": "围绕离线数据管理完成需求梳理、方案设计和自动化测试。\n\n- 将结构化数据持久化至本地，并提供清晰的失败反馈。\n- 通过虚构数据验证特殊字符、长字段和备份恢复。\n- 记录版本、测试环境和已知限制，避免把未测试项目标记为通过。\n- 与其他模块约定稳定接口，处理并发保存与旧任务晚到。\n\n以上仅为排版测试文字，不代表任何真实经历。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mixed-special-characters",
+      "valid": true,
+      "coverage": [
+        "中英文",
+        "TeX 特殊字符",
+        "命令样文字必须安全转义"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "sections",
+            2,
+            "entries",
+            0,
+            "body"
+          ],
+          "value": "中文 English Café：& % $ # _ { } ~ ^ \\\\。\n\n路径文字 C:\\\\demo\\\\notes；文字 \\input{not-a-real-file} 不得成为命令。"
+        }
+      ]
+    },
+    {
+      "id": "long-fields-and-url",
+      "valid": true,
+      "coverage": [
+        "长学校/公司/项目名",
+        "长 URL 边界内"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "sections",
+            0,
+            "entries",
+            0,
+            "school"
+          ],
+          "value": "示例长学校名称示例长学校名称示例长学校名称示例长学校名称示例长学校名称示例长学校名称示例长学校名称示例长学校名称示例长学校名称示例长学校名称示例长学校名称示例长学校名称示例长学校名称示例长学校名称示例长学校名称示例长学校名称示例长学校名称示例长学校名称示例长学校名称示例长学校名称"
+        },
+        {
+          "op": "set",
+          "path": [
+            "sections",
+            1,
+            "entries",
+            0,
+            "organization"
+          ],
+          "value": "示例长公司名称示例长公司名称示例长公司名称示例长公司名称示例长公司名称示例长公司名称示例长公司名称示例长公司名称示例长公司名称示例长公司名称示例长公司名称示例长公司名称示例长公司名称示例长公司名称示例长公司名称示例长公司名称示例长公司名称示例长公司名称示例长公司名称示例长公司名称"
+        },
+        {
+          "op": "set",
+          "path": [
+            "sections",
+            2,
+            "entries",
+            0,
+            "name"
+          ],
+          "value": "示例长项目名称示例长项目名称示例长项目名称示例长项目名称示例长项目名称示例长项目名称示例长项目名称示例长项目名称示例长项目名称示例长项目名称示例长项目名称示例长项目名称示例长项目名称示例长项目名称示例长项目名称示例长项目名称示例长项目名称示例长项目名称示例长项目名称示例长项目名称"
+        },
+        {
+          "op": "set",
+          "path": [
+            "basics",
+            "links",
+            0,
+            "url"
+          ],
+          "value": "https://example.com/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    {
+      "id": "optional-empty",
+      "valid": true,
+      "coverage": [
+        "缺少选填内容"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "basics",
+            "email"
+          ],
+          "value": ""
+        },
+        {
+          "op": "set",
+          "path": [
+            "basics",
+            "links"
+          ],
+          "value": []
+        },
+        {
+          "op": "set",
+          "path": [
+            "sections",
+            2,
+            "entries",
+            0,
+            "url"
+          ],
+          "value": null
+        },
+        {
+          "op": "set",
+          "path": [
+            "sections",
+            0,
+            "entries",
+            0,
+            "start_date"
+          ],
+          "value": null
+        },
+        {
+          "op": "set",
+          "path": [
+            "sections",
+            0,
+            "entries",
+            0,
+            "end_date"
+          ],
+          "value": null
+        }
+      ]
+    },
+    {
+      "id": "nested-lists",
+      "valid": true,
+      "coverage": [
+        "两层列表",
+        "强调",
+        "安全链接"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "sections",
+            2,
+            "entries",
+            0,
+            "body"
+          ],
+          "value": "1. 一级有序\n   - 二级无序 **加粗**\n   - 二级无序 *斜体*\n2. [安全链接](https://example.com)\n\n- 一级无序\n  1. 二级有序"
+        }
+      ]
+    },
+    {
+      "id": "hidden-and-reordered",
+      "valid": true,
+      "coverage": [
+        "顺序",
+        "模块/条目显隐"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "sections"
+          ],
+          "value": [
+            {
+              "id": "section-project",
+              "type": "project",
+              "title": "项目经历",
+              "visible": true,
+              "entries": [
+                {
+                  "id": "entry-project",
+                  "visible": true,
+                  "name": "离线阅读清单（虚构）",
+                  "role": "独立开发",
+                  "url": "https://example.com/projects/reading-list",
+                  "start_date": "2024-07",
+                  "end_date": null,
+                  "ongoing": true,
+                  "body": "使用 TypeScript 与 SQLite 组织本地阅读记录。\n\n1. 实现搜索、标签与备份。\n2. 覆盖异常输入和恢复场景。"
+                }
+              ]
+            },
+            {
+              "id": "section-education",
+              "type": "education",
+              "title": "教育经历",
+              "visible": true,
+              "entries": [
+                {
+                  "id": "entry-education",
+                  "visible": true,
+                  "school": "示例理工大学（虚构）",
+                  "degree": "学士",
+                  "field_of_study": "软件工程",
+                  "location": "示例市",
+                  "start_date": "2020-09",
+                  "end_date": "2024-06",
+                  "ongoing": false,
+                  "body": "主修数据结构、数据库系统和软件测试。"
+                }
+              ]
+            },
+            {
+              "id": "section-employment",
+              "type": "employment",
+              "title": "工作与实习",
+              "visible": true,
+              "entries": [
+                {
+                  "id": "entry-employment",
+                  "visible": true,
+                  "organization": "示例软件工作室（虚构）",
+                  "role": "开发实习生",
+                  "employment_type": "internship",
+                  "location": "示例市",
+                  "start_date": "2024-01",
+                  "end_date": "2024-05",
+                  "ongoing": false,
+                  "body": "- 维护内部**任务管理工具**，编写 API 测试。\n- 与设计同事核对交互及错误提示。"
+                }
+              ]
+            },
+            {
+              "id": "section-custom",
+              "type": "custom",
+              "title": "补充说明",
+              "visible": true,
+              "entries": [
+                {
+                  "id": "entry-custom",
+                  "visible": true,
+                  "heading": "示例用途",
+                  "body": "*本简历全部经历均为虚构*，仅用于开发与测试。\n\n[示例链接](https://example.com/about)"
+                }
+              ]
+            },
+            {
+              "id": "section-skills",
+              "type": "skills",
+              "title": "技能",
+              "visible": true,
+              "entries": [
+                {
+                  "id": "entry-skills",
+                  "visible": true,
+                  "label": "语言与工具",
+                  "body": "Python、TypeScript、SQL；熟悉 Git 和自动化测试。"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": [
+            "sections",
+            1,
+            "visible"
+          ],
+          "value": false
+        },
+        {
+          "op": "set",
+          "path": [
+            "sections",
+            0,
+            "entries",
+            0,
+            "visible"
+          ],
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "avatar",
+      "valid": true,
+      "coverage": [
+        "头像引用与元数据",
+        "可重建备份载荷"
+      ],
+      "synthetic_avatar": true,
+      "patches": []
+    },
+    {
+      "id": "unsafe-contact-url",
+      "valid": false,
+      "coverage": [
+        "不安全链接"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "basics",
+            "links",
+            0,
+            "url"
+          ],
+          "value": "javascript:alert(1)"
+        }
+      ]
+    },
+    {
+      "id": "url-with-credentials",
+      "valid": false,
+      "coverage": [
+        "URL 凭据"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "sections",
+            2,
+            "entries",
+            0,
+            "url"
+          ],
+          "value": "https://user:password@example.com/"
+        }
+      ]
+    },
+    {
+      "id": "url-too-long",
+      "valid": false,
+      "coverage": [
+        "过长 URL"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "basics",
+            "links",
+            0,
+            "url"
+          ],
+          "value": "https://example.com/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    {
+      "id": "duplicate-entry-id",
+      "valid": false,
+      "coverage": [
+        "跨模块 ID 冲突"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "sections",
+            1,
+            "entries",
+            0,
+            "id"
+          ],
+          "value": "entry-education"
+        }
+      ]
+    },
+    {
+      "id": "missing-avatar",
+      "valid": false,
+      "coverage": [
+        "悬空引用"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "basics",
+            "avatar_attachment_id"
+          ],
+          "value": "asset-missing"
+        }
+      ]
+    },
+    {
+      "id": "reversed-dates",
+      "valid": false,
+      "coverage": [
+        "日期关系"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "sections",
+            0,
+            "entries",
+            0,
+            "end_date"
+          ],
+          "value": "2019-01"
+        }
+      ]
+    },
+    {
+      "id": "ongoing-with-end-date",
+      "valid": false,
+      "coverage": [
+        "至今互斥"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "sections",
+            0,
+            "entries",
+            0,
+            "ongoing"
+          ],
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "unknown-field",
+      "valid": false,
+      "coverage": [
+        "未知字段"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "basics",
+            "raw_tex"
+          ],
+          "value": "not supported"
+        }
+      ]
+    },
+    {
+      "id": "future-version",
+      "valid": false,
+      "coverage": [
+        "新版本拒绝"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "schema_version"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "legacy-version-not-supported",
+      "valid": false,
+      "coverage": [
+        "旧版本拒绝，不代表迁移"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "schema_version"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "invalid-timestamp",
+      "valid": false,
+      "coverage": [
+        "日历日期"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "updated_at"
+          ],
+          "value": "2026-02-30T10:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "unsafe-markdown-draft",
+      "valid": true,
+      "render_expectation": "reject-in-M1",
+      "coverage": [
+        "草稿可保存，Markdown 渲染必须拒绝"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "sections",
+            2,
+            "entries",
+            0,
+            "body"
+          ],
+          "value": "<script>alert(1)</script>\n\n[危险链接](javascript:alert(1))\n\n![不支持图片](https://example.com/photo.png)"
+        }
+      ]
+    },
+    {
+      "id": "too-deep-list-draft",
+      "valid": true,
+      "render_expectation": "reject-in-M1",
+      "coverage": [
+        "三层列表草稿，渲染必须拒绝"
+      ],
+      "patches": [
+        {
+          "op": "set",
+          "path": [
+            "sections",
+            2,
+            "entries",
+            0,
+            "body"
+          ],
+          "value": "- 一级\n  - 二级\n    - 三级"
+        }
+      ]
+    }
+  ]
+}

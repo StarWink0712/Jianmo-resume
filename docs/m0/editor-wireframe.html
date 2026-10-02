@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>本地简历 · 简历编辑器</title>
+  <link rel="stylesheet" href="editor-wireframe.css">
+  <script src="resume-library.js" defer></script>
+  <script src="editor-wireframe.js" defer></script>
+</head>
+<body data-view="library">
+  <svg class="icon-library" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 6h7m4 0h5M4 12h2m4 0h10M4 18h10m4 0h2"/><circle cx="13" cy="6" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="16" cy="18" r="2"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v4h16v-4"/></symbol>
+      <symbol id="i-save" viewBox="0 0 24 24"><path d="M5 3h12l4 4v14H3V3ZM7 3v6h9V3M7 21v-8h10v8"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6ZM8 12l3 3 5-6"/></symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24"><path d="m8 3 3 5-3 3c1 3 3 5 5 5l3-3 5 3c0 4-2 6-5 5C9 20 4 15 3 8 2 5 4 3 8 3Z"/></symbol>
+      <symbol id="i-link" viewBox="0 0 24 24"><path d="m10 7 2-2a5 5 0 0 1 7 7l-2 2M14 17l-2 2a5 5 0 0 1-7-7l2-2M8 16l8-8"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path d="M19 10c0 6-7 11-7 11S5 16 5 10a7 7 0 0 1 14 0Z"/><circle cx="12" cy="10" r="2"/></symbol>
+      <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V3h8v4M3 12c5 4 13 4 18 0M12 12v5"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+      <symbol id="i-up" viewBox="0 0 24 24"><path d="m6 14 6-6 6 6"/></symbol>
+      <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 10 6 6 6-6"/></symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    </defs>
+  </svg>
+  <header class="app-header">
+    <button id="brand-home" class="brand" type="button" aria-label="返回我的简历"><span class="brand-mark"><svg class="icon"><use href="#i-file"/></svg></span>本地简历</button>
+    <nav class="app-nav" aria-label="主导航"><button id="nav-library" class="active" aria-current="page" type="button">我的简历</button><button id="nav-editor" type="button">简历编辑</button><button id="guide" class="text-button" type="button">使用说明</button></nav>
+    <div class="header-meta"><span class="local-badge"><svg class="icon"><use href="#i-shield"/></svg>本地优先</span><span class="prototype-badge">M0 交互稿</span></div>
+  </header>
+  <div class="prototype-note"><span class="note-dot"></span>M0 演示：多份简历仅在本次页面中保留，刷新或关闭即重置；不保存到磁盘，不生成真实 PDF。</div>
+  <main id="library-view" class="library-view" aria-labelledby="library-heading">
+    <div class="library-heading"><div><p class="library-eyebrow">个人工作空间</p><h1 id="library-heading" tabindex="-1">我的简历</h1><p>为不同岗位准备不同版本，让每一次修改都有自己的位置。</p></div><button id="new-resume" class="button primary" type="button"><svg class="icon"><use href="#i-plus"/></svg>新建简历</button></div>
+    <div class="library-toolbar"><p><strong id="resume-count">1</strong> 份简历 <span>·  按最近保存排序</span></p><label class="library-search"><span class="sr-only">搜索简历</span><input id="resume-search" type="search" placeholder="搜索名称或求职方向" autocomplete="off"></label></div>
+    <div id="resume-grid" class="resume-grid"></div>
+    <div id="library-empty" class="library-empty" hidden><svg class="icon"><use href="#i-file"/></svg><h2 id="empty-title">还没有简历</h2><p id="empty-description">从空白开始，或使用虚构示例熟悉编辑流程。</p><button id="empty-create" class="button primary" type="button">新建第一份简历</button></div>
+    <div class="library-tip"><svg class="icon"><use href="#i-file"/></svg><p><strong>从旧简历出发，不覆盖旧简历。</strong> 点击“创建副本”，复制内容与排版设置，再针对新岗位独立编辑。</p></div>
+  </main>
+  <div id="editor-context" class="editor-context" hidden><div class="context-start"><button id="back-to-library" class="text-button muted" type="button">← 我的简历</button><span class="context-divider"></span><label class="sr-only" for="resume-switcher">切换简历</label><select id="resume-switcher" aria-label="切换简历"></select><span id="draft-context" class="draft-context">独立版本</span></div><div class="context-actions"><button id="rename-active" class="text-button muted" type="button">重命名</button><button id="copy-active" class="text-button" type="button">创建副本</button></div></div>
+  <main id="editor-view" class="workspace" hidden>
+    <section class="panel editor-panel" aria-labelledby="editor-heading">
+      <div class="panel-heading">
+        <h1 id="editor-heading">简历编辑器</h1>
+        <div class="heading-actions"><button id="modules" class="text-button" type="button"><svg class="icon"><use href="#i-plus"/></svg>模块管理</button><button id="settings" class="text-button" type="button"><svg class="icon"><use href="#i-settings"/></svg>排版设置</button></div>
+      </div>
+      <div class="tabs" role="tablist" aria-label="简历模块">
+        <button id="tab-basics" role="tab" data-section="basics" aria-selected="true" aria-controls="editor-panel" tabindex="0">基本信息</button>
+        <button id="tab-education" role="tab" data-section="education" aria-selected="false" aria-controls="editor-panel" tabindex="-1">教育经历</button>
+        <button id="tab-employment" role="tab" data-section="employment" aria-selected="false" aria-controls="editor-panel" tabindex="-1">工作实习</button>
+        <button id="tab-project" role="tab" data-section="project" aria-selected="false" aria-controls="editor-panel" tabindex="-1">项目经历</button>
+        <button id="tab-skills" role="tab" data-section="skills" aria-selected="false" aria-controls="editor-panel" tabindex="-1">专业技能</button>
+        <button id="tab-custom" role="tab" data-section="custom" aria-selected="false" aria-controls="editor-panel" tabindex="-1">自定义</button>
+      </div>
+      <div id="editor-panel" class="editor-scroll" role="tabpanel" aria-labelledby="tab-basics">
+        <div class="section-intro"><h2><svg class="icon"><use id="section-icon" href="#i-user"/></svg><span id="editor-title">基本信息</span></h2><p id="editor-description">填写您的基本个人信息，这些信息将显示在简历顶部。</p></div>
+        <div id="basics-form">
+          <div class="avatar-section">
+            <div id="avatar-placeholder" class="avatar"><svg class="icon"><use href="#i-user"/></svg></div>
+            <div class="avatar-description"><p>个人头像 <span class="optional">选填</span></p><span>正式版支持 JPG、PNG，最大 5 MB</span><div class="avatar-actions"><button id="avatar-show" class="button primary small" type="button">使用示例头像</button><button id="avatar-hide" class="button small" type="button" disabled>隐藏头像</button></div><small>交互稿不上传或读取本地照片</small></div>
+          </div>
+          <div class="form-grid">
+            <label class="field" for="name"><span>姓名</span><span class="input-wrap"><svg class="icon"><use href="#i-user"/></svg><input id="name" maxlength="200" value="林知行（虚构）" autocomplete="off"></span></label>
+            <label class="field" for="phone"><span>电话</span><span class="input-wrap"><svg class="icon"><use href="#i-phone"/></svg><input id="phone" maxlength="80" placeholder="请输入联系电话" autocomplete="off"></span></label>
+            <label class="field" for="email"><span>邮箱</span><span class="input-wrap"><svg class="icon"><use href="#i-mail"/></svg><input id="email" maxlength="254" value="lin@example.com" autocomplete="off"></span></label>
+            <label class="field" for="location"><span>所在城市</span><span class="input-wrap"><svg class="icon"><use href="#i-pin"/></svg><input id="location" maxlength="200" value="示例市" autocomplete="off"></span></label>
+            <label class="field" for="headline"><span>求职意向</span><span class="input-wrap"><svg class="icon"><use href="#i-briefcase"/></svg><input id="headline" maxlength="200" value="软件工程师 / Software Engineer" autocomplete="off"></span></label>
+            <label class="field" for="portfolio"><span>个人主页</span><span class="input-wrap"><svg class="icon"><use href="#i-link"/></svg><input id="portfolio" maxlength="2048" value="https://example.com/portfolio" autocomplete="off"></span></label>
+          </div>
+          <div class="form-hint"><svg class="icon"><use href="#i-shield"/></svg><span>不必填满每一项。空白联系方式不会出现在预览中。</span></div>
+        </div>
+        <div id="section-form" hidden>
+          <div class="entry-caption"><span>条目 01</span><label class="inline-toggle"><input id="entry-visible" type="checkbox" checked>在简历中显示</label></div>
+          <div class="form-grid">
+            <label class="field wide" for="section-title"><span id="title-label">条目标题</span><input id="section-title" maxlength="200" autocomplete="off"></label>
+            <label id="subtitle-field" class="field wide" for="section-subtitle"><span id="subtitle-label">补充信息</span><input id="section-subtitle" maxlength="200" autocomplete="off"></label>
+          </div>
+          <label class="field body-label" for="body"><span>详细描述</span></label>
+          <div class="markdown-editor">
+            <div class="format-toolbar" aria-label="文字格式"><button type="button" data-format="bold" aria-label="插入加粗"><strong>B</strong></button><button type="button" data-format="italic" aria-label="插入斜体"><em>I</em></button><span></span><button type="button" data-format="bullet" aria-label="插入无序列表">• 列表</button><button type="button" data-format="ordered" aria-label="插入有序列表">1. 列表</button><button type="button" data-format="link" aria-label="插入示例链接"><svg class="icon"><use href="#i-link"/></svg></button></div>
+            <textarea id="body" maxlength="10000" placeholder="描述您的职责、行动与成果…"></textarea>
+            <div class="word-count"><span>受限 Markdown 草稿，预览暂按原文显示</span><span id="character-count">0 / 10000</span></div>
+          </div>
+          <p class="secondary-hint">这里演示单条内容编辑；完整的日期字段和多条目操作后续实现。</p>
+        </div>
+        <div id="error" role="alert" hidden></div>
+      </div>
+      <footer class="panel-footer">
+        <div id="save-indicator" class="save-indicator"><svg class="icon"><use href="#i-check"/></svg><span id="save-status" role="status">模拟已保存 r1</span></div>
+        <div class="footer-actions"><button id="diagnostics" class="text-button muted" type="button">流程测试</button><button id="simulate" class="button primary" type="button"><svg class="icon"><use href="#i-save"/></svg><span id="save-button-label">保存并预览</span></button></div>
+      </footer>
+    </section>
+    <section class="panel preview-panel" aria-labelledby="preview-heading">
+      <div class="panel-heading"><h2 id="preview-heading">简历预览</h2><div class="preview-tools"><label class="sr-only" for="zoom">预览缩放</label><select id="zoom"><option value="fit">适应宽度</option><option value="75">75%</option><option value="100">100%</option></select><span class="a4-label">A4</span></div></div>
+      <div class="preview-state"><span id="preview-dot" class="status-dot"></span><span id="preview-status" role="status">初始样例 · 尚未编译，以下为排版示意</span><span class="html-label">非 PDF</span></div>
+      <div id="preview-scroll" class="preview-scroll">
+        <div id="paper-frame" class="paper-frame">
+          <article id="resume-paper" class="resume-paper" aria-label="虚构简历排版示意">
+            <div class="resume-top"><div class="resume-identity"><h3 id="preview-name">林知行（虚构）</h3><p id="preview-contacts" class="resume-contacts"></p><p id="preview-headline" class="resume-headline"></p></div><div id="preview-avatar" class="paper-avatar" hidden><svg class="icon"><use href="#i-user"/></svg></div></div>
+            <div id="preview-sections"></div>
+            <div class="paper-footer"><span>虚构示例，仅用于开发测试</span><span id="revision-label">初始示意 · 未编译</span></div>
+          </article>
+        </div>
+        <p class="preview-caption">HTML 排版示意，不代表真实 PDF 的字体与分页</p>
+      </div>
+      <footer class="panel-footer preview-footer">
+        <button id="old-export" class="text-button muted" type="button" disabled>导出上次成功版本</button>
+        <div class="footer-actions"><button id="backup" class="button" type="button"><svg class="icon"><use href="#i-file"/></svg>工程备份</button><button id="export" class="button primary" type="button" disabled><svg class="icon"><use href="#i-download"/></svg>导出 PDF</button></div>
+      </footer>
+    </section>
+  </main>
+  <div id="feedback" class="toast" role="status" hidden></div>
+  <dialog id="resume-dialog" aria-labelledby="resume-dialog-title"><div class="dialog-heading"><h2 id="resume-dialog-title">新建简历</h2><button class="icon-button" type="button" data-close="resume-dialog" aria-label="关闭简历设置"><svg class="icon"><use href="#i-close"/></svg></button></div><p id="resume-dialog-description"></p><form id="resume-form"><label class="field" for="resume-title-input"><span>简历名称</span><input id="resume-title-input" maxlength="80" required autocomplete="off" placeholder="例如：后端开发 · 秋招版"></label><label id="create-kind-field" class="field" for="create-kind"><span>开始方式</span><select id="create-kind"><option value="blank">空白简历</option><option value="sample">使用虚构示例</option></select></label><label id="copy-version-field" class="field" for="copy-version" hidden><span>复制哪个版本？</span><select id="copy-version"><option value="saved">已保存版本（推荐）</option><option value="draft">包含未保存修改的当前草稿</option></select></label><p id="resume-form-error" class="form-error" role="alert" hidden></p><div class="dialog-actions"><button type="button" class="button" data-close="resume-dialog">取消</button><button id="resume-submit" type="submit" class="button primary">创建并编辑</button></div></form></dialog>
+  <dialog id="delete-dialog" aria-labelledby="delete-title"><div class="dialog-heading"><h2 id="delete-title">删除这份简历？</h2><button class="icon-button" type="button" data-close="delete-dialog" aria-label="关闭删除确认"><svg class="icon"><use href="#i-close"/></svg></button></div><p id="delete-description"></p><p>仅删除选中的这一份，不影响其他简历或已创建的副本。本次演示中无法撤销。</p><p id="delete-error" class="form-error" role="alert" hidden></p><div class="dialog-actions"><button type="button" class="button" data-close="delete-dialog">取消</button><button id="delete-confirm" type="button" class="button danger">确认删除</button></div></dialog>
+  <dialog id="old-dialog" aria-labelledby="old-dialog-title"><div class="dialog-heading"><h2 id="old-dialog-title">导出上次成功版本</h2><button class="icon-button" type="button" data-close="old-dialog" aria-label="关闭旧版导出"><svg class="icon"><use href="#i-close"/></svg></button></div><p id="old-description"></p><form method="dialog" class="dialog-actions"><button value="cancel" class="button">取消</button><button value="confirm" class="button primary">确认导出旧版（模拟）</button></form></dialog>
+  <dialog id="modules-dialog" aria-labelledby="modules-title"><div class="dialog-heading"><h2 id="modules-title">模块管理</h2><button class="icon-button" type="button" data-close="modules-dialog" aria-label="关闭模块管理"><svg class="icon"><use href="#i-close"/></svg></button></div><p>调整显示顺序或暂时隐藏模块，不会删除内容。仅作用于本次原型演示。</p><div id="module-list"></div><form method="dialog" class="dialog-actions"><button class="button primary">完成</button></form></dialog>
+  <dialog id="settings-dialog" aria-labelledby="settings-title"><div class="dialog-heading"><h2 id="settings-title">排版设置</h2><button class="icon-button" type="button" data-close="settings-dialog" aria-label="关闭排版设置"><svg class="icon"><use href="#i-close"/></svg></button></div><p>中文单栏 · A4。以下设置仅用于 HTML 示意，真实排版在 M1 验证。</p><label class="field" for="font-size"><span>正文字号</span><select id="font-size"><option value="10">10 pt</option><option value="10.5" selected>10.5 pt（默认）</option><option value="11">11 pt</option><option value="11.5">11.5 pt</option><option value="12">12 pt</option></select></label><label class="field" for="line-height"><span>行距系数</span><select id="line-height"><option value="1.1">1.1</option><option value="1.2" selected>1.2（默认）</option><option value="1.3">1.3</option><option value="1.4">1.4</option><option value="1.5">1.5</option></select></label><form method="dialog" class="dialog-actions"><button class="button primary">完成</button></form></dialog>
+  <dialog id="diagnostics-dialog" aria-labelledby="diagnostics-title"><div class="dialog-heading"><h2 id="diagnostics-title">流程测试</h2><button class="icon-button" type="button" data-close="diagnostics-dialog" aria-label="关闭流程测试"><svg class="icon"><use href="#i-close"/></svg></button></div><p>模拟异常，不写入数据库，也不启动 LaTeX。选择场景后点击左下方“保存并预览”。</p><label class="field" for="scenario"><span>流程演示场景</span><select id="scenario"><option value="success">正常保存与编译</option><option value="save-error">模拟保存失败</option><option value="compile-error">模拟编译失败</option></select></label><form method="dialog" class="dialog-actions"><button class="button primary">使用此场景</button></form></dialog>
+  <dialog id="guide-dialog" aria-labelledby="guide-title"><div class="dialog-heading"><h2 id="guide-title">关于这份交互稿</h2><button class="icon-button" type="button" data-close="guide-dialog" aria-label="关闭使用说明"><svg class="icon"><use href="#i-close"/></svg></button></div><p>在“我的简历”中创建或复制多份简历。副本拥有独立内容，编辑副本不会覆盖原简历；切换时保留本次页面中的各自草稿。</p><p>在左侧填写内容，点击“保存并预览”查看模拟成功快照。编辑后，右侧保留旧快照并明确提示过期。</p><p>初次显示的是虚构排版样例，不是已编译的 PDF。保存、编译、头像和导出均为流程演示，刷新即重置。请勿填写真实个人信息。</p><p>字体、PDF 分页、真正的备份和本地数据持久化，仍需后续阶段实现与验证。</p><form method="dialog" class="dialog-actions"><button class="button primary">我知道了</button></form></dialog>
+</body>
+</html>

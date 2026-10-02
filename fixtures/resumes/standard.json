@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "id": "resume-demo",
+  "revision": 1,
+  "title": "林知行的虚构示例",
+  "basics": {
+    "name": "林知行（虚构）",
+    "headline": "软件工程师 / Software Engineer",
+    "email": "lin@example.com",
+    "phone": "",
+    "location": "示例市",
+    "links": [
+      {
+        "id": "link-portfolio",
+        "label": "作品集",
+        "url": "https://example.com/portfolio"
+      }
+    ],
+    "avatar_attachment_id": null,
+    "avatar_visible": true
+  },
+  "sections": [
+    {
+      "id": "section-education",
+      "type": "education",
+      "title": "教育经历",
+      "visible": true,
+      "entries": [
+        {
+          "id": "entry-education",
+          "visible": true,
+          "school": "示例理工大学（虚构）",
+          "degree": "学士",
+          "field_of_study": "软件工程",
+          "location": "示例市",
+          "start_date": "2020-09",
+          "end_date": "2024-06",
+          "ongoing": false,
+          "body": "主修数据结构、数据库系统和软件测试。"
+        }
+      ]
+    },
+    {
+      "id": "section-employment",
+      "type": "employment",
+      "title": "工作与实习",
+      "visible": true,
+      "entries": [
+        {
+          "id": "entry-employment",
+          "visible": true,
+          "organization": "示例软件工作室（虚构）",
+          "role": "开发实习生",
+          "employment_type": "internship",
+          "location": "示例市",
+          "start_date": "2024-01",
+          "end_date": "2024-05",
+          "ongoing": false,
+          "body": "- 维护内部**任务管理工具**，编写 API 测试。\n- 与设计同事核对交互及错误提示。"
+        }
+      ]
+    },
+    {
+      "id": "section-project",
+      "type": "project",
+      "title": "项目经历",
+      "visible": true,
+      "entries": [
+        {
+          "id": "entry-project",
+          "visible": true,
+          "name": "离线阅读清单（虚构）",
+          "role": "独立开发",
+          "url": "https://example.com/projects/reading-list",
+          "start_date": "2024-07",
+          "end_date": null,
+          "ongoing": true,
+          "body": "使用 TypeScript 与 SQLite 组织本地阅读记录。\n\n1. 实现搜索、标签与备份。\n2. 覆盖异常输入和恢复场景。"
+        }
+      ]
+    },
+    {
+      "id": "section-skills",
+      "type": "skills",
+      "title": "技能",
+      "visible": true,
+      "entries": [
+        {
+          "id": "entry-skills",
+          "visible": true,
+          "label": "语言与工具",
+          "body": "Python、TypeScript、SQL；熟悉 Git 和自动化测试。"
+        }
+      ]
+    },
+    {
+      "id": "section-custom",
+      "type": "custom",
+      "title": "补充说明",
+      "visible": true,
+      "entries": [
+        {
+          "id": "entry-custom",
+          "visible": true,
+          "heading": "示例用途",
+          "body": "*本简历全部经历均为虚构*，仅用于开发与测试。\n\n[示例链接](https://example.com/about)"
+        }
+      ]
+    }
+  ],
+  "template": {
+    "id": "cn-single-column",
+    "version": "0.1.0"
+  },
+  "style": {
+    "paper": "a4",
+    "font_size_pt": 10.5,
+    "line_height": 1.2,
+    "section_gap_pt": 8,
+    "entry_gap_pt": 4,
+    "margins_mm": {
+      "top": 16,
+      "right": 16,
+      "bottom": 16,
+      "left": 16
+    }
+  },
+  "attachments": [],
+  "created_at": "2026-10-01T10:00:00Z",
+  "updated_at": "2026-10-01T10:00:00Z"
+}

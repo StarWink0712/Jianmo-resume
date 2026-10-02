@@ -1,0 +1,895 @@
+{
+  "clean_mac": "skipped by explicit user decision; not passed",
+  "checks": {
+    "fresh-local-install": true,
+    "repeat-install": true,
+    "no-profile-or-user-data-written": true,
+    "normal-frozen-self-test": true,
+    "concurrent-install-rejected": true,
+    "hash-mismatch-preserves-current": true,
+    "truncated-archive-rejected": true,
+    "failed-install-cleaned": true,
+    "retry-after-bad-archive": true,
+    "previous-release-retained": true,
+    "damaged-installed-runtime-rejected": true,
+    "https-interruption-rejected": true,
+    "real-loopback-https-retry": true,
+    "https-downgrade-rejected": true,
+    "network-allowed-control": true,
+    "network-denied": true,
+    "plain-http-rejected": true,
+    "no-absolute-third-party-dylib-paths": true,
+    "relocated-frozen-offline-self-test": true,
+    "bundle-file-readable": true,
+    "global-tex-unreadable": true,
+    "global-python-unreadable": true,
+    "development-fonts-unreadable": true,
+    "source-fonts-unreadable": true,
+    "system-fonts-unreadable": true
+  },
+  "artifact_sha256": "a0e5f085592321c2d7ad4172c0dafa87a036ffb74f5b80c44922a9189b06a5fd",
+  "archive_bytes": 72197234,
+  "normal_self_test": {
+    "cases": {
+      "standard-one-page-target": {
+        "returncode": 0,
+        "timed_out": false,
+        "memory_exceeded": false,
+        "peak_group_rss_bytes": 189448192,
+        "memory_limit_bytes": 536870912,
+        "seconds": 3.967288,
+        "engine_seconds": 3.20118,
+        "driver_seconds": 0.766108,
+        "pdf_exists": true,
+        "missing_glyphs": false,
+        "overfull_boxes": 0,
+        "underfull_boxes": 0,
+        "ok": true,
+        "pages": 1,
+        "fonts": {
+          "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/UACRXE+NotoSans-Regular": {
+            "embedded": true,
+            "unicode_map": true
+          }
+        },
+        "links": [
+          "https://example.com/portfolio",
+          "https://example.com/projects/reading-list",
+          "https://example.com/about"
+        ],
+        "page_sizes_pt": [
+          [
+            595.28,
+            841.89
+          ]
+        ],
+        "missing_text_fragments": 0
+      },
+      "blank": {
+        "returncode": 0,
+        "timed_out": false,
+        "memory_exceeded": false,
+        "peak_group_rss_bytes": 189546496,
+        "memory_limit_bytes": 536870912,
+        "seconds": 1.955018,
+        "engine_seconds": 1.868501,
+        "driver_seconds": 0.086517,
+        "pdf_exists": true,
+        "missing_glyphs": false,
+        "overfull_boxes": 0,
+        "underfull_boxes": 0,
+        "ok": true,
+        "pages": 1,
+        "fonts": {},
+        "links": [],
+        "page_sizes_pt": [
+          [
+            595.28,
+            841.89
+          ]
+        ],
+        "missing_text_fragments": 0
+      },
+      "two-page-target": {
+        "returncode": 0,
+        "timed_out": false,
+        "memory_exceeded": false,
+        "peak_group_rss_bytes": 188923904,
+        "memory_limit_bytes": 536870912,
+        "seconds": 2.172405,
+        "engine_seconds": 1.868757,
+        "driver_seconds": 0.303648,
+        "pdf_exists": true,
+        "missing_glyphs": false,
+        "overfull_boxes": 0,
+        "underfull_boxes": 0,
+        "ok": true,
+        "pages": 2,
+        "fonts": {
+          "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/UACRXE+NotoSans-Regular": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/OJFNKL+NotoSans-Bold": {
+            "embedded": true,
+            "unicode_map": true
+          }
+        },
+        "links": [
+          "https://example.com/portfolio",
+          "https://example.com/projects/reading-list",
+          "https://example.com/projects/reading-list",
+          "https://example.com/projects/reading-list",
+          "https://example.com/projects/reading-list",
+          "https://example.com/projects/reading-list",
+          "https://example.com/projects/reading-list",
+          "https://example.com/about"
+        ],
+        "page_sizes_pt": [
+          [
+            595.28,
+            841.89
+          ],
+          [
+            595.28,
+            841.89
+          ]
+        ],
+        "missing_text_fragments": 0
+      },
+      "mixed-special-characters": {
+        "returncode": 0,
+        "timed_out": false,
+        "memory_exceeded": false,
+        "peak_group_rss_bytes": 207028224,
+        "memory_limit_bytes": 536870912,
+        "seconds": 2.230832,
+        "engine_seconds": 1.922328,
+        "driver_seconds": 0.308504,
+        "pdf_exists": true,
+        "missing_glyphs": false,
+        "overfull_boxes": 0,
+        "underfull_boxes": 0,
+        "ok": true,
+        "pages": 1,
+        "fonts": {
+          "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/UACRXE+NotoSans-Regular": {
+            "embedded": true,
+            "unicode_map": true
+          }
+        },
+        "links": [
+          "https://example.com/portfolio",
+          "https://example.com/projects/reading-list",
+          "https://example.com/about"
+        ],
+        "page_sizes_pt": [
+          [
+            595.28,
+            841.89
+          ]
+        ],
+        "missing_text_fragments": 0
+      },
+      "long-fields-and-url": {
+        "returncode": 0,
+        "timed_out": false,
+        "memory_exceeded": false,
+        "peak_group_rss_bytes": 201752576,
+        "memory_limit_bytes": 536870912,
+        "seconds": 2.235575,
+        "engine_seconds": 1.935602,
+        "driver_seconds": 0.299973,
+        "pdf_exists": true,
+        "missing_glyphs": false,
+        "overfull_boxes": 0,
+        "underfull_boxes": 0,
+        "ok": true,
+        "pages": 1,
+        "fonts": {
+          "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/UACRXE+NotoSans-Regular": {
+            "embedded": true,
+            "unicode_map": true
+          }
+        },
+        "links": [
+          "https://example.com/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "https://example.com/projects/reading-list",
+          "https://example.com/about"
+        ],
+        "page_sizes_pt": [
+          [
+            595.28,
+            841.89
+          ]
+        ],
+        "missing_text_fragments": 0
+      },
+      "optional-empty": {
+        "returncode": 0,
+        "timed_out": false,
+        "memory_exceeded": false,
+        "peak_group_rss_bytes": 188891136,
+        "memory_limit_bytes": 536870912,
+        "seconds": 2.255398,
+        "engine_seconds": 1.940117,
+        "driver_seconds": 0.315281,
+        "pdf_exists": true,
+        "missing_glyphs": false,
+        "overfull_boxes": 0,
+        "underfull_boxes": 0,
+        "ok": true,
+        "pages": 1,
+        "fonts": {
+          "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/UACRXE+NotoSans-Regular": {
+            "embedded": true,
+            "unicode_map": true
+          }
+        },
+        "links": [
+          "https://example.com/about"
+        ],
+        "page_sizes_pt": [
+          [
+            595.28,
+            841.89
+          ]
+        ],
+        "missing_text_fragments": 0
+      },
+      "nested-lists": {
+        "returncode": 0,
+        "timed_out": false,
+        "memory_exceeded": false,
+        "peak_group_rss_bytes": 206389248,
+        "memory_limit_bytes": 536870912,
+        "seconds": 2.338942,
+        "engine_seconds": 2.023261,
+        "driver_seconds": 0.315681,
+        "pdf_exists": true,
+        "missing_glyphs": false,
+        "overfull_boxes": 0,
+        "underfull_boxes": 0,
+        "ok": true,
+        "pages": 1,
+        "fonts": {
+          "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/UACRXE+NotoSans-Regular": {
+            "embedded": true,
+            "unicode_map": true
+          }
+        },
+        "links": [
+          "https://example.com/portfolio",
+          "https://example.com/projects/reading-list",
+          "https://example.com",
+          "https://example.com/about"
+        ],
+        "page_sizes_pt": [
+          [
+            595.28,
+            841.89
+          ]
+        ],
+        "missing_text_fragments": 0
+      },
+      "hidden-and-reordered": {
+        "returncode": 0,
+        "timed_out": false,
+        "memory_exceeded": false,
+        "peak_group_rss_bytes": 190152704,
+        "memory_limit_bytes": 536870912,
+        "seconds": 2.176558,
+        "engine_seconds": 1.88126,
+        "driver_seconds": 0.295298,
+        "pdf_exists": true,
+        "missing_glyphs": false,
+        "overfull_boxes": 0,
+        "underfull_boxes": 0,
+        "ok": true,
+        "pages": 1,
+        "fonts": {
+          "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/UACRXE+NotoSans-Regular": {
+            "embedded": true,
+            "unicode_map": true
+          }
+        },
+        "links": [
+          "https://example.com/portfolio",
+          "https://example.com/about"
+        ],
+        "page_sizes_pt": [
+          [
+            595.28,
+            841.89
+          ]
+        ],
+        "missing_text_fragments": 0
+      },
+      "avatar": {
+        "returncode": 0,
+        "timed_out": false,
+        "memory_exceeded": false,
+        "peak_group_rss_bytes": 194560000,
+        "memory_limit_bytes": 536870912,
+        "seconds": 2.258401,
+        "engine_seconds": 1.972536,
+        "driver_seconds": 0.285865,
+        "pdf_exists": true,
+        "missing_glyphs": false,
+        "overfull_boxes": 0,
+        "underfull_boxes": 0,
+        "ok": true,
+        "pages": 1,
+        "fonts": {
+          "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/UACRXE+NotoSans-Regular": {
+            "embedded": true,
+            "unicode_map": true
+          }
+        },
+        "links": [
+          "https://example.com/portfolio",
+          "https://example.com/projects/reading-list",
+          "https://example.com/about"
+        ],
+        "page_sizes_pt": [
+          [
+            595.28,
+            841.89
+          ]
+        ],
+        "missing_text_fragments": 0
+      },
+      "unsafe-contact-url": {
+        "rejected": true
+      },
+      "url-with-credentials": {
+        "rejected": true
+      },
+      "url-too-long": {
+        "rejected": true
+      },
+      "duplicate-entry-id": {
+        "rejected": true
+      },
+      "missing-avatar": {
+        "rejected": true
+      },
+      "reversed-dates": {
+        "rejected": true
+      },
+      "ongoing-with-end-date": {
+        "rejected": true
+      },
+      "unknown-field": {
+        "rejected": true
+      },
+      "future-version": {
+        "rejected": true
+      },
+      "legacy-version-not-supported": {
+        "rejected": true
+      },
+      "invalid-timestamp": {
+        "rejected": true
+      },
+      "unsafe-markdown-draft": {
+        "rejected": true
+      },
+      "too-deep-list-draft": {
+        "rejected": true
+      }
+    },
+    "failures": [],
+    "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+    "python": "3.14.7",
+    "frozen": true,
+    "sandbox_mode": "per-compiler sandbox",
+    "clean_mac": "not tested; explicitly skipped by user"
+  },
+  "mach_o_binary_count": 78,
+  "self_test": {
+    "cases": {
+      "standard-one-page-target": {
+        "returncode": 0,
+        "timed_out": false,
+        "memory_exceeded": false,
+        "peak_group_rss_bytes": 0,
+        "memory_limit_bytes": null,
+        "seconds": 2.330931,
+        "engine_seconds": 2.061973,
+        "driver_seconds": 0.268958,
+        "pdf_exists": true,
+        "missing_glyphs": false,
+        "overfull_boxes": 0,
+        "underfull_boxes": 0,
+        "ok": true,
+        "pages": 1,
+        "fonts": {
+          "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/UACRXE+NotoSans-Regular": {
+            "embedded": true,
+            "unicode_map": true
+          }
+        },
+        "links": [
+          "https://example.com/portfolio",
+          "https://example.com/projects/reading-list",
+          "https://example.com/about"
+        ],
+        "page_sizes_pt": [
+          [
+            595.28,
+            841.89
+          ]
+        ],
+        "missing_text_fragments": 0
+      },
+      "blank": {
+        "returncode": 0,
+        "timed_out": false,
+        "memory_exceeded": false,
+        "peak_group_rss_bytes": 0,
+        "memory_limit_bytes": null,
+        "seconds": 1.91631,
+        "engine_seconds": 1.861686,
+        "driver_seconds": 0.054624,
+        "pdf_exists": true,
+        "missing_glyphs": false,
+        "overfull_boxes": 0,
+        "underfull_boxes": 0,
+        "ok": true,
+        "pages": 1,
+        "fonts": {},
+        "links": [],
+        "page_sizes_pt": [
+          [
+            595.28,
+            841.89
+          ]
+        ],
+        "missing_text_fragments": 0
+      },
+      "two-page-target": {
+        "returncode": 0,
+        "timed_out": false,
+        "memory_exceeded": false,
+        "peak_group_rss_bytes": 0,
+        "memory_limit_bytes": null,
+        "seconds": 2.216155,
+        "engine_seconds": 1.886796,
+        "driver_seconds": 0.329359,
+        "pdf_exists": true,
+        "missing_glyphs": false,
+        "overfull_boxes": 0,
+        "underfull_boxes": 0,
+        "ok": true,
+        "pages": 2,
+        "fonts": {
+          "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/UACRXE+NotoSans-Regular": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/OJFNKL+NotoSans-Bold": {
+            "embedded": true,
+            "unicode_map": true
+          }
+        },
+        "links": [
+          "https://example.com/portfolio",
+          "https://example.com/projects/reading-list",
+          "https://example.com/projects/reading-list",
+          "https://example.com/projects/reading-list",
+          "https://example.com/projects/reading-list",
+          "https://example.com/projects/reading-list",
+          "https://example.com/projects/reading-list",
+          "https://example.com/about"
+        ],
+        "page_sizes_pt": [
+          [
+            595.28,
+            841.89
+          ],
+          [
+            595.28,
+            841.89
+          ]
+        ],
+        "missing_text_fragments": 0
+      },
+      "mixed-special-characters": {
+        "returncode": 0,
+        "timed_out": false,
+        "memory_exceeded": false,
+        "peak_group_rss_bytes": 0,
+        "memory_limit_bytes": null,
+        "seconds": 2.16677,
+        "engine_seconds": 1.890775,
+        "driver_seconds": 0.275995,
+        "pdf_exists": true,
+        "missing_glyphs": false,
+        "overfull_boxes": 0,
+        "underfull_boxes": 0,
+        "ok": true,
+        "pages": 1,
+        "fonts": {
+          "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/UACRXE+NotoSans-Regular": {
+            "embedded": true,
+            "unicode_map": true
+          }
+        },
+        "links": [
+          "https://example.com/portfolio",
+          "https://example.com/projects/reading-list",
+          "https://example.com/about"
+        ],
+        "page_sizes_pt": [
+          [
+            595.28,
+            841.89
+          ]
+        ],
+        "missing_text_fragments": 0
+      },
+      "long-fields-and-url": {
+        "returncode": 0,
+        "timed_out": false,
+        "memory_exceeded": false,
+        "peak_group_rss_bytes": 0,
+        "memory_limit_bytes": null,
+        "seconds": 2.173891,
+        "engine_seconds": 1.89575,
+        "driver_seconds": 0.278141,
+        "pdf_exists": true,
+        "missing_glyphs": false,
+        "overfull_boxes": 0,
+        "underfull_boxes": 0,
+        "ok": true,
+        "pages": 1,
+        "fonts": {
+          "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/UACRXE+NotoSans-Regular": {
+            "embedded": true,
+            "unicode_map": true
+          }
+        },
+        "links": [
+          "https://example.com/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "https://example.com/projects/reading-list",
+          "https://example.com/about"
+        ],
+        "page_sizes_pt": [
+          [
+            595.28,
+            841.89
+          ]
+        ],
+        "missing_text_fragments": 0
+      },
+      "optional-empty": {
+        "returncode": 0,
+        "timed_out": false,
+        "memory_exceeded": false,
+        "peak_group_rss_bytes": 0,
+        "memory_limit_bytes": null,
+        "seconds": 2.166341,
+        "engine_seconds": 1.893219,
+        "driver_seconds": 0.273122,
+        "pdf_exists": true,
+        "missing_glyphs": false,
+        "overfull_boxes": 0,
+        "underfull_boxes": 0,
+        "ok": true,
+        "pages": 1,
+        "fonts": {
+          "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/UACRXE+NotoSans-Regular": {
+            "embedded": true,
+            "unicode_map": true
+          }
+        },
+        "links": [
+          "https://example.com/about"
+        ],
+        "page_sizes_pt": [
+          [
+            595.28,
+            841.89
+          ]
+        ],
+        "missing_text_fragments": 0
+      },
+      "nested-lists": {
+        "returncode": 0,
+        "timed_out": false,
+        "memory_exceeded": false,
+        "peak_group_rss_bytes": 0,
+        "memory_limit_bytes": null,
+        "seconds": 2.129435,
+        "engine_seconds": 1.852141,
+        "driver_seconds": 0.277294,
+        "pdf_exists": true,
+        "missing_glyphs": false,
+        "overfull_boxes": 0,
+        "underfull_boxes": 0,
+        "ok": true,
+        "pages": 1,
+        "fonts": {
+          "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/UACRXE+NotoSans-Regular": {
+            "embedded": true,
+            "unicode_map": true
+          }
+        },
+        "links": [
+          "https://example.com/portfolio",
+          "https://example.com/projects/reading-list",
+          "https://example.com",
+          "https://example.com/about"
+        ],
+        "page_sizes_pt": [
+          [
+            595.28,
+            841.89
+          ]
+        ],
+        "missing_text_fragments": 0
+      },
+      "hidden-and-reordered": {
+        "returncode": 0,
+        "timed_out": false,
+        "memory_exceeded": false,
+        "peak_group_rss_bytes": 0,
+        "memory_limit_bytes": null,
+        "seconds": 2.166883,
+        "engine_seconds": 1.896379,
+        "driver_seconds": 0.270504,
+        "pdf_exists": true,
+        "missing_glyphs": false,
+        "overfull_boxes": 0,
+        "underfull_boxes": 0,
+        "ok": true,
+        "pages": 1,
+        "fonts": {
+          "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/UACRXE+NotoSans-Regular": {
+            "embedded": true,
+            "unicode_map": true
+          }
+        },
+        "links": [
+          "https://example.com/portfolio",
+          "https://example.com/about"
+        ],
+        "page_sizes_pt": [
+          [
+            595.28,
+            841.89
+          ]
+        ],
+        "missing_text_fragments": 0
+      },
+      "avatar": {
+        "returncode": 0,
+        "timed_out": false,
+        "memory_exceeded": false,
+        "peak_group_rss_bytes": 0,
+        "memory_limit_bytes": null,
+        "seconds": 2.213372,
+        "engine_seconds": 1.941101,
+        "driver_seconds": 0.272271,
+        "pdf_exists": true,
+        "missing_glyphs": false,
+        "overfull_boxes": 0,
+        "underfull_boxes": 0,
+        "ok": true,
+        "pages": 1,
+        "fonts": {
+          "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+            "embedded": true,
+            "unicode_map": true
+          },
+          "/UACRXE+NotoSans-Regular": {
+            "embedded": true,
+            "unicode_map": true
+          }
+        },
+        "links": [
+          "https://example.com/portfolio",
+          "https://example.com/projects/reading-list",
+          "https://example.com/about"
+        ],
+        "page_sizes_pt": [
+          [
+            595.28,
+            841.89
+          ]
+        ],
+        "missing_text_fragments": 0
+      },
+      "unsafe-contact-url": {
+        "rejected": true
+      },
+      "url-with-credentials": {
+        "rejected": true
+      },
+      "url-too-long": {
+        "rejected": true
+      },
+      "duplicate-entry-id": {
+        "rejected": true
+      },
+      "missing-avatar": {
+        "rejected": true
+      },
+      "reversed-dates": {
+        "rejected": true
+      },
+      "ongoing-with-end-date": {
+        "rejected": true
+      },
+      "unknown-field": {
+        "rejected": true
+      },
+      "future-version": {
+        "rejected": true
+      },
+      "legacy-version-not-supported": {
+        "rejected": true
+      },
+      "invalid-timestamp": {
+        "rejected": true
+      },
+      "unsafe-markdown-draft": {
+        "rejected": true
+      },
+      "too-deep-list-draft": {
+        "rejected": true
+      }
+    },
+    "failures": [],
+    "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+    "python": "3.14.7",
+    "frozen": true,
+    "sandbox_mode": "external fixture harness required",
+    "clean_mac": "not tested; explicitly skipped by user"
+  },
+  "supervisor": {
+    "returncode": 0,
+    "timed_out": false,
+    "memory_exceeded": false,
+    "peak_group_rss_bytes": 294797312,
+    "memory_limit_bytes": 1073741824,
+    "seconds": 20.510792
+  },
+  "pdf_sha256": {
+    "m1-managed-standard.pdf": "bb1b5726b6a279d042ac6d176dad9a4dbd59d0ef910904c30da120d0fdf789bf",
+    "m1-managed-long.pdf": "890dc7b76c6827106e914ec2638f0410dbebbeee8c8a52ac86febc1a54e8bc8c"
+  },
+  "limitations": [
+    "Not a clean macOS install; user skipped",
+    "No public CDN/download availability test",
+    "No Developer ID signing/notarization",
+    "RSS watchdog is not a hard memory cap",
+    "Only current macOS arm64 validated; no browser acceptance or complete redistribution audit"
+  ],
+  "failures": []
+}

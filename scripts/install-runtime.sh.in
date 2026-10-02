@@ -1,0 +1,89 @@
+#!/bin/sh
+# Generated with an embedded digest. Local M1 testing only; not a public release.
+set -eu
+PATH=/usr/bin:/bin:/usr/sbin:/sbin
+export PATH
+umask 077
+
+EXPECTED_SHA='@SHA256@'
+EXPECTED_BYTES='@BYTES@'
+VERSION='@VERSION@'
+ARCHIVE_NAME='@ARCHIVE@'
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+PREFIX="$HOME/Library/Application Support/LocalResumeM1"
+ARCHIVE="$SCRIPT_DIR/$ARCHIVE_NAME"
+URL=''
+
+fail() { printf '%s\n' "$*" >&2; exit 1; }
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        --prefix|--archive|--url)
+            [ "$#" -ge 2 ] || fail "Missing value for $1"
+            case "$1" in
+                --prefix) PREFIX=$2 ;;
+                --archive) ARCHIVE=$2 ;;
+                --url) URL=$2 ;;
+            esac
+            shift 2 ;;
+        *) fail "Usage: sh install-runtime.sh [--prefix DIR] [--archive FILE | --url HTTPS_URL]" ;;
+    esac
+done
+[ "$(uname -s)" = Darwin ] && [ "$(uname -m)" = arm64 ] || fail 'This artifact requires macOS arm64.'
+[ -n "$PREFIX" ] && [ "$PREFIX" != / ] || fail 'Invalid install prefix.'
+mkdir -p -- "$PREFIX"
+PREFIX=$(CDPATH= cd -- "$PREFIX" && pwd -P)
+[ ! -L "$PREFIX/releases" ] || fail 'Refusing a symlinked releases directory.'
+mkdir -p -- "$PREFIX/releases"
+LOCK="$PREFIX/.install-lock"
+mkdir -- "$LOCK" 2>/dev/null || fail 'Another installation is active (or an interrupted install left .install-lock).'
+STAGE=''
+cleanup() {
+    [ -z "$STAGE" ] || rm -rf -- "$STAGE"
+    rmdir -- "$LOCK" 2>/dev/null || true
+}
+trap cleanup 0
+trap 'exit 130' INT
+trap 'exit 143' TERM HUP
+
+RELEASE="releases/$VERSION-$EXPECTED_SHA"
+DEST="$PREFIX/$RELEASE"
+verify_runtime() {
+    /usr/bin/env -i HOME="$PREFIX" TMPDIR=/tmp PATH=/usr/bin:/bin LC_ALL=C \
+        "$1/resume-runtime" verify
+}
+if [ -e "$DEST" ] || [ -L "$DEST" ]; then
+    [ -d "$DEST" ] && [ ! -L "$DEST" ] || fail 'Invalid existing release directory.'
+    verify_runtime "$DEST" || fail 'Existing release is damaged. Retry with a new --prefix; current was not changed.'
+    STATUS='Already installed and verified'
+else
+    STAGE=$(mktemp -d "$PREFIX/.install-XXXXXXXX")
+    if [ -n "$URL" ]; then
+        case "$URL" in https://*) ;; *) fail 'Download URL must use HTTPS.' ;; esac
+        # A trusted digest is compiled into this script, never downloaded beside the payload.
+        curl --fail --location --proto '=https' --proto-redir '=https' \
+            --connect-timeout 15 --max-time 600 --retry 2 --max-filesize "$EXPECTED_BYTES" \
+            --output "$STAGE/archive.tar.gz" "$URL" || fail 'Download failed; rerun this installer to retry.'
+    else
+        [ -f "$ARCHIVE" ] || fail 'Local archive is missing; provide --archive or --url.'
+        cp -- "$ARCHIVE" "$STAGE/archive.tar.gz"
+    fi
+    ACTUAL_BYTES=$(stat -f %z "$STAGE/archive.tar.gz")
+    [ "$ACTUAL_BYTES" = "$EXPECTED_BYTES" ] || fail 'Archive size mismatch; nothing installed.'
+    ACTUAL_SHA=$(shasum -a 256 "$STAGE/archive.tar.gz" | awk '{print $1}')
+    [ "$ACTUAL_SHA" = "$EXPECTED_SHA" ] || fail 'Archive SHA-256 mismatch; nothing installed.'
+    mkdir "$STAGE/unpacked"
+    # Extraction happens only after validating the entire trusted, builder-produced archive.
+    tar -xzpf "$STAGE/archive.tar.gz" -C "$STAGE/unpacked" --no-same-owner
+    verify_runtime "$STAGE/unpacked/runtime" || fail 'Staged runtime failed integrity check; current was not changed.'
+    mv -- "$STAGE/unpacked/runtime" "$DEST"
+    STATUS='Installed and verified'
+fi
+
+if [ -e "$PREFIX/current" ] && [ ! -L "$PREFIX/current" ]; then
+    fail 'Refusing to replace a non-symlink current path.'
+fi
+[ -n "$STAGE" ] || STAGE=$(mktemp -d "$PREFIX/.install-XXXXXXXX")
+ln -s "$RELEASE" "$STAGE/current"
+# macOS mv -h replaces the symlink itself instead of entering its destination.
+mv -fh -- "$STAGE/current" "$PREFIX/current"
+printf '%s\n' "$STATUS: $PREFIX/current/resume-runtime"

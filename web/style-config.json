@@ -1,0 +1,36 @@
+{
+  "defaults": {
+    "version": 3,
+    "paper": "a4",
+    "theme_color": "#2457A7",
+    "name_size_px": 22,
+    "section_title_size_px": 15,
+    "content_size_px": 14,
+    "line_height": 1.35,
+    "section_gap_px": 5,
+    "margins_px": {"top": 25, "bottom": 5, "left": 20, "right": 20}
+  },
+  "rhythm": {
+    "body_line_height": 1.35,
+    "header_line_gap_px": 3,
+    "paragraph_gap_px": 4,
+    "list_item_gap_px": 2,
+    "entry_gap_px": 8,
+    "entry_heading_gap_px": 4,
+    "education_detail_gap_px": 2
+  },
+  "palettes": [
+    {"name": "专业蓝色系", "colors": ["#16324F", "#1E3A5F", "#2457A7", "#2563EB", "#0369A1", "#0E7490"]},
+    {"name": "商务灰色系", "colors": ["#1F2937", "#334155", "#475569", "#4B5563", "#64748B", "#71717A"]},
+    {"name": "经典绿色系", "colors": ["#14532D", "#166534", "#15803D", "#047857", "#0F766E", "#3F6212"]},
+    {"name": "温暖橙色系", "colors": ["#7C2D12", "#9A3412", "#C2410C", "#EA580C", "#B45309", "#A16207"]},
+    {"name": "优雅红色系", "colors": ["#7F1D1D", "#991B1B", "#B91C1C", "#BE123C", "#9F1239", "#881337"]},
+    {"name": "中性色调", "colors": ["#171717", "#404040", "#57534E", "#78716C", "#6B5B4B", "#8B7355"]}
+  ],
+  "award_titles": ["获奖经历", "获奖情况", "荣誉奖项", "荣誉奖励", "奖项荣誉", "获奖与荣誉"],
+  "sizes": {
+    "name_size_px": [18, 20, 22, 24, 26, 28, 30],
+    "section_title_size_px": [12, 13, 14, 15, 16, 17, 18, 20, 22, 24],
+    "content_size_px": [12, 13, 14, 15, 16, 17, 18, 20]
+  }
+}

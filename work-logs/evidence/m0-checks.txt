@@ -1,0 +1,68 @@
+M0 verification / 2026-10-01 / Asia/Shanghai
+Environment: macOS 27.0 arm64; Python 3.14.7; Node.js 26.9.0
+These are contract/prototype checks, not product acceptance tests.
+
+$ .venv/bin/python -m unittest discover -s tests -v
+exit_code: 0
+test_all_allowed_line_heights (test_contracts.ContractTests.test_all_allowed_line_heights) ... ok
+test_all_module_types_are_represented (test_contracts.ContractTests.test_all_module_types_are_represented) ... ok
+test_avatar_is_deterministic_and_referenced (test_contracts.ContractTests.test_avatar_is_deterministic_and_referenced) ... ok
+test_avatar_manifest_mismatch (test_contracts.ContractTests.test_avatar_manifest_mismatch) ... ok
+test_avatar_payload_mismatch_with_matching_manifest (test_contracts.ContractTests.test_avatar_payload_mismatch_with_matching_manifest) ... ok
+test_backup_duplicate_and_unsafe_paths (test_contracts.ContractTests.test_backup_duplicate_and_unsafe_paths) ... ok
+test_backup_for_every_valid_case (test_contracts.ContractTests.test_backup_for_every_valid_case) ... ok
+test_backup_identity_mismatch (test_contracts.ContractTests.test_backup_identity_mismatch) ... ok
+test_backup_missing_extra_and_corrupt_files (test_contracts.ContractTests.test_backup_missing_extra_and_corrupt_files) ... ok
+test_catalog (test_contracts.ContractTests.test_catalog) ... ok
+test_duplicate_json_keys_and_nonfinite_numbers_are_rejected (test_contracts.ContractTests.test_duplicate_json_keys_and_nonfinite_numbers_are_rejected) ... ok
+test_empty_titles_are_rejected (test_contracts.ContractTests.test_empty_titles_are_rejected) ... ok
+test_hidden_avatar_is_preserved_in_backup (test_contracts.ContractTests.test_hidden_avatar_is_preserved_in_backup) ... ok
+test_integer_and_size_bounds (test_contracts.ContractTests.test_integer_and_size_bounds) ... ok
+test_invalid_month_and_updated_time_are_rejected (test_contracts.ContractTests.test_invalid_month_and_updated_time_are_rejected) ... ok
+test_markdown_checks_are_explicitly_deferred (test_contracts.ContractTests.test_markdown_checks_are_explicitly_deferred) ... ok
+test_round_trip_preserves_order_visibility_and_characters (test_contracts.ContractTests.test_round_trip_preserves_order_visibility_and_characters) ... ok
+test_safe_url_policy (test_contracts.ContractTests.test_safe_url_policy) ... ok
+test_schemas_are_valid (test_contracts.ContractTests.test_schemas_are_valid) ... ok
+test_style_boundaries (test_contracts.ContractTests.test_style_boundaries) ... ok
+test_total_utf8_size_limit (test_contracts.ContractTests.test_total_utf8_size_limit) ... ok
+test_unpaired_surrogate_is_rejected (test_contracts.ContractTests.test_unpaired_surrogate_is_rejected) ... ok
+test_validation_does_not_mutate_input (test_contracts.ContractTests.test_validation_does_not_mutate_input) ... ok
+test_wrong_entry_type_is_rejected (test_contracts.ContractTests.test_wrong_entry_type_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 0.129s
+
+OK
+
+$ .venv/bin/python scripts/check_contracts.py
+exit_code: 0
+PASS standard-one-page-target: expected accept
+PASS blank: expected accept
+PASS two-page-target: expected accept
+PASS mixed-special-characters: expected accept
+PASS long-fields-and-url: expected accept
+PASS optional-empty: expected accept
+PASS nested-lists: expected accept
+PASS hidden-and-reordered: expected accept
+PASS avatar: expected accept
+PASS unsafe-contact-url: expected reject
+PASS url-with-credentials: expected reject
+PASS url-too-long: expected reject
+PASS duplicate-entry-id: expected reject
+PASS missing-avatar: expected reject
+PASS reversed-dates: expected reject
+PASS ongoing-with-end-date: expected reject
+PASS unknown-field: expected reject
+PASS future-version: expected reject
+PASS legacy-version-not-supported: expected reject
+PASS invalid-timestamp: expected reject
+PASS unsafe-markdown-draft: expected accept (render checks deferred)
+PASS too-deep-list-draft: expected accept (render checks deferred)
+22 fixture cases; 0 failures; no PDF or ZIP import tested.
+
+$ node --check docs/m0/editor-wireframe.js
+exit_code: 0
+
+$ .venv/bin/python -m pip check
+exit_code: 0
+No broken requirements found.

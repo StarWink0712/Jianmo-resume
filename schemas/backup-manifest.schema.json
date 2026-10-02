@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://resume-editor.example.invalid/schemas/backup-v1.json",
+  "title": "Resume backup manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "backup_version",
+    "resume_schema_version",
+    "resume_id",
+    "revision",
+    "created_at",
+    "files"
+  ],
+  "properties": {
+    "backup_version": {
+      "const": 1
+    },
+    "resume_schema_version": {
+      "const": 1
+    },
+    "resume_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "created_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "files": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "byte_size",
+              "sha256"
+            ],
+            "properties": {
+              "path": {
+                "const": "resume.json"
+              },
+              "byte_size": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 2097152
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "attachment_id",
+              "byte_size",
+              "sha256"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "pattern": "^assets/[a-z][a-z0-9_-]{0,63}\\.(png|jpg)$"
+              },
+              "attachment_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64,
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "byte_size": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 5242880
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

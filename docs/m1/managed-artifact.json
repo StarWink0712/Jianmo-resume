@@ -1,0 +1,9 @@
+{
+  "version": "m2-inline-headings-20261001",
+  "archive": "resume-runtime-macos-arm64.tar.gz",
+  "bytes": 72197234,
+  "sha256": "a0e5f085592321c2d7ad4172c0dafa87a036ffb74f5b80c44922a9189b06a5fd",
+  "unpacked_file_bytes": 132580308,
+  "file_count": 234,
+  "build_platform": "macOS-27.0-arm64-arm-64bit-Mach-O"
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "section-academic", "type": "academic", "title": "学术成果", "visible": true,
+    "entries": [{
+      "id": "entry-academic", "visible": true, "heading": "分布式系统研究（虚构）", "role": "共同作者",
+      "start_date": "2025-03", "end_date": "2025-09", "ongoing": false,
+      "url": "https://example.com/paper?a=1&b=2", "body": "- 负责**实验设计**和性能评估。\n- 整理实验数据并参与论文撰写。"
+    }]
+  },
+  {
+    "id": "section-competition", "type": "competition", "title": "竞赛成果", "visible": true,
+    "entries": [{
+      "id": "entry-competition", "visible": true, "heading": "软件设计竞赛（虚构）", "role": "队长 / 后端开发",
+      "start_date": "2025-05", "end_date": "2025-08", "ongoing": false,
+      "url": null, "body": "- 负责技术方案和任务分工。\n- 实现核心服务并完成现场演示。"
+    }]
+  },
+  {
+    "id": "section-detailed-custom", "type": "custom", "title": "开源贡献", "visible": true,
+    "entries": [{
+      "id": "entry-detailed-custom", "visible": true, "heading": "示例开源工具（虚构）", "role": "维护者",
+      "start_date": "2025-06", "end_date": null, "ongoing": true,
+      "url": "https://example.com/open-source", "body": "- 修复问题并维护文档。"
+    }]
+  }
+]

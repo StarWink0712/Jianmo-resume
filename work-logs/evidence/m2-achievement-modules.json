@@ -1,0 +1,16 @@
+{
+  "checks": {
+    "real_compilation": true,
+    "inline_title_role_date": true,
+    "optional_links_preserved": true,
+    "hidden_entries_omitted": true,
+    "legacy_custom_preserved": true,
+    "preview_equals_export": true,
+    "invalid_metadata_does_not_save": true,
+    "restart_preserves_metadata": true,
+    "copy_is_independent": true,
+    "backup_import_into_fresh_database": true
+  },
+  "passed": true,
+  "pages": 1
+}

@@ -1,0 +1,827 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://resume-editor.example.invalid/schemas/resume-v1.json",
+  "title": "Resume v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "revision",
+    "title",
+    "basics",
+    "sections",
+    "template",
+    "style",
+    "attachments",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "\\S"
+    },
+    "basics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "headline",
+        "email",
+        "phone",
+        "location",
+        "links",
+        "avatar_attachment_id",
+        "avatar_visible"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "headline": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "gender": {
+          "type": "string",
+          "maxLength": 20
+        },
+        "age": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "maximum": 150
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 254
+        },
+        "phone": {
+          "type": "string",
+          "maxLength": 80
+        },
+        "location": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "links": {
+          "type": "array",
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label",
+              "url"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64,
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "label": {
+                "type": "string",
+                "maxLength": 200
+              },
+              "url": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              }
+            }
+          }
+        },
+        "avatar_visible": {
+          "type": "boolean"
+        },
+        "avatar_attachment_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[a-z][a-z0-9_-]*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "sections": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "$ref": "#/$defs/section"
+      }
+    },
+    "template": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "const": "cn-single-column"
+        },
+        "version": {
+          "const": "0.1.0"
+        }
+      }
+    },
+    "style": {
+      "oneOf": [{"$ref": "#/$defs/integerPixelStyle"}, {"$ref": "#/$defs/pixelStyle"}, {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "paper",
+        "font_size_pt",
+        "line_height",
+        "section_gap_pt",
+        "entry_gap_pt",
+        "margins_mm"
+      ],
+      "properties": {
+        "paper": {
+          "const": "a4"
+        },
+        "font_size_pt": {
+          "type": "number",
+          "minimum": 10,
+          "maximum": 12,
+          "multipleOf": 0.5
+        },
+        "line_height": {
+          "enum": [
+            1.1,
+            1.15,
+            1.2,
+            1.25,
+            1.3,
+            1.35,
+            1.4,
+            1.45,
+            1.5
+          ]
+        },
+        "section_gap_pt": {
+          "type": "integer",
+          "minimum": 4,
+          "maximum": 16
+        },
+        "entry_gap_pt": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 10
+        },
+        "margins_mm": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "top",
+            "right",
+            "bottom",
+            "left"
+          ],
+          "properties": {
+            "top": {
+              "type": "integer",
+              "minimum": 12,
+              "maximum": 24
+            },
+            "right": {
+              "type": "integer",
+              "minimum": 12,
+              "maximum": 24
+            },
+            "bottom": {
+              "type": "integer",
+              "minimum": 12,
+              "maximum": 24
+            },
+            "left": {
+              "type": "integer",
+              "minimum": 12,
+              "maximum": 24
+            }
+          }
+        }
+      }
+    }]},
+    "attachments": {
+      "type": "array",
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "media_type",
+          "byte_size",
+          "sha256",
+          "width_px",
+          "height_px"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "media_type": {
+            "enum": [
+              "image/png",
+              "image/jpeg"
+            ]
+          },
+          "byte_size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5242880
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "width_px": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4096
+          },
+          "height_px": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4096
+          }
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "updated_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    }
+  },
+  "$defs": {
+    "integerPixelStyle": {
+      "type": "object", "additionalProperties": false,
+      "required": ["version", "paper", "theme_color", "name_size_px", "section_title_size_px", "content_size_px", "line_height", "section_gap_px", "margins_px"],
+      "properties": {
+        "version": {"const": 3},
+        "paper": {"const": "a4"},
+        "theme_color": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$", "maxLength": 7},
+        "name_size_px": {"type": "integer", "enum": [18, 20, 22, 24, 26, 28, 30]},
+        "section_title_size_px": {"type": "integer", "enum": [12, 13, 14, 15, 16, 17, 18, 20, 22, 24]},
+        "content_size_px": {"type": "integer", "enum": [12, 13, 14, 15, 16, 17, 18, 20]},
+        "line_height": {"type": "number", "minimum": 1, "maximum": 2},
+        "section_gap_px": {"type": "integer", "minimum": 0, "maximum": 40},
+        "margins_px": {
+          "type": "object", "additionalProperties": false,
+          "required": ["top", "bottom", "left", "right"],
+          "properties": {
+            "top": {"type": "integer", "minimum": 0, "maximum": 120},
+            "bottom": {"type": "integer", "minimum": 0, "maximum": 120},
+            "left": {"type": "integer", "minimum": 0, "maximum": 120},
+            "right": {"type": "integer", "minimum": 0, "maximum": 120}
+          }
+        }
+      }
+    },
+    "pixelStyle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "paper", "theme_color", "name_size_px", "section_title_size_px", "content_size_px", "line_height", "section_gap_px", "margins_px"],
+      "properties": {
+        "version": {"const": 2},
+        "paper": {"const": "a4"},
+        "theme_color": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$", "maxLength": 7},
+        "name_size_px": {"type": "number", "minimum": 16, "maximum": 36},
+        "section_title_size_px": {"type": "number", "minimum": 12, "maximum": 30},
+        "content_size_px": {"type": "number", "minimum": 12, "maximum": 20},
+        "line_height": {"type": "number", "minimum": 1, "maximum": 2},
+        "section_gap_px": {"type": "number", "minimum": 0, "maximum": 40},
+        "margins_px": {
+          "type": "object", "additionalProperties": false,
+          "required": ["top", "bottom", "left", "right"],
+          "properties": {
+            "top": {"type": "number", "minimum": 0, "maximum": 120},
+            "bottom": {"type": "number", "minimum": 0, "maximum": 120},
+            "left": {"type": "number", "minimum": 0, "maximum": 120},
+            "right": {"type": "number", "minimum": 0, "maximum": 120}
+          }
+        }
+      }
+    },
+    "section": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "type",
+            "title",
+            "visible",
+            "entries"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[a-z][a-z0-9_-]*$"
+            },
+            "type": {
+              "const": "education"
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "visible": {
+              "type": "boolean"
+            },
+            "entries": {
+              "type": "array",
+              "maxItems": 100,
+              "items": {
+                "$ref": "#/$defs/educationEntry"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "type",
+            "title",
+            "visible",
+            "entries"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[a-z][a-z0-9_-]*$"
+            },
+            "type": {
+              "const": "employment"
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "visible": {
+              "type": "boolean"
+            },
+            "entries": {
+              "type": "array",
+              "maxItems": 100,
+              "items": {
+                "$ref": "#/$defs/employmentEntry"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "type",
+            "title",
+            "visible",
+            "entries"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[a-z][a-z0-9_-]*$"
+            },
+            "type": {
+              "const": "project"
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "visible": {
+              "type": "boolean"
+            },
+            "entries": {
+              "type": "array",
+              "maxItems": 100,
+              "items": {
+                "$ref": "#/$defs/projectEntry"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "type",
+            "title",
+            "visible",
+            "entries"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[a-z][a-z0-9_-]*$"
+            },
+            "type": {
+              "const": "skills"
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "visible": {
+              "type": "boolean"
+            },
+            "entries": {
+              "type": "array",
+              "maxItems": 100,
+              "items": {
+                "$ref": "#/$defs/skillsEntry"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "type",
+            "title",
+            "visible",
+            "entries"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[a-z][a-z0-9_-]*$"
+            },
+            "type": {
+              "enum": ["custom", "awards", "academic", "competition"]
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "visible": {
+              "type": "boolean"
+            },
+            "entries": {
+              "type": "array",
+              "maxItems": 100,
+              "items": {
+                "$ref": "#/$defs/customEntry"
+              }
+            }
+          },
+          "allOf": [{
+            "if": {"properties": {"type": {"enum": ["academic", "competition"]}}},
+            "then": {"properties": {"entries": {"items": {"required": ["role", "start_date", "end_date", "ongoing", "url"]}}}}
+          }]
+        }
+      ]
+    },
+    "educationEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "visible",
+        "body",
+        "start_date",
+        "end_date",
+        "ongoing",
+        "school",
+        "degree",
+        "field_of_study",
+        "location"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "body": {
+          "type": "string",
+          "maxLength": 10000
+        },
+        "start_date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[1-9][0-9]{3}-(0[1-9]|1[0-2])$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "end_date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[1-9][0-9]{3}-(0[1-9]|1[0-2])$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ongoing": {
+          "type": "boolean"
+        },
+        "school": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "degree": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "field_of_study": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "location": {
+          "type": "string",
+          "maxLength": 200
+        }
+      }
+    },
+    "employmentEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "visible",
+        "body",
+        "start_date",
+        "end_date",
+        "ongoing",
+        "organization",
+        "role",
+        "employment_type",
+        "location"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "body": {
+          "type": "string",
+          "maxLength": 10000
+        },
+        "start_date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[1-9][0-9]{3}-(0[1-9]|1[0-2])$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "end_date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[1-9][0-9]{3}-(0[1-9]|1[0-2])$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ongoing": {
+          "type": "boolean"
+        },
+        "organization": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "role": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "employment_type": {
+          "enum": [
+            "full_time",
+            "part_time",
+            "internship",
+            "other"
+          ]
+        },
+        "location": {
+          "type": "string",
+          "maxLength": 200
+        }
+      }
+    },
+    "projectEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "visible",
+        "body",
+        "start_date",
+        "end_date",
+        "ongoing",
+        "name",
+        "role",
+        "url"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "body": {
+          "type": "string",
+          "maxLength": 10000
+        },
+        "start_date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[1-9][0-9]{3}-(0[1-9]|1[0-2])$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "end_date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[1-9][0-9]{3}-(0[1-9]|1[0-2])$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ongoing": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "role": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "skillsEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "visible",
+        "body",
+        "label"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "body": {
+          "type": "string",
+          "maxLength": 10000
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 200
+        }
+      }
+    },
+    "customEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "visible",
+        "body",
+        "heading"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "body": {
+          "type": "string",
+          "maxLength": 10000
+        },
+        "heading": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "role": {"type": "string", "maxLength": 200},
+        "start_date": {"$ref": "#/$defs/projectEntry/properties/start_date"},
+        "end_date": {"$ref": "#/$defs/projectEntry/properties/end_date"},
+        "ongoing": {"type": "boolean"},
+        "url": {"$ref": "#/$defs/projectEntry/properties/url"}
+      }
+    }
+  }
+}
