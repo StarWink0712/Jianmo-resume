@@ -48,7 +48,7 @@ def render_contact_link(item):
     return r'\href{' + link_target(item['url']) + '}{' + display + '}'
 
 
-def render_entry_heading(title, detail, date, url=None, link_label='项目链接'):
+def render_entry_heading(title, detail, date, url=None, link_label='项目链接', *, body_gap=True):
     parts = [r'\textbf{' + escape_text(title) + '}'] if title else []
     if detail:
         parts.append(escape_text(detail))
@@ -56,12 +56,13 @@ def render_entry_heading(title, detail, date, url=None, link_label='项目链接
         parts.append(r'\href{' + link_target(url) + '}{' + escape_text(link_label) + '}')
     line = r' \enspace\textbar{}\enspace '.join(parts)
     if date:
-        line += (r' \hfill ' if line else '') + r'\mbox{' + escape_text(date) + '}'
+        # Starred fill survives a line break and also right-aligns date-only entries.
+        line += (' ' if line else '') + r'\hspace*{\fill}\mbox{' + escape_text(date) + '}'
     if not line:
         return ''
     # Keep the date together, while allowing long names/roles to wrap without shrinking.
     # The explicit gap also applies to Markdown lists, whose topsep is zero.
-    return r'{\raggedright ' + line + '\\par}\n' + fixed_gap('entry_heading_gap_px', keep=True)
+    return r'{\raggedright ' + line + '\\par}\n' + (fixed_gap('entry_heading_gap_px', keep=True) if body_gap else '')
 
 
 def fixed_gap(key, keep=False):
@@ -259,7 +260,16 @@ def render_resume(resume, assets=None):
                 date = ' - '.join(filter(None, (entry.get('start_date'), '至今' if entry.get('ongoing') else entry.get('end_date'))))
             detailed_custom = kind == 'custom' and not content_only(section) and any(
                 key in entry for key in ('role', 'start_date', 'end_date', 'ongoing', 'url'))
-            if kind in ('employment', 'project', 'academic', 'competition') or detailed_custom:
+            if kind == 'education':
+                heading = render_entry_heading(title, '', date, body_gap=False)
+                result.append(heading)
+                if detail:
+                    if heading:
+                        result.append(fixed_gap('education_detail_gap_px', keep=True))
+                    result.append(escape_text(detail) + '\\par\n')
+                if (heading or detail) and bodies[entry['id']].strip():
+                    result.append(fixed_gap('entry_heading_gap_px', keep=True))
+            elif kind in ('employment', 'project', 'academic', 'competition') or detailed_custom:
                 link_label = {'academic':'成果链接', 'competition':'成果链接', 'custom':'相关链接'}.get(kind, '项目链接')
                 result.append(render_entry_heading(title, detail, date, entry.get('url'), link_label))
             else:

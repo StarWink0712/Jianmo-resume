@@ -132,7 +132,7 @@ class StyleTests(unittest.TestCase):
             heading = source.split('\\textbf{' + title + '}')[1].split('\\par}')[0]
             self.assertIn(entry['role'], heading)
             self.assertIn(entry['start_date'], heading)
-            self.assertIn(r'\hfill \mbox{', heading)
+            self.assertIn(r'\hspace*{\fill}\mbox{', heading)
             self.assertNotIn(r'\par', heading)
         self.assertEqual(source.count(r'\par}' + '\n' + r'\nobreak\vspace{3.000000bp}\nobreak'), 2)
 
@@ -141,10 +141,45 @@ class StyleTests(unittest.TestCase):
         title_only = render_entry_heading('A&B', '', '')
         self.assertIn(r'\textbf{A\&B}', title_only)
         self.assertNotIn(r'\textbar', title_only)
-        self.assertNotIn(r'\hfill', title_only)
+        self.assertNotIn(r'\hspace*{\fill}', title_only)
         date_only = render_entry_heading('', '', '2024-01 - 至今')
         self.assertIn(r'\mbox{2024-01 - 至今}', date_only)
-        self.assertNotIn(r'\hfill', date_only)
+        self.assertIn(r'\hspace*{\fill}\mbox{', date_only)
         linked = render_entry_heading('Project', 'Role', '2024-01', 'https://example.com?a=1&b=2')
         self.assertIn(r'\href{https://example.com?a=1\&b=2}{项目链接}', linked)
         self.assertNotIn(r'\resizebox', linked)
+
+    def test_education_date_shares_school_row_and_details_stay_below(self):
+        self.resume['sections'] = self.resume['sections'][:1]
+        before = copy.deepcopy(self.resume)
+        entry = self.resume['sections'][0]['entries'][0]
+        source, _ = render_resume(self.resume)
+        heading, following = source.split('\\textbf{' + entry['school'] + '}')[1].split('\\par}', 1)
+        self.assertIn(r'\hspace*{\fill}\mbox{2020-09 - 2024-06}', heading)
+        self.assertNotIn(entry['degree'], heading)
+        self.assertIn(entry['degree'] + ' / ' + entry['field_of_study'], following)
+        self.assertNotIn('2020-09', following)
+        self.assertEqual(source.count(r'\nobreak\vspace{1.500000bp}\nobreak'), 1)
+        self.assertEqual(source.count(r'\nobreak\vspace{3.000000bp}\nobreak'), 1)
+        self.assertEqual(self.resume, before)
+
+    def test_education_optional_dates_fields_and_hidden_entries(self):
+        self.resume['sections'] = self.resume['sections'][:1]
+        entry = self.resume['sections'][0]['entries'][0]
+        entry.update(school='', degree='', field_of_study='', location='', body='BODY')
+        for start, end, ongoing, expected in [('2024-01', None, True, '2024-01 - 至今'),
+                                             (None, '2024-06', False, '2024-06'),
+                                             ('2024-01', None, False, '2024-01')]:
+            entry.update(start_date=start, end_date=end, ongoing=ongoing)
+            source, _ = render_resume(self.resume)
+            self.assertIn(r'\hspace*{\fill}\mbox{' + expected + '}', source)
+            self.assertNotIn(r'\textbf{}', source)
+            self.assertNotIn(r'\vspace{1.500000bp}', source)
+        entry.update(school='SCHOOL & CO', start_date=None, end_date=None, ongoing=False)
+        source, _ = render_resume(self.resume)
+        self.assertIn(r'\textbf{SCHOOL \& CO}', source)
+        self.assertNotIn(r'\hspace*{\fill}', source)
+        entry.update(start_date='2024-01', visible=False)
+        source, _ = render_resume(self.resume)
+        self.assertNotIn('2024-01', source)
+        self.assertNotIn('SCHOOL', source)

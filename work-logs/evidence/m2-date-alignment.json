@@ -1,0 +1,23 @@
+{
+  "checks": {
+    "normal": {
+      "dates": 7,
+      "max_right_edge_error_bp": 0.0045
+    },
+    "long_titles": {
+      "dates": 7,
+      "max_right_edge_error_bp": 0.0045
+    },
+    "date_only": {
+      "dates": 7,
+      "max_right_edge_error_bp": 0.0045
+    },
+    "partial_dates": {
+      "dates": 7,
+      "max_right_edge_error_bp": 0.004
+    }
+  },
+  "passed": true,
+  "timeline_types": 6,
+  "scenarios": 4
+}

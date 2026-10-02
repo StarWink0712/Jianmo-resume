@@ -17,12 +17,12 @@
   "pdfs": {
     "m2-standard.pdf": {
       "pages": 1,
-      "sha256": "9c2b86187516b84285780c68550df969ab5aaad06d3d205b455ee94eb66859ba",
+      "sha256": "615e8f09df65a3d40cd98623422092ca0a64d122a9896bc659f2db116b6ff716",
       "text_and_fonts": true
     },
     "m2-long.pdf": {
       "pages": 2,
-      "sha256": "2ef988474a1401b37f68da4389d2efcf2c2065e1af4c483c3e2ec189c4501c6c",
+      "sha256": "362b80b3cd58e3ecb20b22d97cc913b16dad187ca11c526c4d3663bb8c928ea4",
       "text_and_fonts": true
     }
   },

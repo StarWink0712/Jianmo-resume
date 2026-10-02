@@ -28,7 +28,7 @@
 ## 固定留白
 
 顶部信息行之间额外 3 px；正文固定 1.35 倍行高；列表项之间额外 2 px；正文相邻段落/列表块之间额外 4 px。
-同一模块内的可见条目之间固定 8 px；条目标题与正文之间固定 4 px；教育名称与学历/时间行之间额外 2 px。
+同一模块内的可见条目之间固定 8 px；条目标题与正文之间固定 4 px；教育的学校/日期行与学历/专业/地点行之间额外 2 px。
 这些值由模板统一管理，不新增逐项调节控件。模块间距仍独立可调，字号和页边距控件保留。
 首段/首个列表不叠加段落空白，技能与获奖内容继续靠近模块横线。留白变化可能影响分页，长条目仍允许自然跨页。
 
@@ -37,8 +37,10 @@
 
 ## 条目标题
 
+教育模块第一行是学校名称与右对齐日期，第二行保留学历、专业和地点。日期不再接在学历详情后面。
 公司/项目名称、职位/角色在同一段内显示，名称加粗，日期靠右；有项目链接时保留链接。
 学术成果、竞赛成果和新结构自定义模块使用相同规则，字段及旧数据兼容说明见 [成果模块](achievement-modules.md)。
+所有带日期的结构化条目统一对齐到正文右边缘；长标题自然换行后、只填写日期时也保留右对齐。只填开始或结束月份仍正常显示，不添加占位时间。
 标题与下方段落或列表之间额外留 3 PDF bp（4 px），标题末行与正文首行不直接分页。
 内容过长时自然换行，不缩小字号或截断文字；此调整不改变用户保存的内容、头像及版式参数。
 
@@ -70,6 +72,7 @@ node --test tests/style-model.test.mjs tests/resume-library.test.cjs
 .venv/bin/python scripts/check_backend.py
 .venv/bin/python -m scripts.check_style
 .venv/bin/python -m scripts.check_entry_headings
+.venv/bin/python -m scripts.check_date_alignment
 .venv/bin/python -m scripts.check_fixed_spacing
 .venv/bin/python -m experiments.m1.build_runtime
 .venv/bin/python -m experiments.m1.validate_managed
@@ -78,6 +81,7 @@ node --test tests/style-model.test.mjs tests/resume-library.test.cjs
 样式 PDF 测试实际解析字体大小、标题/线条颜色、黑色正文及横线宽度，不只检查生成的 TeX 字符串。
 证据见 `work-logs/evidence/m2-style-pdf.json`、`docs/m1/managed-results.json`。
 同行标题的 PDF 基线、正文间隙及长中文字段换行证据见 `work-logs/evidence/m2-inline-headings.json`。
+六类时间模块的右边缘实测、长标题、日期独立行及部分日期证据见 `work-logs/evidence/m2-date-alignment.json`。
 固定留白的实际 PDF 尺寸与模块间距独立性证据见 `work-logs/evidence/m2-fixed-spacing.json`；旧 M1 安装器验收不等于新模板已发布。
 内嵌浏览器实测桌面 863×896 和窄屏 390×844，色板与面板无横向溢出；窄屏页边距控件变为两列。
 窄屏为浏览器视口测试，不等于触摸设备或 Safari/Chrome 完整兼容验收。
