@@ -5,35 +5,34 @@
   "engine": "XeTeX 3.141592653-2.6-0.999998 (TeX Live 2026)",
   "cpu": "Apple M4 Pro",
   "memory_bytes": 51539607552,
-  "runtime_mode": "developer-texlive-project-format",
-  "font_bytes": 35692628,
+  "runtime_mode": "developer-installed-texlive",
+  "font_bytes": 19081960,
   "cases": {
     "standard-one-page-target": {
       "returncode": 0,
       "timed_out": false,
-      "memory_exceeded": false,
-      "peak_group_rss_bytes": 193544192,
-      "memory_limit_bytes": 536870912,
-      "seconds": 1.101829,
-      "engine_seconds": 0.786909,
-      "driver_seconds": 0.31492,
+      "seconds": 0.776366,
       "pdf_exists": true,
       "missing_glyphs": false,
       "overfull_boxes": 0,
       "underfull_boxes": 0,
       "ok": true,
-      "unicode_maps_added": 0,
+      "unicode_maps_added": 3,
       "pages": 1,
       "fonts": {
-        "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+        "/QVIUWV+FandolSong-Bold-Identity-H": {
           "embedded": true,
           "unicode_map": true
         },
-        "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+        "/IRQUGZ+FandolSong-Regular-Identity-H": {
           "embedded": true,
           "unicode_map": true
         },
-        "/UACRXE+NotoSans-Regular": {
+        "/DTQSCH+TeXGyreTermes-Regular-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/KONLXK+FandolKai-Regular-Identity-H": {
           "embedded": true,
           "unicode_map": true
         }
@@ -50,17 +49,12 @@
         ]
       ],
       "missing_text_fragments": 0,
-      "pipeline_seconds": 1.194019
+      "pipeline_seconds": 0.970735
     },
     "blank": {
       "returncode": 0,
       "timed_out": false,
-      "memory_exceeded": false,
-      "peak_group_rss_bytes": 203948032,
-      "memory_limit_bytes": 536870912,
-      "seconds": 0.647256,
-      "engine_seconds": 0.476539,
-      "driver_seconds": 0.170717,
+      "seconds": 0.622155,
       "pdf_exists": true,
       "missing_glyphs": false,
       "overfull_boxes": 0,
@@ -77,38 +71,37 @@
         ]
       ],
       "missing_text_fragments": 0,
-      "pipeline_seconds": 0.702164
+      "pipeline_seconds": 0.64623
     },
     "two-page-target": {
       "returncode": 0,
       "timed_out": false,
-      "memory_exceeded": false,
-      "peak_group_rss_bytes": 203980800,
-      "memory_limit_bytes": 536870912,
-      "seconds": 0.786966,
-      "engine_seconds": 0.474654,
-      "driver_seconds": 0.312312,
+      "seconds": 0.733974,
       "pdf_exists": true,
       "missing_glyphs": false,
       "overfull_boxes": 0,
       "underfull_boxes": 0,
       "ok": true,
-      "unicode_maps_added": 0,
+      "unicode_maps_added": 3,
       "pages": 2,
       "fonts": {
-        "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+        "/QVIUWV+FandolSong-Bold-Identity-H": {
           "embedded": true,
           "unicode_map": true
         },
-        "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+        "/IRQUGZ+FandolSong-Regular-Identity-H": {
           "embedded": true,
           "unicode_map": true
         },
-        "/UACRXE+NotoSans-Regular": {
+        "/DTQSCH+TeXGyreTermes-Regular-Identity-H": {
           "embedded": true,
           "unicode_map": true
         },
-        "/OJFNKL+NotoSans-Bold": {
+        "/KONLXK+TeXGyreTermes-Bold-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/VJKBIL+FandolKai-Regular-Identity-H": {
           "embedded": true,
           "unicode_map": true
         }
@@ -134,34 +127,33 @@
         ]
       ],
       "missing_text_fragments": 0,
-      "pipeline_seconds": 0.867029
+      "pipeline_seconds": 1.01322
     },
     "mixed-special-characters": {
       "returncode": 0,
       "timed_out": false,
-      "memory_exceeded": false,
-      "peak_group_rss_bytes": 204439552,
-      "memory_limit_bytes": 536870912,
-      "seconds": 0.787478,
-      "engine_seconds": 0.468634,
-      "driver_seconds": 0.318844,
+      "seconds": 0.711671,
       "pdf_exists": true,
       "missing_glyphs": false,
       "overfull_boxes": 0,
       "underfull_boxes": 0,
       "ok": true,
-      "unicode_maps_added": 0,
+      "unicode_maps_added": 3,
       "pages": 1,
       "fonts": {
-        "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+        "/QVIUWV+FandolSong-Bold-Identity-H": {
           "embedded": true,
           "unicode_map": true
         },
-        "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+        "/IRQUGZ+FandolSong-Regular-Identity-H": {
           "embedded": true,
           "unicode_map": true
         },
-        "/UACRXE+NotoSans-Regular": {
+        "/DTQSCH+TeXGyreTermes-Regular-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/KONLXK+FandolKai-Regular-Identity-H": {
           "embedded": true,
           "unicode_map": true
         }
@@ -178,34 +170,33 @@
         ]
       ],
       "missing_text_fragments": 0,
-      "pipeline_seconds": 0.86958
+      "pipeline_seconds": 0.884232
     },
     "long-fields-and-url": {
       "returncode": 0,
       "timed_out": false,
-      "memory_exceeded": false,
-      "peak_group_rss_bytes": 203882496,
-      "memory_limit_bytes": 536870912,
-      "seconds": 0.779784,
-      "engine_seconds": 0.472662,
-      "driver_seconds": 0.307122,
+      "seconds": 0.675605,
       "pdf_exists": true,
       "missing_glyphs": false,
       "overfull_boxes": 0,
       "underfull_boxes": 0,
       "ok": true,
-      "unicode_maps_added": 0,
+      "unicode_maps_added": 3,
       "pages": 1,
       "fonts": {
-        "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+        "/QVIUWV+FandolSong-Bold-Identity-H": {
           "embedded": true,
           "unicode_map": true
         },
-        "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+        "/IRQUGZ+FandolSong-Regular-Identity-H": {
           "embedded": true,
           "unicode_map": true
         },
-        "/UACRXE+NotoSans-Regular": {
+        "/DTQSCH+TeXGyreTermes-Regular-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/KONLXK+FandolKai-Regular-Identity-H": {
           "embedded": true,
           "unicode_map": true
         }
@@ -222,34 +213,33 @@
         ]
       ],
       "missing_text_fragments": 0,
-      "pipeline_seconds": 0.857786
+      "pipeline_seconds": 0.894812
     },
     "optional-empty": {
       "returncode": 0,
       "timed_out": false,
-      "memory_exceeded": false,
-      "peak_group_rss_bytes": 203833344,
-      "memory_limit_bytes": 536870912,
-      "seconds": 0.77766,
-      "engine_seconds": 0.457678,
-      "driver_seconds": 0.319982,
+      "seconds": 0.666836,
       "pdf_exists": true,
       "missing_glyphs": false,
       "overfull_boxes": 0,
       "underfull_boxes": 0,
       "ok": true,
-      "unicode_maps_added": 0,
+      "unicode_maps_added": 3,
       "pages": 1,
       "fonts": {
-        "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+        "/QVIUWV+FandolSong-Bold-Identity-H": {
           "embedded": true,
           "unicode_map": true
         },
-        "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+        "/IRQUGZ+FandolSong-Regular-Identity-H": {
           "embedded": true,
           "unicode_map": true
         },
-        "/UACRXE+NotoSans-Regular": {
+        "/DTQSCH+TeXGyreTermes-Regular-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/KONLXK+FandolKai-Regular-Identity-H": {
           "embedded": true,
           "unicode_map": true
         }
@@ -264,34 +254,33 @@
         ]
       ],
       "missing_text_fragments": 0,
-      "pipeline_seconds": 0.852628
+      "pipeline_seconds": 0.87766
     },
     "nested-lists": {
       "returncode": 0,
       "timed_out": false,
-      "memory_exceeded": false,
-      "peak_group_rss_bytes": 203767808,
-      "memory_limit_bytes": 536870912,
-      "seconds": 0.776041,
-      "engine_seconds": 0.465568,
-      "driver_seconds": 0.310473,
+      "seconds": 0.662604,
       "pdf_exists": true,
       "missing_glyphs": false,
       "overfull_boxes": 0,
       "underfull_boxes": 0,
       "ok": true,
-      "unicode_maps_added": 0,
+      "unicode_maps_added": 3,
       "pages": 1,
       "fonts": {
-        "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+        "/QVIUWV+FandolSong-Bold-Identity-H": {
           "embedded": true,
           "unicode_map": true
         },
-        "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+        "/IRQUGZ+FandolSong-Regular-Identity-H": {
           "embedded": true,
           "unicode_map": true
         },
-        "/UACRXE+NotoSans-Regular": {
+        "/DTQSCH+TeXGyreTermes-Regular-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/KONLXK+FandolKai-Regular-Identity-H": {
           "embedded": true,
           "unicode_map": true
         }
@@ -309,34 +298,33 @@
         ]
       ],
       "missing_text_fragments": 0,
-      "pipeline_seconds": 0.847152
+      "pipeline_seconds": 0.850624
     },
     "hidden-and-reordered": {
       "returncode": 0,
       "timed_out": false,
-      "memory_exceeded": false,
-      "peak_group_rss_bytes": 204013568,
-      "memory_limit_bytes": 536870912,
-      "seconds": 0.793251,
-      "engine_seconds": 0.472049,
-      "driver_seconds": 0.321202,
+      "seconds": 0.67466,
       "pdf_exists": true,
       "missing_glyphs": false,
       "overfull_boxes": 0,
       "underfull_boxes": 0,
       "ok": true,
-      "unicode_maps_added": 0,
+      "unicode_maps_added": 3,
       "pages": 1,
       "fonts": {
-        "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+        "/QVIUWV+FandolSong-Bold-Identity-H": {
           "embedded": true,
           "unicode_map": true
         },
-        "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+        "/IRQUGZ+FandolSong-Regular-Identity-H": {
           "embedded": true,
           "unicode_map": true
         },
-        "/UACRXE+NotoSans-Regular": {
+        "/DTQSCH+TeXGyreTermes-Regular-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/KONLXK+FandolKai-Regular-Identity-H": {
           "embedded": true,
           "unicode_map": true
         }
@@ -352,34 +340,33 @@
         ]
       ],
       "missing_text_fragments": 0,
-      "pipeline_seconds": 0.859412
+      "pipeline_seconds": 0.883948
     },
     "avatar": {
       "returncode": 0,
       "timed_out": false,
-      "memory_exceeded": false,
-      "peak_group_rss_bytes": 203636736,
-      "memory_limit_bytes": 536870912,
-      "seconds": 0.796356,
-      "engine_seconds": 0.479598,
-      "driver_seconds": 0.316758,
+      "seconds": 0.68122,
       "pdf_exists": true,
       "missing_glyphs": false,
       "overfull_boxes": 0,
       "underfull_boxes": 0,
       "ok": true,
-      "unicode_maps_added": 0,
+      "unicode_maps_added": 3,
       "pages": 1,
       "fonts": {
-        "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+        "/QVIUWV+FandolSong-Bold-Identity-H": {
           "embedded": true,
           "unicode_map": true
         },
-        "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+        "/IRQUGZ+FandolSong-Regular-Identity-H": {
           "embedded": true,
           "unicode_map": true
         },
-        "/UACRXE+NotoSans-Regular": {
+        "/DTQSCH+TeXGyreTermes-Regular-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/KONLXK+FandolKai-Regular-Identity-H": {
           "embedded": true,
           "unicode_map": true
         }
@@ -396,7 +383,7 @@
         ]
       ],
       "missing_text_fragments": 0,
-      "pipeline_seconds": 0.875496
+      "pipeline_seconds": 0.881465
     },
     "unsafe-contact-url": {
       "rejected": true,
@@ -406,7 +393,7 @@
     "url-with-credentials": {
       "rejected": true,
       "expected": true,
-      "reason": "invalid resume contract: unsafe entry URL"
+      "reason": "invalid resume contract: unsafe project URL"
     },
     "url-too-long": {
       "rejected": true,
@@ -465,43 +452,43 @@
     }
   },
   "benchmark": {
-    "method": "XeLaTeX/XDV + xdvipdfmx + ToUnicode normalization + PDF checks; warm OS caches, fresh processes; excludes format generation/download",
+    "method": "one XeLaTeX pass + ToUnicode normalization + PDF semantic checks; warm OS caches, fresh process per run; no download or renderer time",
     "samples_seconds": [
-      0.882285,
-      0.852508,
-      0.85368,
-      0.859004,
-      0.846145,
-      0.855917,
-      0.86907,
-      0.823496,
-      0.812906,
-      0.849884,
-      0.840211,
-      0.839729,
-      0.845662,
-      0.826348,
-      0.895683,
-      0.835971,
-      0.841382,
-      0.898892,
-      0.838351,
-      0.843856,
-      0.824794,
-      0.835654,
-      0.837951,
-      0.835174,
-      0.837973,
-      1.014119,
-      0.832229,
-      0.85277,
-      0.900812,
-      0.846047
+      0.933494,
+      0.890155,
+      0.940808,
+      0.937678,
+      0.959548,
+      0.927831,
+      0.962148,
+      0.920632,
+      0.940687,
+      0.958543,
+      0.959023,
+      0.940973,
+      0.941451,
+      0.948713,
+      0.959407,
+      0.936735,
+      0.931406,
+      1.007983,
+      1.046318,
+      0.927243,
+      0.906105,
+      0.943234,
+      0.935181,
+      0.949988,
+      0.943046,
+      0.937357,
+      0.93453,
+      0.94056,
+      0.961075,
+      0.953892
     ],
     "iterations": 30,
-    "p50_seconds": 0.844759,
-    "p95_seconds": 0.900812,
-    "max_seconds": 1.014119,
+    "p50_seconds": 0.9408905,
+    "p95_seconds": 1.007983,
+    "max_seconds": 1.046318,
     "p95_target_seconds": 3,
     "pages": 2,
     "true_cold_boot": "not measured",
@@ -522,15 +509,15 @@
     "process_group_timeout": true,
     "child_not_running": true
   },
-  "recorded_tex_input_count": 66,
-  "recorded_tex_input_bytes": 58702201,
+  "recorded_tex_input_count": 55,
+  "recorded_tex_input_bytes": 7407132,
   "scope_limits": [
     "Not a clean Mac install",
     "System TeX Live macros and engine still required",
     "No hard memory limit verified on macOS",
     "No actual download/installer bundle validated",
     "No Safari/Chrome acceptance",
-    "Source baseline only; packaged runtime validation is a separate gate"
+    "Tectonic not compared; final engine not selected"
   ],
   "failures": []
 }

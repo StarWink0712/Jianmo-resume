@@ -1,5 +1,7 @@
 # M1 验收记录
 
+2026-10-02 的跨机格式生成与源基线更新见 [审核记录](baseline-review-20261002.md)。本页表格为早期阶段历史，不等于当前源码仍依赖宿主 `xelatex.fmt`。最新实验、打包及安装结果见本目录当前 JSON；旧基线保留在 `baseline-history/`。
+
 日期：2026-10-01。结论：**M1 本机实验持续推进，未签署完整产品/发布验收**。用户明确跳过干净 macOS 安装验证，不将跳过当作通过，也不再以它阻断当前工作。专用运行时进展见 [第二轮说明](managed-runtime.md) 和 [最新机器结果](managed-results.json)。
 
 证据：[机器可读结果](results.json)、[依赖输入清单](runtime-inputs.json)、[检查摘要](../../work-logs/evidence/m1-checks.txt)、[两份基准 PDF](../../output/pdf/)。复现方法见 [README](README.md)。

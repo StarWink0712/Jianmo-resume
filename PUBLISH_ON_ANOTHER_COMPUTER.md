@@ -19,6 +19,7 @@ Git HTTPS 地址：`https://github.com/StarWink0712/Jianmo-resume.git`\
 - 在当前检出目录工作，不依赖原电脑的绝对路径。先读 `README.md`、`.gitignore`、`examples/README.md`、`docs/pre-push-checklist.md`、最近工作日志及本文件。
 - 这是 macOS arm64 本地应用的源码。**只推送 Git 不需要 Python、Node 或 LaTeX。** 不要为了发布源码强行安装 TeX、虚拟机、Docker 或完整运行时。Windows/Linux 电脑也可以做 Git 发布，但不得据此宣称应用运行兼容。
 - 拷来的 `.venv`、运行时二进制及符号链接可能仍指向旧电脑，不能直接当作有效开发环境；需要运行测试时另建环境，不删除原目录或私人资料。
+- 若用户还要求运行应用，按 README 准备依赖后使用 `sh scripts/start-local.sh`。新版在项目内生成格式，不比较宿主 `xelatex.fmt` 哈希；真正源文件不兼容时阅读 `docs/m1/tex-baseline-update.md`，不要手改哈希或在构建失败后继续执行安装器。
 
 ## 2. 确认拷贝完整性
 

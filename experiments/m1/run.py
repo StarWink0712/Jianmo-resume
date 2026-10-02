@@ -20,6 +20,8 @@ from experiments.m1.style import content_only
 from experiments.m1.pdf_checks import ensure_unicode_maps, inspect_pdf
 from experiments.m1.render import RenderError, contact_link_text, render_resume
 from experiments.m1.runtime import compile_tex, prepare_runtime, profile, resource_manifest, run_bounded
+from experiments.m1.tex_baseline import collect_inputs, implementation_hash
+from experiments.m1.managed import digest
 from scripts.check_contracts import ROOT, build_case, cases, json_bytes
 
 
@@ -150,12 +152,8 @@ def probe_timeout(runtime, blank_source):
             'process_group_timeout': killed['timed_out'], 'child_not_running': not status or status.startswith('Z')}
 
 
-def run_experiments():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--iterations', type=int, default=30)
-    args = parser.parse_args()
-    if not 1 <= args.iterations <= 100:
-        parser.error('iterations must be between 1 and 100')
+def run_experiments(iterations=30):
+    implementation = implementation_hash()
     for path in (WORK, REPORT, OUTPUT):
         path.mkdir(parents=True, exist_ok=True)
     for name in ('m1-standard.pdf', 'm1-long.pdf'):
@@ -166,6 +164,7 @@ def run_experiments():
               'cpu': subprocess.check_output(['sysctl', '-n', 'machdep.cpu.brand_string'], text=True).strip(),
               'memory_bytes': int(subprocess.check_output(['sysctl', '-n', 'hw.memsize'], text=True)),
               'runtime_mode': runtime['mode'], 'font_bytes': runtime['font_bytes'], 'cases': {}}
+    observed = {}
     for case in cases():
         resume, assets = build_case(case)
         expected_rejection = not case['valid'] or bool(case.get('render_expectation'))
@@ -179,6 +178,8 @@ def run_experiments():
             continue
         job = WORK / case['id']
         result = compile_and_check(source, avatar, resume, job, runtime)
+        if (job / 'main.fls').is_file():
+            observed.update({item['path']: item for item in resource_manifest(job, Path(runtime['tex_root']))})
         report['cases'][case['id']] = result
         print(case['id'], 'PASS' if case_passes(case, result) else 'FAIL', result.get('pages'), flush=True)
         if case_passes(case, result) and case['id'] in PAGE_TARGETS:
@@ -188,7 +189,7 @@ def run_experiments():
     resume, assets = build_case(long_case)
     source, avatar = render_resume(resume, assets)
     samples = []
-    for index in range(args.iterations):
+    for index in range(iterations):
         result = compile_and_check(source, avatar, resume, WORK / 'benchmark', runtime)
         if not result['ok']:
             raise RuntimeError('benchmark compilation or semantic check failed')
@@ -196,7 +197,7 @@ def run_experiments():
         if (index + 1) % 10 == 0:
             print('timing samples', index + 1, flush=True)
     ordered = sorted(samples)
-    report['benchmark'] = {'method': 'one XeLaTeX pass + ToUnicode normalization + PDF semantic checks; warm OS caches, fresh process per run; no download or renderer time',
+    report['benchmark'] = {'method': 'XeLaTeX/XDV + xdvipdfmx + ToUnicode normalization + PDF checks; warm OS caches, fresh processes; excludes format generation/download',
                            'samples_seconds': samples, 'iterations': len(samples), 'p50_seconds': statistics.median(samples),
                            'p95_seconds': ordered[math.ceil(len(samples) * .95) - 1], 'max_seconds': max(samples),
                            'p95_target_seconds': 3, 'pages': result['pages'], 'true_cold_boot': 'not measured'}
@@ -205,14 +206,14 @@ def run_experiments():
     blank_source, _ = render_resume(blank, blank_assets)
     report['isolation_probes'] = probe_isolation(runtime, blank_source)
     report['timeout_probes'] = probe_timeout(runtime, blank_source)
-    resources = resource_manifest(WORK / 'standard-one-page-target', Path(runtime['tex_root']))
+    seed = collect_inputs(runtime, list(observed.values()))
+    resources = seed['tex_inputs']
     report['recorded_tex_input_count'] = len(resources)
     report['recorded_tex_input_bytes'] = sum(item['bytes'] for item in resources)
     report['scope_limits'] = ['Not a clean Mac install', 'System TeX Live macros and engine still required',
                               'No hard memory limit verified on macOS', 'No actual download/installer bundle validated',
-                              'No Safari/Chrome acceptance', 'Tectonic not compared; final engine not selected']
-    (REPORT / 'runtime-inputs.json').write_bytes(json_bytes({'fonts': runtime['fonts'], 'cmap': runtime['cmap'], 'tex_inputs': resources,
-                                                           'warning': 'recorder inputs are NOT a complete redistributable runtime closure'}))
+                              'No Safari/Chrome acceptance', 'Source baseline only; packaged runtime validation is a separate gate']
+    (REPORT / 'runtime-inputs.json').write_bytes(json_bytes(seed))
     failures = [case['id'] for case in cases() if not case_passes(case, report['cases'][case['id']])]
     failures += [name for name, passed in report['isolation_probes'].items() if not passed]
     failures += [name for name, passed in report['timeout_probes'].items() if not passed]
@@ -220,18 +221,34 @@ def run_experiments():
         failures.append('benchmark-target')
     report['failures'] = failures
     (REPORT / 'results.json').write_bytes(json_bytes(report))
+    if implementation != implementation_hash():
+        raise RuntimeError('M1 implementation changed during validation; rerun before approving a baseline.')
+    (REPORT / 'baseline-evidence.json').write_bytes(json_bytes({
+        'inputs_sha256': digest(REPORT / 'runtime-inputs.json'),
+        'results_sha256': digest(REPORT / 'results.json'), 'implementation_sha256': implementation}))
     print(json.dumps({'benchmark': report['benchmark'], 'isolation': report['isolation_probes'], 'timeout': report['timeout_probes'], 'failures': failures}, ensure_ascii=False), flush=True)
     return bool(failures)
 
 
 def main():
+    global WORK, REPORT, OUTPUT
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--iterations', type=int, default=30)
+    parser.add_argument('--report-dir', type=Path, default=ROOT / 'output/m1-candidate')
+    args = parser.parse_args()
+    if not 1 <= args.iterations <= 100:
+        parser.error('iterations must be between 1 and 100')
+    REPORT = args.report_dir.resolve()
+    if REPORT == (ROOT / 'docs/m1').resolve():
+        parser.error('Generate a separate candidate; use tex_baseline approve after review.')
+    WORK, OUTPUT = REPORT / 'work', REPORT / 'pdf'
     WORK.mkdir(parents=True, exist_ok=True)
     with (WORK / '.experiment.lock').open('w') as lock:
         try:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError:
             raise SystemExit('Another M1 experiment is running; wait before reusing its output directory.')
-        return run_experiments()
+        return run_experiments(args.iterations)
 
 
 if __name__ == '__main__':

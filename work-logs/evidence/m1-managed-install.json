@@ -2,15 +2,15 @@
   {
     "command": "install install space 中文",
     "exit": 0,
-    "seconds": 11.3375,
-    "stdout": "{\"verified\": true, \"version\": \"m2-inline-headings-20261001\", \"files\": 234}\nInstalled and verified: <test-root>/install space 中文/current/resume-runtime\n",
+    "seconds": 8.1318,
+    "stdout": "{\"verified\": true, \"version\": \"m1-portable-format-20261002\", \"files\": 242}\nInstalled and verified: <test-root>/install space 中文/current/resume-runtime\n",
     "stderr": ""
   },
   {
     "command": "install install space 中文",
     "exit": 0,
-    "seconds": 0.3871,
-    "stdout": "{\"verified\": true, \"version\": \"m2-inline-headings-20261001\", \"files\": 234}\nAlready installed and verified: <test-root>/install space 中文/current/resume-runtime\n",
+    "seconds": 0.3936,
+    "stdout": "{\"verified\": true, \"version\": \"m1-portable-format-20261002\", \"files\": 242}\nAlready installed and verified: <test-root>/install space 中文/current/resume-runtime\n",
     "stderr": ""
   },
   {
@@ -22,63 +22,63 @@
   {
     "command": "install locked",
     "exit": 1,
-    "seconds": 0.0427,
+    "seconds": 0.0351,
     "stdout": "",
     "stderr": "Another installation is active (or an interrupted install left .install-lock).\n"
   },
   {
     "command": "install bad-archive",
     "exit": 1,
-    "seconds": 0.2767,
+    "seconds": 0.2209,
     "stdout": "",
     "stderr": "Archive SHA-256 mismatch; nothing installed.\n"
   },
   {
     "command": "install bad-archive",
     "exit": 1,
-    "seconds": 0.0516,
+    "seconds": 0.0524,
     "stdout": "",
     "stderr": "Archive size mismatch; nothing installed.\n"
   },
   {
     "command": "install bad-archive",
     "exit": 0,
-    "seconds": 6.7825,
-    "stdout": "{\"verified\": true, \"version\": \"m2-inline-headings-20261001\", \"files\": 234}\nInstalled and verified: <test-root>/bad-archive/current/resume-runtime\n",
+    "seconds": 8.0517,
+    "stdout": "{\"verified\": true, \"version\": \"m1-portable-format-20261002\", \"files\": 242}\nInstalled and verified: <test-root>/bad-archive/current/resume-runtime\n",
     "stderr": ""
   },
   {
     "command": "install bad-archive",
     "exit": 1,
-    "seconds": 0.3347,
+    "seconds": 0.3676,
     "stdout": "",
     "stderr": "Runtime check failed: runtime contents differ from manifest; reinstall into a new prefix\nExisting release is damaged. Retry with a new --prefix; current was not changed.\n"
   },
   {
     "command": "install https-install",
     "exit": 1,
-    "seconds": 0.0666,
+    "seconds": 0.0607,
     "stdout": "",
-    "stderr": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n  0 68.8M    0  1024    0     0   170k      0  0:06:53 --:--:--  0:06:53  200k\ncurl: (18) transfer closed with 72196210 bytes remaining to read\nDownload failed; rerun this installer to retry.\n"
+    "stderr": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n  0 68.9M    0  1024    0     0   283k      0  0:04:09 --:--:--  0:04:09  333k\ncurl: (18) transfer closed with 72330681 bytes remaining to read\nDownload failed; rerun this installer to retry.\n"
   },
   {
     "command": "install https-install",
     "exit": 0,
-    "seconds": 7.7802,
-    "stdout": "{\"verified\": true, \"version\": \"m2-inline-headings-20261001\", \"files\": 234}\nInstalled and verified: <test-root>/https-install/current/resume-runtime\n",
-    "stderr": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n 61 68.8M   61 42.2M    0     0   156M      0 --:--:-- --:--:-- --:--:--  156M\n100 68.8M  100 68.8M    0     0   157M      0 --:--:-- --:--:-- --:--:--  156M\n"
+    "seconds": 8.3607,
+    "stdout": "{\"verified\": true, \"version\": \"m1-portable-format-20261002\", \"files\": 242}\nInstalled and verified: <test-root>/https-install/current/resume-runtime\n",
+    "stderr": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n 23 68.9M   23 15.9M    0     0   153M      0 --:--:-- --:--:-- --:--:--  153M\n100 68.9M  100 68.9M    0     0   158M      0 --:--:-- --:--:-- --:--:--  158M\n"
   },
   {
     "command": "install downgrade",
     "exit": 1,
-    "seconds": 0.0546,
+    "seconds": 0.0582,
     "stdout": "",
     "stderr": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\ncurl: (1) Protocol \"http\" disabled (in redirect)\nDownload failed; rerun this installer to retry.\n"
   },
   {
     "command": "install http",
     "exit": 1,
-    "seconds": 0.0728,
+    "seconds": 0.1017,
     "stdout": "",
     "stderr": "Download URL must use HTTPS.\n"
   },
@@ -88,9 +88,9 @@
       "returncode": 0,
       "timed_out": false,
       "memory_exceeded": false,
-      "peak_group_rss_bytes": 294797312,
+      "peak_group_rss_bytes": 293535744,
       "memory_limit_bytes": 1073741824,
-      "seconds": 20.510792
+      "seconds": 20.338304
     },
     "log": "{\"report\": \"<test-root>/offline/samples/results.json\", \"failures\": []}\n"
   }

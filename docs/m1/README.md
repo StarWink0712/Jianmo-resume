@@ -1,5 +1,7 @@
 # M1 首轮技术验证
 
+**2026-10-02 更新：** 当前源码启动入口为 `sh scripts/start-local.sh`，跨机格式缓存问题及正式源基线流程见 [可迁移 TeX 基线](tex-baseline-update.md)、[本次审核](baseline-review-20261002.md)。下方“本轮实测”表保留 2026-10-01 的历史数据；当前 JSON 报告为最新批准结果，旧报告归档在 `baseline-history/`。
+
 日期：2026-10-01。本文保留首轮开发机基准，后续已增加 [专用运行时与安装验证](managed-runtime.md)。M1 尚未签署完整验收，未进入 M2；干净 macOS 验收已按用户要求跳过，不记为通过。
 
 本目录记录真实编译实验，不是安装完成声明。M0 页面仍使用模拟保存/编译，没有接入这里的 Python 代码，不持久化简历。
@@ -35,18 +37,18 @@ node --test tests/resume-library.test.cjs
 
 生成位置：
 
-- `output/pdf/m1-standard.pdf`：标准一页虚构简历。
-- `output/pdf/m1-long.pdf`：两页长内容虚构简历。
-- `docs/m1/results.json`：样例、文本、字体、页数、计时、安全探针及失败清单。
-- `docs/m1/runtime-inputs.json`：字体/CMap 和 TeX recorder 实际输入的路径、大小、SHA-256。
+- `output/m1-candidate/pdf/m1-standard.pdf`：标准一页虚构简历。
+- `output/m1-candidate/pdf/m1-long.pdf`：两页长内容虚构简历。
+- `output/m1-candidate/results.json`：候选样例、文本、字体、页数、计时、安全探针及失败清单；不直接覆盖正式结果。
+- `output/m1-candidate/runtime-inputs.json`：所有有效用例及格式生成源文件的输入清单，正式批准后才更新 `docs/m1/`。
 - `.m1-runtime/`：从本机复制的字体、CMap、许可和环境清单，已忽略，**不是自包含运行时**。
-- `tmp/pdfs/m1/`：可重建的作业目录、TeX 日志和检查图片，已忽略；只允许虚构数据。
+- `output/m1-candidate/work/`：可重建的作业目录与 TeX 日志，已忽略；只允许虚构数据。
 
 使用已安装的 Poppler 复查排版，不需要联网：
 
 ```bash
-pdftoppm -scale-to 1600 -png output/pdf/m1-standard.pdf tmp/pdfs/m1/standard-view
-pdftoppm -scale-to 1600 -png output/pdf/m1-long.pdf tmp/pdfs/m1/long-view
+pdftoppm -scale-to 1600 -png output/m1-candidate/pdf/m1-standard.pdf output/m1-candidate/pdf/standard-view
+pdftoppm -scale-to 1600 -png output/m1-candidate/pdf/m1-long.pdf output/m1-candidate/pdf/long-view
 ```
 
 ## 本轮实测

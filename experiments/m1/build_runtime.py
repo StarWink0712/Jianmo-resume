@@ -11,17 +11,19 @@ import subprocess
 import sys
 import sysconfig
 import tarfile
+import tempfile
 from pathlib import Path
 
 from experiments.m1.managed import digest, inventory
 from experiments.m1.fonts import FONT_LICENSES
-from experiments.m1.runtime import prepare_runtime
+from experiments.m1.runtime import prepare_runtime, query_kpse, tex_config
+from experiments.m1.tex_baseline import load_approved, verify_sources
 from scripts.check_contracts import ROOT, json_bytes
 
 
 BUILD = ROOT / '.m1-build'
 OUTPUT = ROOT / 'output/runtime'
-VERSION = 'm2-inline-headings-20261001'
+VERSION = 'm1-portable-format-20261002'
 
 
 def copy_file(source, target):
@@ -29,10 +31,8 @@ def copy_file(source, target):
     shutil.copy2(source, target)
 
 
-def prepare_tex(destination):
-    installed = prepare_runtime()
+def prepare_tex(destination, installed, seed):
     source_root = Path(installed['tex_root'])
-    seed = json.loads((ROOT / 'docs/m1/runtime-inputs.json').read_text())
     sources = []
     for item in seed['tex_inputs']:
         source = source_root / item['path']
@@ -40,12 +40,14 @@ def prepare_tex(destination):
             raise ValueError('TeX seed changed; rerun M1 baseline before packaging: ' + item['path'])
         if source.name == 'texmf.cnf':
             continue
-        if source.suffix == '.fmt':
-            target = destination / 'formats' / source.name
-        else:
-            target = destination / item['path']
+        if item['path'].startswith('bin/'):
+            continue
+        target = destination / item['path']
         copy_file(source, target)
         sources.append(item)
+    # A format is a derived binary, not a transferable hash of another Mac's cache.
+    generated_format = Path(installed['formats_root']) / 'xelatex.fmt'
+    copy_file(generated_format, destination / 'formats/xelatex.fmt')
     for name, original in [('xelatex', 'xetex'), ('xdvipdfmx', 'xdvipdfmx')]:
         source = Path(installed['engine']).parent / original
         target = destination / 'bin' / name
@@ -71,13 +73,8 @@ def prepare_tex(destination):
         sources.append({'path': relative.as_posix(), 'sha256': digest(source), 'bytes': source.stat().st_size})
     copy_file(source_root / installed['cmap']['source'], destination / 'cmaps/Adobe-GB1-UCS2')
     # The system defaults are retained for memory constants; search roots are overridden.
-    original = (source_root / 'texmf-dist/web2c/texmf.cnf').read_text()
-    header = ('TEXMF = $TEXMFROOT/texmf-dist\nTEXMFDBS = $TEXMFROOT/texmf-dist\n'
-              'TEXFORMATS = $TEXMFROOT/formats\nTEXMFLOCAL = $TEXMFROOT/empty\n'
-              'TEXMFSYSVAR = $TEXMFROOT/empty\nTEXMFSYSCONFIG = $TEXMFROOT/empty\n'
-              'shell_escape = f\nopenin_any = p\nopenout_any = p\n')
     (destination / 'web2c').mkdir(parents=True, exist_ok=True)
-    (destination / 'web2c/texmf.cnf').write_text(header + original)
+    (destination / 'web2c/texmf.cnf').write_text(tex_config(source_root))
     (destination / 'texmf-dist/dvipdfmx').mkdir(parents=True, exist_ok=True)
     (destination / 'texmf-dist/dvipdfmx/dvipdfmx.cfg').write_text('%% Project fixed-font config; no external conversion.\nV 7\np a4\nI -2\n')
     # Retain original notices. Distribution/source obligations remain a separate release gate.
@@ -87,7 +84,10 @@ def prepare_tex(destination):
         copy_file(ROOT / 'assets/fonts' / name, destination / 'licenses/fonts' / name)
     for name in ('GUST-FONT-LICENSE.TXT', 'MANIFEST-Latin-Modern.TXT', 'README-Latin-Modern.TXT'):
         copy_file(source_root / 'texmf-dist/doc/fonts/lm' / name, destination / 'licenses/latin-modern' / name)
-    (destination / 'source-inventory.json').write_bytes(json_bytes({'tex': sources, 'fonts': installed['fonts'], 'cmap': installed['cmap']}))
+    (destination / 'source-inventory.json').write_bytes(json_bytes({
+        'tex': sources, 'format_sources': installed['format_inputs'], 'fonts': installed['fonts'], 'cmap': installed['cmap'],
+        'generated_format': {'path': 'formats/xelatex.fmt', 'sha256': digest(generated_format),
+                             'bytes': generated_format.stat().st_size}}))
 
 
 def collect_python_notices(destination):
@@ -116,13 +116,20 @@ def collect_python_notices(destination):
     # The current Homebrew Python links these libraries; PyInstaller relocates them.
     for package, names in {'openssl@3': ['LICENSE.txt', 'AUTHORS.md'], 'zstd': ['LICENSE', 'COPYING'],
                            'mpdecimal': ['COPYRIGHT.txt']}.items():
+        prefix = Path(subprocess.check_output(['brew', '--prefix', package], text=True).strip())
         for name in names:
-            copy_file(Path('/opt/homebrew/opt') / package / name, destination / 'native-libraries' / package / name)
+            copy_file(prefix / name, destination / 'native-libraries' / package / name)
 
 
 def build(tex_only=False):
     if platform.system() != 'Darwin' or platform.machine() != 'arm64':
         raise SystemExit('This M1 build is verified only on macOS arm64.')
+    # Check source compatibility before freezing Python or touching the previous package.
+    seed = load_approved()
+    verify_sources(seed, query_kpse('-var-value=TEXMFROOT'))
+    installed = prepare_runtime()
+    if installed['format_inputs'] != seed['format_inputs']:
+        raise ValueError('Format source closure changed; run the formal baseline review, not a hash replacement.')
     stage = BUILD / 'package'
     if stage.exists():
         shutil.rmtree(stage)
@@ -139,9 +146,12 @@ def build(tex_only=False):
         subprocess.run(command, check=True, env=os.environ | {'PYINSTALLER_CONFIG_DIR': str(BUILD / 'cache')})
         shutil.copytree(BUILD / 'freeze/resume-runtime', stage, symlinks=True)
     stage.mkdir(parents=True, exist_ok=True)
-    prepare_tex(stage / 'tex')
-    collect_python_notices(stage / 'licenses')
+    prepare_tex(stage / 'tex', installed, seed)
+    verify_sources(seed, Path(installed['tex_root']))
+    if not tex_only:
+        collect_python_notices(stage / 'licenses')
     manifest = {'schema': 1, 'version': VERSION, 'build_platform': platform.platform(),
+                'baseline_sha256': digest(ROOT / 'docs/m1/runtime-inputs.json'),
                 'python': platform.python_version(), 'clean_mac': 'skipped by explicit user decision',
                 'distribution': 'local experimental artifact; no Developer ID/notarization or completed redistribution audit',
                 'files': inventory(stage)}
@@ -149,11 +159,18 @@ def build(tex_only=False):
     if tex_only:
         print(stage)
         return
+    # Validate this machine's generated format before publishing any installer files.
+    with tempfile.TemporaryDirectory(prefix='build-selftest-', dir=BUILD) as temporary:
+        check = subprocess.run([str(stage / 'resume-runtime'), 'self-test', '--output', str(Path(temporary) / 'samples')],
+                               capture_output=True, text=True, timeout=120)
+        if check.returncode:
+            raise ValueError('Built runtime self-test failed; no new installer produced. ' + check.stdout + check.stderr)
     OUTPUT.mkdir(parents=True, exist_ok=True)
     archive = OUTPUT / 'resume-runtime-macos-arm64.tar.gz'
     with tarfile.open(archive, 'w:gz', dereference=False) as stream:
         stream.add(stage, arcname='runtime')
     info = {'version': VERSION, 'archive': archive.name, 'bytes': archive.stat().st_size,
+            'self_test_passed': True, 'baseline_sha256': manifest['baseline_sha256'],
             'sha256': digest(archive), 'unpacked_file_bytes': sum(item.get('bytes', 0) for item in manifest['files']),
             'file_count': len(manifest['files']), 'build_platform': platform.platform()}
     installer = (ROOT / 'scripts/install-runtime.sh.in').read_text()
@@ -173,7 +190,11 @@ def main():
     BUILD.mkdir(exist_ok=True)
     with (BUILD / '.build.lock').open('w') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        build(args.tex_only)
+        try:
+            build(args.tex_only)
+        except (ValueError, FileNotFoundError) as error:
+            raise SystemExit('Runtime build stopped: ' + str(error) +
+                             '\nDo not run the installer after this failure. See docs/m1/tex-baseline-update.md.') from error
 
 
 if __name__ == '__main__':

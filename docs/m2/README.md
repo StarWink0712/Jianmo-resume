@@ -5,11 +5,10 @@
 ## 启动与退出
 
 ```bash
-.venv/bin/python -m pip install -r requirements-app.txt
-.venv/bin/python -m backend
+sh scripts/start-local.sh
 ```
 
-从项目根目录启动，打开 `http://127.0.0.1:8770/`。当前开发机已有专用 TeX，不需安装新的 LaTeX。依赖的准备和安装见 [M1 运行时](../m1/managed-runtime.md)。新后端尚未打进该安装包。
+从项目根目录启动，打开 `http://127.0.0.1:8770/`。首次环境要求与自动构建步骤见 [源码启动](../m1/tex-baseline-update.md)。已配置环境也可直接使用 `.venv/bin/python -m backend`。启动脚本会准备环境，但后端尚未打进独立桌面安装包。
 
 可选参数：`--port 8770`、`--data-dir /absolute/private/directory`、`--runtime /absolute/runtime/root`、`--no-examples`（新数据目录不初始化参考简历）。只绑定 `127.0.0.1`，不能改为公网监听；同一数据目录只允许一个服务实例。端口被占用会退出，不会自动接管其他服务。不要用 `file://` 或另一个 Host 打开页面。
 

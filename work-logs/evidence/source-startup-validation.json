@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "source_files": 198,
+  "fresh_virtualenv": true,
+  "fresh_runtime_build": true,
+  "space_and_unicode_path": true,
+  "invalid_inherited_host_format_ignored": true,
+  "service_ready": true,
+  "reference_pdf_pages": [
+    1,
+    1,
+    1
+  ],
+  "scope": "Fresh project checkout on the current development Mac; not clean-machine acceptance"
+}
