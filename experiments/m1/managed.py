@@ -5,6 +5,8 @@ import json
 from pathlib import Path, PurePosixPath
 import stat
 
+from platform_adapters.detect import platform_key
+
 
 def digest(path):
     with Path(path).open('rb') as stream:
@@ -30,9 +32,11 @@ def inventory(root):
 
 def verify(root):
     root = Path(root).resolve()
-    manifest = json.loads((root / 'runtime.json').read_text())
+    manifest = json.loads((root / 'runtime.json').read_text(encoding='utf-8'))
     if manifest.get('schema') != 1:
         raise ValueError('unsupported runtime manifest')
+    if manifest.get('platform', 'darwin-arm64') != platform_key():
+        raise ValueError('runtime manifest belongs to another platform')
     expected = manifest['files']
     for entry in expected:
         path = PurePosixPath(entry['path'])
@@ -45,5 +49,10 @@ def verify(root):
 
 def compiler_manifest(root):
     root = Path(root).resolve()
-    return {'tex_root': str(root / 'tex'), 'engine': str(root / 'tex/bin/xelatex'),
+    manifest = json.loads((root / 'runtime.json').read_text(encoding='utf-8'))
+    key = manifest.get('platform', 'darwin-arm64')
+    if key != 'darwin-arm64' or key != platform_key():
+        raise ValueError('No verified compiler entry point for this runtime platform.')
+    return {'platform': key, 'tex_root': str(root / 'tex'), 'engine': str(root / 'tex/bin/xelatex'),
+            'driver': str(root / 'tex/bin/xdvipdfmx'),
             'fonts_root': str(root / 'tex/fonts'), 'isolated': True}

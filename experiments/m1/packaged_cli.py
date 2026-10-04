@@ -9,41 +9,9 @@ import sys
 import tempfile
 import traceback
 
-from experiments.m1.managed import compiler_manifest, verify
-from experiments.m1.fonts import uses_bundled_fonts, verify_fonts
-from experiments.m1.pdf_checks import ensure_unicode_maps, inspect_pdf
-from experiments.m1.render import RenderError, render_resume
-from experiments.m1.run import case_passes, compact, expected_text
-from experiments.m1.runtime import compile_tex
-from scripts.check_contracts import build_case, cases
-
-
-def check_cases(root, output, outer_sandbox=False):
-    runtime = compiler_manifest(root)
-    results = {}
-    for case in cases():
-        resume, assets = build_case(case)
-        try:
-            source, avatar = render_resume(resume, assets)
-        except RenderError:
-            results[case['id']] = {'rejected': True}
-            continue
-        if not case['valid'] or case.get('render_expectation'):
-            results[case['id']] = {'ok': False, 'reason': 'unexpected acceptance'}
-            continue
-        job = output / case['id']
-        result = compile_tex(source, job, runtime, avatar, fixture_outer_sandbox=outer_sandbox)
-        if result['ok']:
-            ensure_unicode_maps(job / 'main.pdf', root / 'tex/cmaps/Adobe-GB1-UCS2')
-            checked = inspect_pdf(job / 'main.pdf')
-            extracted = compact(checked.pop('text'))
-            missing = sum(compact(fragment) not in extracted for fragment in expected_text(resume))
-            result.update(checked)
-            result['missing_text_fragments'] = missing
-            result['ok'] = missing == 0 and result['overfull_boxes'] == 0 and uses_bundled_fonts(checked['fonts'])
-        results[case['id']] = result
-    failures = [case['id'] for case in cases() if not case_passes(case, results[case['id']])]
-    return {'cases': results, 'failures': failures}
+from core.tex_checks import check_cases
+from experiments.m1.managed import verify
+from experiments.m1.fonts import verify_fonts
 
 
 def main():

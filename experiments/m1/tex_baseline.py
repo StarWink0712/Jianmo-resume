@@ -8,6 +8,7 @@ import shutil
 
 from experiments.m1.fonts import verify_fonts
 from experiments.m1.managed import digest
+from platform_adapters.detect import platform_key
 from scripts.check_contracts import ROOT, json_bytes
 
 
@@ -30,9 +31,13 @@ EXTRA_TEX_FILES = (
 
 def implementation_hash():
     paths = [*sorted((ROOT / 'experiments/m1').glob('*.py')),
-             ROOT / 'scripts/check_contracts.py', ROOT / 'web/style-config.json',
+             *sorted((ROOT / 'core').rglob('*.py')),
+             *sorted((ROOT / 'platform_adapters').rglob('*.py')),
+             *sorted((ROOT / 'backend').glob('*.py')),
+             ROOT / 'scripts/check_contracts.py', ROOT / 'scripts/light_runtime.py',
+             ROOT / 'scripts/build_light_runtime.py', ROOT / 'web/style-config.json',
              *sorted((ROOT / 'fixtures').rglob('*.json')), *sorted((ROOT / 'schemas').glob('*.json'))]
-    return hashlib.sha256(json_bytes([{str(p.relative_to(ROOT)): digest(p)} for p in paths])).hexdigest()
+    return hashlib.sha256(json_bytes([{p.relative_to(ROOT).as_posix(): digest(p)} for p in paths])).hexdigest()
 
 
 def collect_inputs(runtime, observed):
@@ -41,7 +46,7 @@ def collect_inputs(runtime, observed):
     paths.update(EXTRA_TEX_FILES)
     paths.add(runtime['cmap']['source'])
     engine = Path(runtime['engine']).resolve()
-    paths.update(str(p.relative_to(root)) for p in (engine, engine.parent / 'xdvipdfmx'))
+    paths.update(p.relative_to(root).as_posix() for p in (engine, engine.parent / 'xdvipdfmx'))
     inputs = [{'path': name, 'bytes': (root / name).stat().st_size, 'sha256': digest(root / name)} for name in sorted(paths)]
     return {'schema': 2, 'engine_version': runtime['engine_version'], 'tex_inputs': inputs,
             'format_inputs': runtime['format_inputs'], 'fonts': runtime['fonts'], 'cmap': runtime['cmap'],
@@ -79,16 +84,19 @@ def verify_sources(seed, tex_root):
 
 
 def verify_evidence(directory):
-    from experiments.m1.run import benchmark_passes, case_passes
+    from core.resume_checks import benchmark_passes, case_passes
     from scripts.check_contracts import cases
     directory = Path(directory)
-    seed = json.loads((directory / 'runtime-inputs.json').read_text())
-    report = json.loads((directory / 'results.json').read_text())
-    proof = json.loads((directory / 'baseline-evidence.json').read_text())
+    seed = json.loads((directory / 'runtime-inputs.json').read_text(encoding='utf-8'))
+    report = json.loads((directory / 'results.json').read_text(encoding='utf-8'))
+    proof = json.loads((directory / 'baseline-evidence.json').read_text(encoding='utf-8'))
     if (proof['inputs_sha256'] != digest(directory / 'runtime-inputs.json') or
             proof['results_sha256'] != digest(directory / 'results.json') or
             proof['implementation_sha256'] != implementation_hash()):
         raise ValueError('Baseline evidence is stale or modified; rerun the complete M1 experiment.')
+    if (proof.get('platform_key') != platform_key() or report.get('platform_key') != platform_key()
+            or proof.get('implementation_policy') != 'platform-v1'):
+        raise ValueError('Baseline execution evidence belongs to another platform or digest policy.')
     if (seed.get('schema') != 2 or report.get('failures') != [] or
             benchmark_passes(report['benchmark']) is not True or
             report['benchmark']['iterations'] != len(report['benchmark']['samples_seconds']) or
@@ -103,7 +111,7 @@ def verify_evidence(directory):
 def load_approved(directory=BASELINE):
     directory = Path(directory)
     seed = verify_evidence(directory)
-    approval = json.loads((directory / 'baseline-approval.json').read_text())
+    approval = json.loads((directory / 'baseline-approval.json').read_text(encoding='utf-8'))
     note = (ROOT / approval['review']).resolve()
     if (not note.is_relative_to(ROOT) or approval['inputs_sha256'] != digest(directory / 'runtime-inputs.json') or
             approval['review_sha256'] != digest(note)):
@@ -134,7 +142,7 @@ def main():
     args = parser.parse_args()
     candidate = args.candidate.resolve()
     seed = verify_evidence(candidate)
-    delta = compare(json.loads((BASELINE / 'runtime-inputs.json').read_text()), seed)
+    delta = compare(json.loads((BASELINE / 'runtime-inputs.json').read_text(encoding='utf-8')), seed)
     if args.command == 'diff':
         (candidate / 'dependency-diff.json').write_bytes(json_bytes(delta))
         print(json.dumps({'inputs_sha256': digest(candidate / 'runtime-inputs.json'),
@@ -143,10 +151,17 @@ def main():
         return
     review = args.review.resolve()
     if (candidate == BASELINE.resolve() or not review.is_relative_to(ROOT) or
-            not review.is_file() or len(review.read_text().strip()) < 80 or
+            not review.is_file() or len(review.read_text(encoding='utf-8').strip()) < 80 or
             args.expected_sha256 != digest(candidate / 'runtime-inputs.json')):
         parser.error('Review a separate candidate and provide its exact inventory digest plus a substantive project review note.')
-    archive = BASELINE / 'baseline-history' / digest(BASELINE / 'runtime-inputs.json')
+    previous = json.loads((BASELINE / 'baseline-evidence.json').read_text(encoding='utf-8'))
+    previous_platform = previous.get('platform_key', 'darwin-arm64')
+    if previous_platform not in ('darwin-arm64', 'windows-x64'):
+        parser.error('Invalid platform in previous baseline evidence.')
+    # Bind both digests without nesting two long components on Windows paths.
+    archive_key = hashlib.sha256(json_bytes([
+        digest(BASELINE / 'runtime-inputs.json'), previous['implementation_sha256']])).hexdigest()
+    archive = BASELINE / 'baseline-history' / previous_platform / archive_key
     archive.mkdir(parents=True, exist_ok=True)
     for name in ('runtime-inputs.json', 'results.json', 'baseline-evidence.json', 'baseline-approval.json'):
         if (BASELINE / name).is_file() and not (archive / name).exists():
@@ -154,7 +169,7 @@ def main():
     for name in ('runtime-inputs.json', 'results.json', 'baseline-evidence.json'):
         shutil.copyfile(candidate / name, BASELINE / name)
     (BASELINE / 'baseline-approval.json').write_bytes(json_bytes({
-        'inputs_sha256': args.expected_sha256, 'review': str(review.relative_to(ROOT)), 'review_sha256': digest(review)}))
+        'inputs_sha256': args.expected_sha256, 'review': review.relative_to(ROOT).as_posix(), 'review_sha256': digest(review)}))
     print('Approved source baseline; next build and validate the packaged runtime. No host .fmt was approved.')
 
 

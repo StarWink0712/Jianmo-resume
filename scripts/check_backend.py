@@ -23,7 +23,8 @@ from backend.backup import export_backup, import_backup
 from backend.domain import MAX_AVATAR_UPLOAD_BYTES
 from experiments.m1.pdf_checks import inspect_pdf
 from experiments.m1.fonts import FONT_FILES, font_media_type, uses_bundled_fonts
-from experiments.m1.run import compact, expected_text
+from core.resume_checks import compact, expected_text
+
 from scripts.check_contracts import build_case, cases, json_bytes, synthetic_png
 
 

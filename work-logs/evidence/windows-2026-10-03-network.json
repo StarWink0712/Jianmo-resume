@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "timestamp_utc": "2026-10-03T03:53:22.989628+00:00",
+  "application_ready": false,
+  "checks": {
+    "dns": {
+      "blocked": true,
+      "error": 11001
+    },
+    "public_tcp": {
+      "blocked": true,
+      "error": 10013
+    },
+    "local_lan": {
+      "blocked": true,
+      "error": null
+    }
+  },
+  "passed": true,
+  "scope": "IPv4 DNS/public TCP/local LAN; loopback covered by native suite",
+  "unverified": [
+    "IPv6",
+    "remote LAN peer"
+  ],
+  "host_controls_before_and_after": true,
+  "process_tree_cleanup": "terminated_and_drained"
+}

@@ -1,0 +1,45 @@
+{
+  "scope": "isolated project on current Mac, not clean-Mac acceptance",
+  "passed": true,
+  "platform_key": "darwin-arm64",
+  "implementation_sha256": "ac46fed0da34b1b6f253f10383784266fdb0aa2fbda65cb630203e99c3ee9658",
+  "failure_preserves_previous_installation": true,
+  "offline_install_and_repeat": true,
+  "installed_bytes": 126953262,
+  "installed_files": 900,
+  "only_two_executables_no_frozen_python": true,
+  "valid_cases": 9,
+  "rejected_cases": 13,
+  "only_project_format_read": true,
+  "isolation": {
+    "file-read-denied": true,
+    "file-read-allowed-control": true,
+    "file-write-outside-denied": true,
+    "file-write-inside-allowed": true,
+    "shell-escape-disabled": true,
+    "network-allowed-control": true,
+    "network-denied": true
+  },
+  "timeouts": {
+    "engine_timeout": true,
+    "next_compile_succeeds": true,
+    "process_group_timeout": true,
+    "child_not_running": true
+  },
+  "benchmark": {
+    "samples": 30,
+    "p50_seconds": 2.064,
+    "p95_seconds": 2.126
+  },
+  "fresh_startup": {
+    "empty_venv_and_runtime": true,
+    "no_homebrew_or_tex_in_path": true,
+    "real_engine_download": true,
+    "service_ready": true,
+    "reference_pages": [
+      1,
+      1,
+      1
+    ]
+  }
+}

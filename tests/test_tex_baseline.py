@@ -83,6 +83,19 @@ class SourceBaselineTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'stale or modified'):
                 verify_evidence(self.root)
 
+    def test_other_platform_or_old_digest_policy_cannot_reuse_evidence(self):
+        for platform, policy in [('windows-x64', 'platform-v1'), ('darwin-arm64', 'old')]:
+            (self.root / 'runtime-inputs.json').write_text(json.dumps(self.seed))
+            (self.root / 'results.json').write_text(json.dumps({'platform_key': platform}))
+            (self.root / 'baseline-evidence.json').write_text(json.dumps({
+                'inputs_sha256': digest(self.root / 'runtime-inputs.json'),
+                'results_sha256': digest(self.root / 'results.json'), 'implementation_sha256': 'test',
+                'platform_key': platform, 'implementation_policy': policy}))
+            with patch('experiments.m1.tex_baseline.implementation_hash', return_value='test'), \
+                    patch('experiments.m1.tex_baseline.platform_key', return_value='darwin-arm64'):
+                with self.subTest(platform=platform, policy=policy), self.assertRaisesRegex(ValueError, 'another platform'):
+                    verify_evidence(self.root)
+
 
 if __name__ == '__main__':
     unittest.main()

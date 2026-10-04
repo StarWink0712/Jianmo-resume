@@ -1,0 +1,797 @@
+{
+  "schema": 1,
+  "application_ready": false,
+  "scope": "Windows engine prototype, not release acceptance",
+  "stages": {
+    "format/format.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 316502016,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 5.9375,
+      "seconds": 6.797,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "java/engine.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 311918592,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 1.84375,
+      "seconds": 2.172,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "java/driver.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 17170432,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 0.40625,
+      "seconds": 0.469,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "algorithm/engine.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 311959552,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 1.859375,
+      "seconds": 1.953,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "algorithm/driver.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 16797696,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 0.40625,
+      "seconds": 0.437,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "testing/engine.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 311930880,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 1.90625,
+      "seconds": 1.968,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "testing/driver.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 17174528,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 0.40625,
+      "seconds": 0.437,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "standard-one-page-target/engine.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 311812096,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 1.875,
+      "seconds": 1.937,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "standard-one-page-target/driver.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 16736256,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 0.390625,
+      "seconds": 0.422,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "blank/engine.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 299167744,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 1.765625,
+      "seconds": 1.891,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "blank/driver.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 4653056,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 0.03125,
+      "seconds": 0.078,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "two-page-target/engine.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 311885824,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 1.890625,
+      "seconds": 2.015,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "two-page-target/driver.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 16908288,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 0.421875,
+      "seconds": 0.468,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "mixed-special-characters/engine.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 311865344,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 1.84375,
+      "seconds": 1.922,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "mixed-special-characters/driver.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 16744448,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 0.375,
+      "seconds": 0.437,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "long-fields-and-url/engine.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 311992320,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 1.84375,
+      "seconds": 1.921,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "long-fields-and-url/driver.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 16687104,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 0.390625,
+      "seconds": 0.438,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "optional-empty/engine.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 311861248,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 1.828125,
+      "seconds": 1.937,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "optional-empty/driver.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 16818176,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 0.390625,
+      "seconds": 0.422,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "nested-lists/engine.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 311828480,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 1.859375,
+      "seconds": 1.937,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "nested-lists/driver.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 16809984,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 0.40625,
+      "seconds": 0.438,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "hidden-and-reordered/engine.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 311779328,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 1.84375,
+      "seconds": 1.937,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "hidden-and-reordered/driver.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 16777216,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 0.375,
+      "seconds": 0.422,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "avatar/engine.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 311836672,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 1.9375,
+      "seconds": 2.015,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    },
+    "avatar/driver.log": {
+      "returncode": 0,
+      "timed_out": false,
+      "memory_exceeded": false,
+      "peak_job_memory_bytes": 16769024,
+      "memory_limit_bytes": 536870912,
+      "cpu_seconds": 0.390625,
+      "seconds": 0.422,
+      "reason": "success",
+      "process_tree_cleanup": "terminated_and_drained"
+    }
+  },
+  "unverified": [
+    "dynamic DLL loading",
+    "production drive lifecycle",
+    "external network and DNS",
+    "ordinary non-administrator account",
+    "visual PDF review",
+    "installer",
+    "application UI"
+  ],
+  "pe": {
+    "xetex.exe": {
+      "machine": "AMD64",
+      "imports": [
+        "xetex.dll",
+        "msvcr100.dll",
+        "kernel32.dll"
+      ],
+      "delay_imports": []
+    },
+    "xelatex.exe": {
+      "machine": "AMD64",
+      "imports": [
+        "xetex.dll",
+        "msvcr100.dll",
+        "kernel32.dll"
+      ],
+      "delay_imports": []
+    },
+    "xetex.dll": {
+      "machine": "AMD64",
+      "imports": [
+        "user32.dll",
+        "advapi32.dll",
+        "shell32.dll",
+        "icudt78.dll",
+        "kernel32.dll"
+      ],
+      "delay_imports": []
+    },
+    "icudt78.dll": {
+      "machine": "AMD64",
+      "imports": [],
+      "delay_imports": []
+    },
+    "xdvipdfmx.exe": {
+      "machine": "AMD64",
+      "imports": [
+        "dvipdfmx.dll",
+        "msvcr100.dll",
+        "kernel32.dll"
+      ],
+      "delay_imports": []
+    },
+    "dvipdfmx.dll": {
+      "machine": "AMD64",
+      "imports": [
+        "kpathsealibw64.dll",
+        "msvcr100.dll",
+        "kernel32.dll"
+      ],
+      "delay_imports": []
+    },
+    "kpathsealibw64.dll": {
+      "machine": "AMD64",
+      "imports": [
+        "user32.dll",
+        "advapi32.dll",
+        "shell32.dll",
+        "msvcr100.dll",
+        "kernel32.dll"
+      ],
+      "delay_imports": []
+    },
+    "msvcr100.dll": {
+      "machine": "AMD64",
+      "imports": [
+        "kernel32.dll"
+      ],
+      "delay_imports": []
+    }
+  },
+  "java": {
+    "pages": 1,
+    "fonts": {
+      "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+        "embedded": true,
+        "unicode_map": true
+      },
+      "/VGPCXC+NotoSans-Regular": {
+        "embedded": true,
+        "unicode_map": true
+      },
+      "/UACRXE+NotoSansCJKsc-Regular-Identity-H": {
+        "embedded": true,
+        "unicode_map": true
+      },
+      "/OJFNKL+NotoSans-Bold": {
+        "embedded": true,
+        "unicode_map": true
+      }
+    },
+    "links": [
+      "https://example.com/java-portfolio"
+    ],
+    "page_sizes_pt": [
+      [
+        595.28,
+        841.89
+      ]
+    ],
+    "missing_text_fragments": 0,
+    "bundled_fonts": true,
+    "overfull_boxes": 0,
+    "missing_glyphs": false,
+    "ok": true
+  },
+  "algorithm": {
+    "pages": 1,
+    "fonts": {
+      "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+        "embedded": true,
+        "unicode_map": true
+      },
+      "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+        "embedded": true,
+        "unicode_map": true
+      },
+      "/UACRXE+NotoSans-Regular": {
+        "embedded": true,
+        "unicode_map": true
+      }
+    },
+    "links": [
+      "https://example.com/algorithm-portfolio"
+    ],
+    "page_sizes_pt": [
+      [
+        595.28,
+        841.89
+      ]
+    ],
+    "missing_text_fragments": 0,
+    "bundled_fonts": true,
+    "overfull_boxes": 0,
+    "missing_glyphs": false,
+    "ok": true
+  },
+  "testing": {
+    "pages": 1,
+    "fonts": {
+      "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+        "embedded": true,
+        "unicode_map": true
+      },
+      "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+        "embedded": true,
+        "unicode_map": true
+      },
+      "/UACRXE+NotoSans-Regular": {
+        "embedded": true,
+        "unicode_map": true
+      },
+      "/OJFNKL+NotoSans-Bold": {
+        "embedded": true,
+        "unicode_map": true
+      }
+    },
+    "links": [
+      "https://example.com/testing-portfolio"
+    ],
+    "page_sizes_pt": [
+      [
+        595.28,
+        841.89
+      ]
+    ],
+    "missing_text_fragments": 0,
+    "bundled_fonts": true,
+    "overfull_boxes": 0,
+    "missing_glyphs": false,
+    "ok": true
+  },
+  "fixtures": {
+    "standard-one-page-target": {
+      "pages": 1,
+      "fonts": {
+        "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/UACRXE+NotoSans-Regular": {
+          "embedded": true,
+          "unicode_map": true
+        }
+      },
+      "links": [
+        "https://example.com/portfolio",
+        "https://example.com/projects/reading-list",
+        "https://example.com/about"
+      ],
+      "page_sizes_pt": [
+        [
+          595.28,
+          841.89
+        ]
+      ],
+      "missing_text_fragments": 0,
+      "bundled_fonts": true,
+      "overfull_boxes": 0,
+      "missing_glyphs": false,
+      "ok": true
+    },
+    "blank": {
+      "pages": 1,
+      "fonts": {},
+      "links": [],
+      "page_sizes_pt": [
+        [
+          595.28,
+          841.89
+        ]
+      ],
+      "missing_text_fragments": 0,
+      "bundled_fonts": true,
+      "overfull_boxes": 0,
+      "missing_glyphs": false,
+      "ok": true
+    },
+    "two-page-target": {
+      "pages": 2,
+      "fonts": {
+        "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/UACRXE+NotoSans-Regular": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/OJFNKL+NotoSans-Bold": {
+          "embedded": true,
+          "unicode_map": true
+        }
+      },
+      "links": [
+        "https://example.com/portfolio",
+        "https://example.com/projects/reading-list",
+        "https://example.com/projects/reading-list",
+        "https://example.com/projects/reading-list",
+        "https://example.com/projects/reading-list",
+        "https://example.com/projects/reading-list",
+        "https://example.com/projects/reading-list",
+        "https://example.com/about"
+      ],
+      "page_sizes_pt": [
+        [
+          595.28,
+          841.89
+        ],
+        [
+          595.28,
+          841.89
+        ]
+      ],
+      "missing_text_fragments": 0,
+      "bundled_fonts": true,
+      "overfull_boxes": 0,
+      "missing_glyphs": false,
+      "ok": true
+    },
+    "mixed-special-characters": {
+      "pages": 1,
+      "fonts": {
+        "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/UACRXE+NotoSans-Regular": {
+          "embedded": true,
+          "unicode_map": true
+        }
+      },
+      "links": [
+        "https://example.com/portfolio",
+        "https://example.com/projects/reading-list",
+        "https://example.com/about"
+      ],
+      "page_sizes_pt": [
+        [
+          595.28,
+          841.89
+        ]
+      ],
+      "missing_text_fragments": 0,
+      "bundled_fonts": true,
+      "overfull_boxes": 0,
+      "missing_glyphs": false,
+      "ok": true
+    },
+    "long-fields-and-url": {
+      "pages": 1,
+      "fonts": {
+        "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/UACRXE+NotoSans-Regular": {
+          "embedded": true,
+          "unicode_map": true
+        }
+      },
+      "links": [
+        "https://example.com/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "https://example.com/projects/reading-list",
+        "https://example.com/about"
+      ],
+      "page_sizes_pt": [
+        [
+          595.28,
+          841.89
+        ]
+      ],
+      "missing_text_fragments": 0,
+      "bundled_fonts": true,
+      "overfull_boxes": 0,
+      "missing_glyphs": false,
+      "ok": true
+    },
+    "optional-empty": {
+      "pages": 1,
+      "fonts": {
+        "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/UACRXE+NotoSans-Regular": {
+          "embedded": true,
+          "unicode_map": true
+        }
+      },
+      "links": [
+        "https://example.com/about"
+      ],
+      "page_sizes_pt": [
+        [
+          595.28,
+          841.89
+        ]
+      ],
+      "missing_text_fragments": 0,
+      "bundled_fonts": true,
+      "overfull_boxes": 0,
+      "missing_glyphs": false,
+      "ok": true
+    },
+    "nested-lists": {
+      "pages": 1,
+      "fonts": {
+        "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/UACRXE+NotoSans-Regular": {
+          "embedded": true,
+          "unicode_map": true
+        }
+      },
+      "links": [
+        "https://example.com/portfolio",
+        "https://example.com/projects/reading-list",
+        "https://example.com",
+        "https://example.com/about"
+      ],
+      "page_sizes_pt": [
+        [
+          595.28,
+          841.89
+        ]
+      ],
+      "missing_text_fragments": 0,
+      "bundled_fonts": true,
+      "overfull_boxes": 0,
+      "missing_glyphs": false,
+      "ok": true
+    },
+    "hidden-and-reordered": {
+      "pages": 1,
+      "fonts": {
+        "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/UACRXE+NotoSans-Regular": {
+          "embedded": true,
+          "unicode_map": true
+        }
+      },
+      "links": [
+        "https://example.com/portfolio",
+        "https://example.com/about"
+      ],
+      "page_sizes_pt": [
+        [
+          595.28,
+          841.89
+        ]
+      ],
+      "missing_text_fragments": 0,
+      "bundled_fonts": true,
+      "overfull_boxes": 0,
+      "missing_glyphs": false,
+      "ok": true
+    },
+    "avatar": {
+      "pages": 1,
+      "fonts": {
+        "/DWNTRA+NotoSansCJKsc-Bold-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/VGPCXC+NotoSansCJKsc-Regular-Identity-H": {
+          "embedded": true,
+          "unicode_map": true
+        },
+        "/UACRXE+NotoSans-Regular": {
+          "embedded": true,
+          "unicode_map": true
+        }
+      },
+      "links": [
+        "https://example.com/portfolio",
+        "https://example.com/projects/reading-list",
+        "https://example.com/about"
+      ],
+      "page_sizes_pt": [
+        [
+          595.28,
+          841.89
+        ]
+      ],
+      "missing_text_fragments": 0,
+      "bundled_fonts": true,
+      "overfull_boxes": 0,
+      "missing_glyphs": false,
+      "ok": true
+    },
+    "unsafe-contact-url": {
+      "rejected": true
+    },
+    "url-with-credentials": {
+      "rejected": true
+    },
+    "url-too-long": {
+      "rejected": true
+    },
+    "duplicate-entry-id": {
+      "rejected": true
+    },
+    "missing-avatar": {
+      "rejected": true
+    },
+    "reversed-dates": {
+      "rejected": true
+    },
+    "ongoing-with-end-date": {
+      "rejected": true
+    },
+    "unknown-field": {
+      "rejected": true
+    },
+    "future-version": {
+      "rejected": true
+    },
+    "legacy-version-not-supported": {
+      "rejected": true
+    },
+    "invalid-timestamp": {
+      "rejected": true
+    },
+    "unsafe-markdown-draft": {
+      "rejected": true
+    },
+    "too-deep-list-draft": {
+      "rejected": true
+    }
+  },
+  "prototype_passed": true
+}

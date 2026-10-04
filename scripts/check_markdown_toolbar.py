@@ -10,7 +10,9 @@ from pypdf import PdfReader
 from experiments.m1.managed import compiler_manifest
 from experiments.m1.pdf_checks import inspect_pdf
 from experiments.m1.render import render_resume
-from experiments.m1.run import compile_and_check, compact
+from core.resume_checks import compact
+from core.tex_checks import compile_and_check
+
 from scripts.check_contracts import ROOT, build_case, cases, json_bytes
 
 

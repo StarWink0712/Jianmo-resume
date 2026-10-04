@@ -6,7 +6,8 @@ import tempfile
 
 from experiments.m1.managed import compiler_manifest
 from experiments.m1.render import render_resume
-from experiments.m1.run import compile_and_check
+from core.tex_checks import compile_and_check
+
 from experiments.m1.style import RHYTHM, STYLE_CONFIG
 from scripts.check_contracts import ROOT, build_case, cases, json_bytes
 from scripts.check_entry_headings import text_lines

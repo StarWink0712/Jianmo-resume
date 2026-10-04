@@ -441,7 +441,7 @@ class BackendTests(unittest.TestCase):
     def test_achievement_modules_survive_restart_copy_backup(self):
         from scripts.check_contracts import ROOT
         document = self.create()
-        document['sections'].extend(json.loads((ROOT / 'fixtures/achievement-sections.json').read_text()))
+        document['sections'].extend(json.loads((ROOT / 'fixtures/achievement-sections.json').read_text(encoding='utf-8')))
         saved = self.save(document).json()['resume']
         self.client.__exit__(None, None, None)
         self.start()

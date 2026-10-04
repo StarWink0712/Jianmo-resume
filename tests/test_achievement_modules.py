@@ -4,7 +4,8 @@ import subprocess
 import unittest
 
 from experiments.m1.render import render_resume
-from experiments.m1.run import expected_text
+from core.resume_checks import expected_text
+
 from experiments.m1.style import content_only
 from scripts.check_contracts import ROOT, build_case, cases, validate_resume
 

@@ -1,4 +1,5 @@
 import copy
+from contextlib import closing
 from pathlib import Path
 import sqlite3
 import tempfile
@@ -84,7 +85,7 @@ class ReferenceResumeTests(unittest.TestCase):
         with patch.object(Service, '_examples', staticmethod(interrupted)):
             with self.assertRaises(RuntimeError):
                 Service(self.root, compiler=UnusedCompiler())
-        with sqlite3.connect(self.root / 'resumes.sqlite3') as db:
+        with closing(sqlite3.connect(self.root / 'resumes.sqlite3')) as db:
             self.assertEqual(db.execute('SELECT count(*) FROM resumes').fetchone()[0], 0)
             self.assertEqual(db.execute("SELECT value FROM app_metadata WHERE key='bundled_examples'").fetchone()[0], 'pending')
         self.assertEqual(len(self.service().list()), 3)

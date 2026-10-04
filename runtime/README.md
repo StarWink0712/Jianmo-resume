@@ -1,5 +1,22 @@
 # Lightweight TeX Runtime
 
+Windows development uses the separate `locks/windows-x64.prototype.json` and
+`scripts/probe_windows_engine.py`. That lock records upstream archive hashes,
+eight selected native EXE/DLL files and the static PE import closure; it is not
+approved for production. The three archives total 11,755,948 bytes. Actual DLL
+loads are now checked through debug events; Microsoft runtime redistribution
+obligations and the full production acceptance still need review.
+Downloaded executables remain ignored local build outputs. See
+[native Windows progress](../work-logs/2026-10-04-windows-application.md).
+
+The Windows source-build installer is `scripts/install_windows_runtime.py`.
+It uses immutable releases and `current.json`, verifies native PDF fixtures before
+activation, and supports `--offline` with a populated engine cache. Launch with
+`scripts/start-local.ps1` or `py -3 scripts/bootstrap.py`. The backend verifies the
+installed manifest and build identity before granting compiler access. Published
+binary redistribution and wider Windows certification are separate from this
+locally tested source build. The macOS-specific instructions remain below.
+
 The normal startup command is `sh scripts/start-local.sh`. Only Python 3.12+ and macOS Apple Silicon are required; no system TeX, Homebrew libraries, PyInstaller or compiler toolchain is used by setup.
 
 ## Included and Downloaded Files

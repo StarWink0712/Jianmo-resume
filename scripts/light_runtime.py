@@ -2,13 +2,11 @@
 
 import argparse
 from contextlib import contextmanager
-import fcntl
 import hashlib
 import http.client
 import json
 import os
 from pathlib import Path, PurePosixPath
-import platform
 import shutil
 import ssl
 import subprocess
@@ -22,8 +20,11 @@ import certifi
 
 from experiments.m1.fonts import FONT_FILES, FONT_LICENSES, verify_fonts
 from experiments.m1.managed import digest, inventory, verify
-from experiments.m1.packaged_cli import check_cases
-from experiments.m1.runtime import profile, resource_manifest, run_bounded, tex_config
+from core.tex_checks import check_cases
+from core.tex_pipeline import generate_format_at, resource_manifest, tex_config
+from platform_adapters.contracts import LockBusy, PlatformUnavailable
+from platform_adapters.detect import get_adapter
+from experiments.m1.tex_baseline import implementation_hash
 from experiments.m1.tex_baseline import load_approved
 from scripts.check_contracts import ROOT, json_bytes
 
@@ -140,30 +141,14 @@ def make_format(stage, seed):
     formats = tex / 'formats'
     formats.mkdir()
     (tex / 'web2c').mkdir()
-    (tex / 'web2c/texmf.cnf').write_text(tex_config(tex))
+    (tex / 'web2c/texmf.cnf').write_text(tex_config(tex), encoding='utf-8')
     (tex / 'texmf-dist/dvipdfmx').mkdir(exist_ok=True)
     (tex / 'texmf-dist/dvipdfmx/dvipdfmx.cfg').write_text('%% No external conversion.\nV 7\np a4\nI -2\n')
     with tempfile.TemporaryDirectory(prefix='.format-', dir=stage) as temporary:
         job = Path(temporary)
-        for name in ('home', 'empty', 'var', 'config', 'cache'):
-            (job / name).mkdir()
-        (job / 'config/texmf.cnf').write_text(tex_config(tex))
-        (job / 'format.sb').write_text(profile(job, tex, fonts_root=tex / 'fonts'))
-        env = {'PATH': str(tex / 'bin') + ':/usr/bin:/bin', 'HOME': str(job / 'home'),
-               'TMPDIR': str(job), 'LANG': 'en_US.UTF-8', 'TEXMFROOT': str(tex),
-               'TEXMFCNF': str(job / 'config'), 'TEXMF': str(tex / 'texmf-dist'),
-               'TEXMFHOME': str(job / 'empty'), 'TEXMFVAR': str(job / 'var'),
-               'TEXMFCONFIG': str(job / 'config'), 'TEXMFCACHE': str(job / 'cache'),
-               'TEXFORMATS': str(job), 'OSFONTDIR': str(job / 'empty'),
-               'MKTEXFMT': '0', 'MKTEXPK': '0', 'MKTEXTFM': '0', 'MKTEXTEX': '0',
-               'SOURCE_DATE_EPOCH': '1790812800', 'FORCE_SOURCE_DATE': '1',
-               'openin_any': 'p', 'openout_any': 'p', 'shell_escape': 'f'}
-        command = ['/usr/bin/sandbox-exec', '-f', str(job / 'format.sb'), str(tex / 'bin/xelatex'),
-                   '-ini', '-etex', '-no-shell-escape', '-interaction=nonstopmode',
-                   '-halt-on-error', '-recorder', '-jobname=xelatex', '-progname=xelatex', 'xelatex.ini']
-        result = run_bounded(command, job, env, timeout=30)
+        result = generate_format_at(job, tex, tex / 'bin/xelatex', fonts_root=tex / 'fonts')
         if result['returncode'] != 0 or not (job / 'xelatex.fmt').is_file():
-            raise ValueError('Private TeX format generation failed: ' + (job / 'process.log').read_text(errors='replace')[-2500:])
+            raise ValueError('Private TeX format generation failed: ' + (job / 'process.log').read_text(encoding='utf-8', errors='replace')[-2500:])
         observed = {item['path']: item for item in resource_manifest(job, tex, recorder='xelatex.fls')}
         expected = {item['path']: item for item in seed['format_inputs']}
         if observed != expected:
@@ -187,16 +172,16 @@ def make_format(stage, seed):
 
 @contextmanager
 def install_lock(prefix):
-    prefix.mkdir(parents=True, exist_ok=True)
-    with (prefix / '.light-install.lock').open('a') as handle:
-        try:
-            fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except BlockingIOError as error:
-            raise ValueError('Another lightweight runtime installation is active.') from error
-        try:
-            yield
-        finally:
-            fcntl.flock(handle, fcntl.LOCK_UN)
+    adapter = get_adapter()
+    adapter.private_directory(prefix)
+    try:
+        lease = adapter.acquire_lock(prefix, '.light-install.lock')
+    except LockBusy as error:
+        raise ValueError('Another lightweight runtime installation is active.') from error
+    try:
+        yield
+    finally:
+        lease.close()
 
 
 def verify_install(root, identity, lock):
@@ -207,7 +192,7 @@ def verify_install(root, identity, lock):
     for package in lock['engines']:
         if digest(root / package['target']) != package['sha256']:
             raise ValueError('Installed engine has changed.')
-    support = json.loads((root / 'support-inventory.json').read_text())
+    support = json.loads((root / 'support-inventory.json').read_text(encoding='utf-8'))
     if digest(root / 'support-inventory.json') != lock['support']['inventory_sha256']:
         raise ValueError('Installed support inventory has changed.')
     for item in support['files']:
@@ -217,16 +202,18 @@ def verify_install(root, identity, lock):
 
 
 def install(prefix, cache, offline=False, root=ROOT):
-    if platform.system() != 'Darwin' or platform.machine() != 'arm64':
-        raise ValueError('The bundled TeX runtime currently supports macOS Apple Silicon.')
+    adapter = get_adapter()
+    if adapter.KEY != 'darwin-arm64':
+        raise PlatformUnavailable('Use scripts/bootstrap.py for the native Windows runtime.')
+    adapter.CAPABILITIES.require_compilation()
     seed = load_approved()
     lock_path = root / 'runtime/tex.lock.json'
-    lock = json.loads(lock_path.read_text())
-    if lock.get('schema') != 1 or lock.get('platform') != 'darwin-arm64':
+    lock = json.loads(lock_path.read_text(encoding='utf-8'))
+    if lock.get('schema') != 1 or lock.get('platform') != adapter.KEY:
         raise ValueError('Unsupported TeX lock.')
     if lock['baseline_sha256'] != digest(root / 'docs/m1/runtime-inputs.json'):
         raise ValueError('TeX lock differs from the approved baseline; rebuild the support bundle.')
-    identity = hashlib.sha256((digest(lock_path) + digest(Path(__file__))).encode()).hexdigest()
+    identity = hashlib.sha256((digest(lock_path) + implementation_hash()).encode()).hexdigest()
     archive = root / 'runtime' / safe_name(lock['support']['archive'])
     check_archive(archive, lock['support']['bytes'], lock['support']['sha256'])
     prefix, cache = prefix.resolve(), cache.resolve()
@@ -263,6 +250,7 @@ def install(prefix, cache, offline=False, root=ROOT):
                 cmap.mkdir()
                 shutil.copyfile(stage / 'tex' / seed['cmap']['source'], cmap / 'Adobe-GB1-UCS2')
                 manifest = {'schema': 1, 'version': lock['version'], 'light_runtime_id': identity,
+                            'platform': adapter.KEY, 'lock_sha256': digest(lock_path),
                             'baseline_sha256': lock['baseline_sha256'], 'files': inventory(stage)}
                 (stage / 'runtime.json').write_bytes(json_bytes(manifest))
                 verify_install(stage, identity, lock)

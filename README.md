@@ -25,7 +25,27 @@ Start with a built-in Java, algorithm, or QA reference resume, or create a blank
 
 ### 安装与启动
 
-环境：**macOS（Apple Silicon）**、Python 3.12+。**无需安装 MacTeX 或其他完整 TeX 发行版。**
+环境：**Windows 11 x64**（本机验证 Python 3.12.6 x64）或 **macOS Apple Silicon**（Python 3.12+）。**无需安装完整 TeX、WSL 或 C++ 工具链。**
+
+**Windows（`windows-native` 分支）**：先安装 64 位 Python 3.12+ 和 Git，再在 PowerShell 执行：
+
+```powershell
+git clone --branch windows-native https://github.com/StarWink0712/Jianmo-resume.git
+cd Jianmo-resume
+py -3 scripts/bootstrap.py
+```
+
+首次启动会自动创建 `.venv`、安装 Python 依赖、准备编译引擎并执行 PDF 自检，请联网等待几分钟。以后在项目目录运行以下命令即可离线启动：
+
+```powershell
+py -3 scripts/bootstrap.py --offline
+```
+
+也可使用 `.\scripts\start-local.ps1`。端口被占用时添加 `--port 8775`。保持终端运行，用 Edge 或 Chrome 打开 [http://127.0.0.1:8770/](http://127.0.0.1:8770/)，用完后在终端按 `Ctrl+C` 退出；内嵌浏览器可能不支持文件下载。
+
+Windows 首次下载约 **11.76 MB** 的固定引擎包（Python 依赖另计）；安装会执行实际 PDF 自检，因此首次准备比后续启动慢。编译使用 AppContainer、Job Object 和 DLL 哈希审计，失败不会退回系统 TeX 或无沙箱运行。支持本地磁盘和已测试的中文、空格路径；长路径、网络盘、Windows ARM64 和 Windows 10 不在本次验收范围。实测边界见 [Windows 应用验收记录](work-logs/2026-10-04-windows-application.md)。
+
+**macOS：** 以下启动方式适用于仓库的 `main` 分支。当前开发分支的共享源码与 Mac 已批准测试基线不一致，Mac 安装器会拒绝继续；需要在 Mac 上重新验收并更新基线后，才能作为两端均可用的共用版本。历史批准哈希没有手工更新。
 
 如果尚未安装 Python，可通过 [Homebrew](https://brew.sh/) 安装，已有兼容版本可跳过：
 
@@ -85,7 +105,21 @@ Three editable reference resumes are included. Click a preview to view its PDF, 
 
 ### Install and Run
 
-Requirements: **macOS (Apple Silicon)** and Python 3.12+. **No MacTeX or full TeX distribution is needed.**
+Requirements: **Windows 11 x64** (locally verified with Python 3.12.6 x64), or **macOS Apple Silicon** with Python 3.12+. No full TeX distribution, WSL, or compiler toolchain is needed.
+
+**Windows (`windows-native` branch):** install 64-bit Python 3.12+ and Git, then run in PowerShell:
+
+```powershell
+git clone --branch windows-native https://github.com/StarWink0712/Jianmo-resume.git
+cd Jianmo-resume
+py -3 scripts/bootstrap.py
+```
+
+The first launch creates `.venv`, installs Python dependencies, prepares the compiler, and runs PDF checks. Stay online and allow a few minutes. For subsequent offline launches, run `py -3 scripts/bootstrap.py --offline` from the project directory. Alternatively, use `.\scripts\start-local.ps1`. Add `--port 8775` if the default port is occupied. Open [http://127.0.0.1:8770/](http://127.0.0.1:8770/) in Edge or Chrome; embedded browsers may block downloads. Keep the terminal open and press `Ctrl+C` to stop.
+
+The Windows source build has passed native compilation, browser preview, save/restart and backup migration checks on this machine. It downloads 11,755,948 bytes of pinned engine archives, plus Python dependencies, and uses AppContainer, Job Objects and actual DLL hash auditing. See the [Windows application record](work-logs/2026-10-04-windows-application.md) for evidence and remaining platform coverage. Long paths, network drives, Windows ARM64 and Windows 10 are outside the verified scope.
+
+**macOS:** the following startup instructions apply to the repository's `main` branch. This development branch's shared source no longer matches the approved macOS test baseline, so the macOS installer will refuse to proceed. Native macOS acceptance and a baseline update are required before this branch can be used on both platforms. Historical approval hashes have not been rewritten.
 
 If Python is not installed, install it with [Homebrew](https://brew.sh/). Skip this if you already have a compatible version:
 

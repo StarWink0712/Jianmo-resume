@@ -42,6 +42,7 @@ def main():
 
     run('dependencies', [sys.executable, '-m', 'pip', 'check'])
     run('contracts', [sys.executable, 'scripts/check_contracts.py'])
+    run('platform-imports', [sys.executable, 'scripts/check_platform_imports.py'])
     run('python-tests', [sys.executable, '-m', 'unittest', 'discover', '-s', 'tests', '-q'])
     node_tests = sorted(str(path.relative_to(ROOT)) for path in (ROOT / 'tests').iterdir()
                         if path.name.endswith(('.test.mjs', '.test.cjs')))

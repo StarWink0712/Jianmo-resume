@@ -18,7 +18,9 @@ import httpx
 from backend.compiler import Compiler
 from experiments.m1 import run as experiment
 from experiments.m1.managed import compiler_manifest, inventory
-from experiments.m1.packaged_cli import check_cases
+from core.tex_checks import check_cases
+from experiments.m1.tex_baseline import implementation_hash
+from platform_adapters.detect import platform_key
 from experiments.m1.render import render_resume
 from scripts.check_contracts import ROOT, build_case, cases, json_bytes
 from scripts.light_runtime import install
@@ -94,10 +96,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--cache-dir', type=Path, default=ROOT / '.m1-build/engine-cache')
     parser.add_argument('--fresh-startup', action='store_true')
+    parser.add_argument('--report', type=Path, default=ROOT / 'work-logs/evidence/lightweight-tex.json')
     args = parser.parse_args()
     parent = ROOT / 'tmp/light-runtime-validation'
     parent.mkdir(parents=True, exist_ok=True)
-    report = {'scope': 'isolated project on current Mac, not clean-Mac acceptance', 'passed': False}
+    report = {'scope': 'isolated project on current Mac, not clean-Mac acceptance', 'passed': False,
+              'platform_key': platform_key(), 'implementation_sha256': implementation_hash()}
     with tempfile.TemporaryDirectory(prefix='安装 verification-', dir=parent) as temporary:
         work = Path(temporary)
         prefix = work / 'install'
@@ -163,8 +167,11 @@ def main():
         assert report['benchmark']['p95_seconds'] <= 3
         if args.fresh_startup:
             report['fresh_startup'] = check_startup(work)
+    if report['implementation_sha256'] != implementation_hash():
+        raise RuntimeError('Implementation changed during runtime validation; rerun before recording evidence.')
     report['passed'] = True
-    target = ROOT / 'work-logs/evidence/lightweight-tex.json'
+    target = args.report
+    target.parent.mkdir(parents=True, exist_ok=True)
     target.write_bytes(json_bytes(report))
     print(json.dumps(report, indent=2))
 

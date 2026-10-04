@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "timestamp_utc": "2026-10-04T13:26:08.173107+00:00",
+  "application_ready": false,
+  "passed": true,
+  "offline": true,
+  "identity": "8b068bf64e30d996a1fd5792b098716934a9f05da4377014d26852966277408e",
+  "inventory_files": 1153,
+  "inventory_bytes": 119394688,
+  "installed": true,
+  "offline_reuse_without_rebuild": true,
+  "relocated_compile": true,
+  "runtime_unchanged_after_compile": true
+}

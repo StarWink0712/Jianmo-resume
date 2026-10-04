@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "timestamp_utc": "2026-10-04T13:31:05.473940+00:00",
+  "passed": true,
+  "scope": "native compiler plus HTTP application, fictional data only",
+  "checks": {
+    "save": true,
+    "real_pdf_and_download": true,
+    "backup_preserves_document": true,
+    "import_creates_independent_copy": true,
+    "mac_backup_import": true,
+    "restart_preserves_save_and_pdf": true,
+    "job_files_cleaned": true
+  },
+  "compile_seconds": 22.391,
+  "pdf_sha256": "39a8926b9745d479a2b8ae1583d48cdd3f7dd4ba270402d0dc7b0983c6187405"
+}

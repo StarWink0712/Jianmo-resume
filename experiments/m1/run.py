@@ -1,7 +1,6 @@
 """Run repeatable M1 experiments on the current Mac, without changing global tools."""
 
 import argparse
-import fcntl
 import json
 import math
 from pathlib import Path
@@ -10,15 +9,14 @@ import shutil
 import statistics
 import subprocess
 import time
-import unicodedata
 
-from markdown_it import MarkdownIt
 
+from core.resume_checks import PAGE_TARGETS, benchmark_passes, case_passes, compact, expected_text
+from core.tex_checks import compile_and_check
+from platform_adapters.detect import get_adapter, platform_key
+from platform_adapters.contracts import LockBusy
 from experiments.m1.boundaries import boundary_server
-from experiments.m1.fonts import uses_bundled_fonts
-from experiments.m1.style import content_only
-from experiments.m1.pdf_checks import ensure_unicode_maps, inspect_pdf
-from experiments.m1.render import RenderError, contact_link_text, render_resume
+from experiments.m1.render import RenderError, render_resume
 from experiments.m1.runtime import compile_tex, prepare_runtime, profile, resource_manifest, run_bounded
 from experiments.m1.tex_baseline import collect_inputs, implementation_hash
 from experiments.m1.managed import digest
@@ -28,67 +26,6 @@ from scripts.check_contracts import ROOT, build_case, cases, json_bytes
 WORK = ROOT / 'tmp' / 'pdfs' / 'm1'
 REPORT = ROOT / 'docs' / 'm1'
 OUTPUT = ROOT / 'output' / 'pdf'
-PAGE_TARGETS = {'standard-one-page-target': 1, 'two-page-target': 2}
-
-
-def case_passes(case, result):
-    expected_rejection = not case['valid'] or bool(case.get('render_expectation'))
-    if expected_rejection:
-        return result.get('rejected', False)
-    return bool(result.get('ok')) and (case['id'] not in PAGE_TARGETS or result.get('pages') == PAGE_TARGETS[case['id']])
-
-
-def benchmark_passes(benchmark):
-    if benchmark['iterations'] < 30:
-        return None
-    return benchmark['pages'] == 2 and benchmark['p95_seconds'] <= benchmark['p95_target_seconds']
-
-
-def compact(text):
-    return ''.join(unicodedata.normalize('NFC', text).split())
-
-
-def expected_text(resume):
-    expected = [resume['basics'][key] for key in ('name', 'headline', 'email', 'phone', 'location') if resume['basics'][key]]
-    if resume['basics'].get('gender'):
-        expected.append(resume['basics']['gender'])
-    if resume['basics'].get('age') is not None:
-        expected.append(f"{int(resume['basics']['age'])}岁")
-    expected += [contact_link_text(item) for item in resume['basics']['links']]
-    parser = MarkdownIt('commonmark')
-    names = {'education': ['school', 'degree', 'field_of_study', 'location'],
-             'employment': ['organization', 'role', 'location'], 'project': ['name', 'role'],
-             'skills': ['label'], 'custom': ['heading', 'role'],
-             'academic': ['heading', 'role'], 'competition': ['heading', 'role']}
-    for section in resume['sections']:
-        visible = [entry for entry in section['entries'] if entry['visible']]
-        if not section['visible'] or not visible:
-            continue
-        expected.append(section['title'])
-        for entry in visible:
-            if not content_only(section):
-                expected.extend(entry[key] for key in names[section['type']] if entry.get(key))
-                expected.extend(value for value in (entry.get('start_date'), '至今' if entry.get('ongoing') else entry.get('end_date')) if value)
-            for token in parser.parse(entry['body']):
-                if token.type == 'inline':
-                    expected.extend(child.content for child in token.children or [] if child.type == 'text' and child.content.strip())
-    return expected
-
-
-def compile_and_check(source, avatar, resume, job, runtime):
-    started = time.perf_counter()
-    result = compile_tex(source, job, runtime, avatar)
-    if result['ok']:
-        result['unicode_maps_added'] = ensure_unicode_maps(job / 'main.pdf')
-        check = inspect_pdf(job / 'main.pdf')
-        text = compact(check.pop('text'))
-        missing = [value for value in expected_text(resume) if compact(value) not in text]
-        result.update(check)
-        result['missing_text_fragments'] = len(missing)
-        result['ok'] = not missing and uses_bundled_fonts(result['fonts'])
-        result['ok'] = result['ok'] and result['overfull_boxes'] == 0
-    result['pipeline_seconds'] = round(time.perf_counter() - started, 6)
-    return result
 
 
 def probe_isolation(runtime, blank_source):
@@ -159,7 +96,7 @@ def run_experiments(iterations=30):
     for name in ('m1-standard.pdf', 'm1-long.pdf'):
         (OUTPUT / name).unlink(missing_ok=True)
     runtime = prepare_runtime()
-    report = {'stage': 'M1 in progress; not release acceptance', 'platform': platform.platform(),
+    report = {'stage': 'M1 in progress; not release acceptance', 'platform': platform.platform(), 'platform_key': platform_key(),
               'python': platform.python_version(), 'engine': runtime['engine_version'],
               'cpu': subprocess.check_output(['sysctl', '-n', 'machdep.cpu.brand_string'], text=True).strip(),
               'memory_bytes': int(subprocess.check_output(['sysctl', '-n', 'hw.memsize'], text=True)),
@@ -224,6 +161,7 @@ def run_experiments(iterations=30):
     if implementation != implementation_hash():
         raise RuntimeError('M1 implementation changed during validation; rerun before approving a baseline.')
     (REPORT / 'baseline-evidence.json').write_bytes(json_bytes({
+        'platform_key': platform_key(), 'implementation_policy': 'platform-v1',
         'inputs_sha256': digest(REPORT / 'runtime-inputs.json'),
         'results_sha256': digest(REPORT / 'results.json'), 'implementation_sha256': implementation}))
     print(json.dumps({'benchmark': report['benchmark'], 'isolation': report['isolation_probes'], 'timeout': report['timeout_probes'], 'failures': failures}, ensure_ascii=False), flush=True)
@@ -243,12 +181,14 @@ def main():
         parser.error('Generate a separate candidate; use tex_baseline approve after review.')
     WORK, OUTPUT = REPORT / 'work', REPORT / 'pdf'
     WORK.mkdir(parents=True, exist_ok=True)
-    with (WORK / '.experiment.lock').open('w') as lock:
-        try:
-            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except BlockingIOError:
-            raise SystemExit('Another M1 experiment is running; wait before reusing its output directory.')
+    try:
+        lease = get_adapter().acquire_lock(WORK, '.experiment.lock')
+    except LockBusy:
+        raise SystemExit('Another M1 experiment is running; wait before reusing its output directory.')
+    try:
         return run_experiments(args.iterations)
+    finally:
+        lease.close()
 
 
 if __name__ == '__main__':

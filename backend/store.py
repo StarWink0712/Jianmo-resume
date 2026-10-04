@@ -7,16 +7,32 @@ import sqlite3
 import threading
 
 from backend.domain import AppError, expected, now, validate
+from platform_adapters.detect import get_adapter
 from scripts.check_contracts import attachment_path, json_bytes
 
 
 class Store:
     def __init__(self, path):
         path = Path(path)
-        path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+        adapter = get_adapter()
+        if adapter.KEY == 'windows-x64':
+            from core.runtime_manifest import plain_path
+            path = plain_path(path)
+        adapter.private_directory(path.parent)
+        if adapter.KEY == 'windows-x64':
+            # Existing SQLite sidecars need real ACL migration too; chmod and
+            # changing only the parent do not revoke old explicit ACEs.
+            for suffix in ('', '-wal', '-shm'):
+                existing = plain_path(str(path) + suffix)
+                if existing.exists():
+                    adapter.private_file(existing)
         self.lock = threading.RLock()
         self.db = sqlite3.connect(path, check_same_thread=False, isolation_level=None, timeout=5)
-        path.chmod(0o600)
+        try:
+            adapter.private_file(path)
+        except BaseException:
+            self.db.close()
+            raise
         self.db.row_factory = sqlite3.Row
         self.db.execute('PRAGMA foreign_keys=ON')
         self.db.execute('PRAGMA journal_mode=WAL')

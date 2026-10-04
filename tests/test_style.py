@@ -2,7 +2,8 @@ import copy
 import unittest
 
 from experiments.m1.render import RenderError, render_entry_heading, render_resume
-from experiments.m1.run import expected_text
+from core.resume_checks import expected_text
+
 from experiments.m1.style import RHYTHM, STYLE_CONFIG, content_only, effective_style, px
 from scripts.check_contracts import RESUME_SCHEMA, build_case, cases, validate_resume
 

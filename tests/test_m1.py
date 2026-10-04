@@ -10,7 +10,8 @@ from email.message import Message
 
 from experiments.m1.boundaries import authorize, boundary_server, fetch_verified
 from experiments.m1.render import RenderError, escape_text, render_contact_link, render_markdown, render_resume
-from experiments.m1.run import benchmark_passes, case_passes, expected_text
+from core.resume_checks import benchmark_passes, case_passes, expected_text
+
 from scripts.check_contracts import build_case, cases
 
 

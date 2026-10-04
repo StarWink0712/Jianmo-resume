@@ -1,0 +1,146 @@
+{
+  "schema": 1,
+  "timestamp_utc": "2026-10-03T03:53:02.203783+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.6",
+  "default_encoding": "cp936",
+  "application_ready": false,
+  "scope": "shared and native prototype acceptance; not a release gate",
+  "engine_requested": false,
+  "checks": [
+    {
+      "name": "dependencies",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "imports",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "data-contracts",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "test_platform_shared",
+      "passed": true,
+      "tests": 8,
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "name": "test_contracts",
+      "passed": true,
+      "tests": 27,
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "name": "test_m1",
+      "passed": true,
+      "tests": 21,
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "name": "test_markdown_linebreaks",
+      "passed": true,
+      "tests": 5,
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "name": "test_windows_native",
+      "passed": true,
+      "tests": 25,
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "name": "test_runtime_transactions",
+      "passed": true,
+      "tests": 12,
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "name": "node-models",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "network-isolation",
+      "passed": true,
+      "exit_code": 0
+    }
+  ],
+  "source_sha256": {
+    "platform_adapters/__init__.py": "81e647aaeb7e81c475ef5a5a35adcd8f6a4d261ddb716989734b4038a6c74149",
+    "platform_adapters/contracts.py": "6d424ac3e5aad21f7f61495643fe8367ce1324276a32d0fc254772a74ab23022",
+    "platform_adapters/detect.py": "dbdf9a5c5615c5d35332722f5f39b6b52c405e6a6e201389c63b957f9da33232",
+    "platform_adapters/macos.py": "c32ba8112c84143bb70cd5336836d05cafbc9328d4eaa17368df5b16d88b0ad8",
+    "platform_adapters/macos_exec.py": "126821c24dadaaa138dba37b78cc4c651030e8558da9ecaff691fafc56852d40",
+    "platform_adapters/windows.py": "02d5384ce13928771d66997775e921a90b402b27111510b1448d849684749e05",
+    "platform_adapters/windows_images.py": "04a6f79345a619fdfce0e5ce3ca494402fc7bff7b5633dbf214a905751423c3c",
+    "platform_adapters/windows_native.py": "a2c921666abbdfcca361d6d7d52672afd62dbf8cc27c975f8369ecac1a4273ec",
+    "platform_adapters/windows_paths.py": "6ae6625f5ad0942aedc4b261449d7b700d1af8af05917b464b73e793c820d02b",
+    "core/__init__.py": "5e8f49c6e57ef14ce4a3acb342bd5f68ffe2f30e1383a7832f7c64c951508037",
+    "core/resume_checks.py": "6d8b78252b68025b82c53db0c53a504f081aedc19489c1fd2ff60e9a7e942f34",
+    "core/runtime_install.py": "f05ae0e6203550a0c0df1c24d2dbf2562e0ea9fd960ba5417fb68a66668afb94",
+    "core/runtime_manifest.py": "c6d26fff04e27b987dd83b2d167480b079a97e9a26d18bddccf77371f4a4d98d",
+    "core/tex_checks.py": "68ac81c746d74c2c6f9379f660230bd69d3428c25d2faaa16ded5ae2ad4d904b",
+    "core/tex_pipeline.py": "6826a384f1afbc53dd0a68e13a6f359cf24880bddf823cd63aaacb8fb9d142a3",
+    "scripts/build_light_runtime.py": "8f9fcef6f8d826006da6112f3dfed138cf5515a00d98524e3348ace14caeab34",
+    "scripts/build_reference_resumes.py": "63b8b810531232d1e84d1146c819dfb3130823d93905a895f2207204a1db2c98",
+    "scripts/check_achievement_modules.py": "b9fb7db56a0d454ca3cd4e86c283198fe728fa10e16713e2d61cd62c324df24c",
+    "scripts/check_avatar_crop.py": "e0cf05d526886b69363dc1c9c273f9c4b36be44c11c28e5b14fe13ba48c84ef4",
+    "scripts/check_backend.py": "e773349e83f34992bdeda459a743e74caf8f21195e7b40011ce0b6cca3e43b9b",
+    "scripts/check_contracts.py": "e0d725386db0d44a60d0938b5d25c907763ed66256c265bf1616e68e702ff6c6",
+    "scripts/check_date_alignment.py": "3dc2afec1b506b49c8fbf5c349f86740ea815bb793c79b9df7e196434a061a52",
+    "scripts/check_english_resume.py": "c4a46f63f8a9100b89ee794311cd1928f24a38123dac74ebfc06991eb0686b78",
+    "scripts/check_entry_headings.py": "97ad9edb1f6ecbb27723a9a483313583577cc460732511e35162bbe166fa2d75",
+    "scripts/check_fixed_spacing.py": "93fb1d446875be333d3b76cbcb04c5461b4f3507974b7ba1cad530a40ebe98e2",
+    "scripts/check_light_runtime.py": "9f6a8bd7dfaaea8c1e42a735861718d7fd1bcf5931db2cf954d090b8cc699bda",
+    "scripts/check_markdown_toolbar.py": "e0328a2db98f0d3f419b037715772c405b59af52875879b3b5a736531794c985",
+    "scripts/check_platform_imports.py": "6243db7d6604e8fd1a5645538518569085a08968a637b18866e61605bdc28536",
+    "scripts/check_pre_push.py": "9dccab3e8d32ff03eea9e049e8e7ca49873151ce39120ea6c10db2295f97a24d",
+    "scripts/check_reference_resumes.py": "68e2ee03a8aa1b00ce1996189981f1ab2c6a70acd2ca283d95449f9a85c544f5",
+    "scripts/check_style.py": "32aa38411f782596bcabe279ea5e0a52d124811528a554ab762c23095990890a",
+    "scripts/check_windows_install.py": "d9f05ded70b6814bb5cc8ba878c912ea1f3453eecc5181f31e0885940482e648",
+    "scripts/check_windows_native.py": "8707d009618d2ba2d4f38ab9514fbbab9ffc604d2a9f99420982e243be3f6a9e",
+    "scripts/check_windows_network.py": "d780503f95b56c363ed3f9c95a67e679d21c2b9a2e56447b9a971b799564bdf7",
+    "scripts/install_windows_runtime.py": "8fc66e7893b1a566e168d34de2cd0a9fb5e01a6551eff4c3f6a0550c57b0d2a4",
+    "scripts/light_runtime.py": "4d36ac74e512c64aab2e0669eb24b387079f34525d0869e1c9ef7ab0db1b5889",
+    "scripts/probe_windows_engine.py": "c568ae75716a76daf76b81f3c4b4e1fcf37f1f47d90ff85aeef3c014df4339e9",
+    "tests/test_achievement_modules.py": "125d97e22a1a1d5b87c2521d173cc4698485d159abedeabbcacf4211cbcca9c1",
+    "tests/test_avatar_upload.py": "97878df30b7ef6e0b7800ed27f9c70466203e6d6c1561d632b43655fa960b2af",
+    "tests/test_backend.py": "3d5f4606cb5e24ff81bfa8cdabffac9707314550ce3feb7ed68b3db0934b0342",
+    "tests/test_contracts.py": "a99e6b1a129d776e06ddd1b762bb94aa26347961df5e1822c2488f92b91c4cf1",
+    "tests/test_editor_layout.py": "9e6f251293242950b72be5fb350a9f8cfa4eed008a0a621fa9f7f50277e2e586",
+    "tests/test_english_resume.py": "7d22fd355928c94f8f7731010b0f041d462c42db27a9f697cecc6434582e0cb8",
+    "tests/test_fixed_spacing.py": "e5869c05160c9f6ed69a35b82314bbfa73ae70d2f18ee07228242cab8ec8c732",
+    "tests/test_fonts.py": "b924b1fb6ec9dd954aefafdda81866e24db625d871ed6383eb4f00a896f3c1dd",
+    "tests/test_light_runtime.py": "f52acc306b85bdeae8ae641ac9dbbecdd5d89445db2524c9f50d726014a8ed72",
+    "tests/test_m1.py": "806417d7b6c3d8cce3b0cbbe5653cc832ef1373a5ba5237e46352bd0f97e75e1",
+    "tests/test_managed_runtime.py": "e9c76693d009bc7304a754d36abf820f84265ea1cfae567aa990391414bb7182",
+    "tests/test_markdown_linebreaks.py": "8e6be1ae6381477ea9e9c2a260832c849b63291e0fd1f28321811c91f0280216",
+    "tests/test_platform_macos.py": "adb5b736b4607a71b93b0495a994af8a9e939a6c25f76998b0ec4c154e47ce7e",
+    "tests/test_platform_shared.py": "8f4e509ab22712932c27dd43ad29820b5a8d365afa8081a4adf2b0211f6f903b",
+    "tests/test_reference_resumes.py": "e9011b47eb18949072074751b1cc5cd5ac9a2c8a01668cc0f8b66e1c2d57b85d",
+    "tests/test_runtime_transactions.py": "1d931eaab840cb8f16d1571f967b90f1c7069922eaf56dc9ed1acc2eededeaa5",
+    "tests/test_start_local.py": "20ee6fd46d2cb9628f6c6c74b750d63432e938f1c8fa6b64e2b52039ae4a3231",
+    "tests/test_style.py": "e9ae60083298d9145b314cab95669d8aeda1ef41756a3bc3e14e4ebbfea9c1ec",
+    "tests/test_tex_baseline.py": "cef33be1662d3b16dc307ac300ccade73a4ffc5d8b5d6225eb3338bee7449723",
+    "tests/test_windows_native.py": "42b4c613b76802de8c37d2930a49da87f4543044910b9e814733a7b3b6c7261a"
+  },
+  "token_elevated": false,
+  "passed": true
+}

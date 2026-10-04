@@ -1,5 +1,4 @@
 from concurrent.futures import ThreadPoolExecutor
-import fcntl
 import hashlib
 import json
 from pathlib import Path
@@ -11,18 +10,23 @@ from backend.examples import EXAMPLES, example_document
 from backend.compiler import Compiler
 from backend.domain import AppError, clone_resume, decode_avatar, expected, identifier, new_resume, now, title, validate
 from backend.store import Store
+from platform_adapters.contracts import LockBusy
+from platform_adapters.detect import get_adapter
 from scripts.check_contracts import attachment_path
 
 
 class Service:
     def __init__(self, directory, runtime=None, compiler=None, seed_examples=True):
-        self.directory = Path(directory).resolve()
-        self.directory.mkdir(parents=True, exist_ok=True, mode=0o700)
-        self.lease = (self.directory / '.instance-lock').open('a')
+        self.platform = get_adapter()
+        if self.platform.KEY == 'windows-x64':
+            from core.runtime_manifest import plain_path
+            self.directory = plain_path(directory)
+        else:
+            self.directory = Path(directory).resolve()
+        self.platform.private_directory(self.directory)
         try:
-            fcntl.flock(self.lease, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except BlockingIOError as error:
-            self.lease.close()
+            self.lease = self.platform.acquire_lock(self.directory, '.instance-lock')
+        except LockBusy as error:
             raise AppError(409, 'already_running', '这个数据目录已有服务运行。') from error
         try:
             self.compiler = compiler or Compiler(runtime)
@@ -156,7 +160,7 @@ class Service:
                 self.store.db.execute("UPDATE jobs SET status='running' WHERE id=?", (job_id,))
                 document = self.store.get(job['resume_id'], job['revision'])
                 assets = self.store.assets(document)
-            work.mkdir(parents=True, exist_ok=False, mode=0o700)
+            self.platform.private_directory(work, exist_ok=False)
             pdf, pages = self.compiler(document, assets, work)
             if not pdf.startswith(b'%PDF-') or len(pdf) > 64 * 1024**2:
                 raise AppError(422, 'invalid_pdf', '生成的 PDF 无效或过大。')

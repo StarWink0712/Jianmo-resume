@@ -1,0 +1,17 @@
+{
+  "timestamp_utc": "2026-10-04T13:26:53.085900+00:00",
+  "scope": "Actual TCP HTTP download to file, not browser download UI",
+  "passed": true,
+  "checks": {
+    "preview_download_identical": true,
+    "valid_pdf": true,
+    "pdf_content_type": true,
+    "attachment_header": true,
+    "expected_name_present": true
+  },
+  "pages": 1,
+  "bytes": 90840,
+  "sha256": "60408e5e3e625c36b9d5f4e85e66e448212d1a50da4a5f27483bede950ce5607",
+  "content_disposition": "attachment; filename=\"resume-8d175a2471fa4cce974538f125d44af9-r2.pdf\"",
+  "browser_file_download_verified": false
+}

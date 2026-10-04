@@ -45,6 +45,8 @@ sh scripts/start-local.sh
 
 候选目录保存 `runtime-inputs.json`、`results.json`、`baseline-evidence.json`、`dependency-diff.json`、`pdf/` 与 `work/`。证据绑定输入清单、实验结果及验证实现哈希；修改校验代码或候选清单后要重新运行，不可拼接旧的“通过”报告。
 
+平台改造后的 `platform-v1` 摘要还覆盖 `core/`、`platform_adapters/`、后端与精简安装/构建代码，路径按 POSIX 表示序列化。证据记录 `platform_key`，不允许跨平台沿用通过记录。历史归档键为平台加源清单/实现摘要的组合哈希，避免两段长摘要嵌套占用 Windows 路径长度；完整摘要仍保存在归档证据中，相同资源但不同执行器的记录不会互相覆盖。
+
 ### 2. 审核变更
 
 逐项审查新增、删除及哈希变化的输入，区分上游宏包/引擎升级、格式缓存移除、生成格式的新源文件、字体与许可变化。对照 `work/*/main.fls`、`.m1-runtime/format-build/xelatex.fls` 与 TeX 日志，说明来源和必要性。使用 PDF 查看器或 Poppler 逐页检查候选输出，不仅依赖文字提取。
@@ -67,14 +69,15 @@ sh scripts/start-local.sh
 ### 4. 构建、安装与回归
 
 ```bash
-.venv/bin/python -m experiments.m1.build_runtime
-.venv/bin/python -m experiments.m1.validate_managed
 .venv/bin/python -m scripts.build_light_runtime
 .venv/bin/python -m scripts.light_runtime
+.venv/bin/python -m scripts.check_light_runtime --fresh-startup
 .venv/bin/python scripts/check_pre_push.py --full
 ```
 
-按顺序执行且每一步成功后再继续。安装回归覆盖正常安装、重复安装、损坏/中断恢复、搬移到含空格和中文路径、冻结程序整进程禁网、全局 TeX/Python/开发字体不可读、网络正反对照及动态依赖路径。完整应用回归再验证真实保存/编译、样式、英文、头像与三份参考简历。
+按顺序执行且每一步成功后再继续。安装回归覆盖正常安装、重复安装、失败恢复、搬移到含空格和中文路径、无全局 TeX 的全新源码启动，以及编译器隔离/超时。完整应用回归再验证真实保存/编译、样式、英文、头像与三份参考简历。若源清单完全未变，不必重建支持包。
+
+`experiments.m1.build_runtime` 和 `validate_managed` 属于历史冻结运行时路线，不是当前普通启动的前置依赖。本轮平台拆分不验收该路线；重启二进制分发工作时需单独适配并重跑，不能复用历史包的通过记录。
 
 以上通过后，把代码、当前基线、审核说明和脱敏测试结果一起提交；不要提交 `output/`、`.m1-build/`、私人备份或用户数据库。如果实际测试失败，就修复或撤销未发布候选，不应仅把结果字段改成通过。
 

@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "platform": "windows-x64",
+  "status": "prototype-not-approved",
+  "version": "texlive-2026-windows-prototype-1",
+  "upstream_database_url": "https://mirrors.ibiblio.org/CTAN/systems/texlive/tlnet/tlpkg/texlive.tlpdb.xz",
+  "upstream_database_hash_encoding": "uncompressed UTF-8 tlpdb bytes",
+  "upstream_database_sha256": "aab34b89d004f19c9d5d64afd6443ce8eb85463e414ca34b14c41e1e4bc423e8",
+  "packages": [
+    {
+      "name": "xetex.windows",
+      "revision": "77973",
+      "urls": [
+        "https://ctan.math.illinois.edu/systems/texlive/tlnet/archive/xetex.windows.tar.xz"
+      ],
+      "archive_bytes": 10883596,
+      "archive_sha512": "40fab41d6359924d1b21f61fe2306ba31d3b78532d7fbd1e8e4e8fd0fad50ef76d0c053d63aaec5de5aa028ea64503662c8298e295925449488a237f7da997bb",
+      "files": [
+        {
+          "member": "bin/windows/xetex.exe",
+          "target": "tex/bin/xetex.exe",
+          "bytes": 6144,
+          "sha256": "fb567aa4245111d930f7936d08a8d59a07259aacd4ffb1718ba618720f84330f"
+        },
+        {
+          "member": "bin/windows/xelatex.exe",
+          "target": "tex/bin/xelatex.exe",
+          "bytes": 6144,
+          "sha256": "fb567aa4245111d930f7936d08a8d59a07259aacd4ffb1718ba618720f84330f"
+        },
+        {
+          "member": "bin/windows/xetex.dll",
+          "target": "tex/bin/xetex.dll",
+          "bytes": 4412416,
+          "sha256": "4c18ab0de9d32e053b5645fc5bed1c2b1498055e547a76a644db2070cd1c5b40"
+        },
+        {
+          "member": "bin/windows/icudt78.dll",
+          "target": "tex/bin/icudt78.dll",
+          "bytes": 33110528,
+          "sha256": "707b33da2dee78a8092cb55f2057d7e424dfd989d02f9bd2e8ca841180b24c51"
+        }
+      ]
+    },
+    {
+      "name": "dvipdfmx.windows",
+      "revision": "78413",
+      "urls": [
+        "https://ctan.math.illinois.edu/systems/texlive/tlnet/archive/dvipdfmx.windows.tar.xz"
+      ],
+      "archive_bytes": 353448,
+      "archive_sha512": "07885b62cc03a8c40a96d09b8d5b07ac8bbc21bacc32a0d3888972b0f59d6a25c8636bcf427bdbd9ef85b5cd6ae6c4a91c59b4aa52e1137f3362a4521cc07674",
+      "files": [
+        {
+          "member": "bin/windows/xdvipdfmx.exe",
+          "target": "tex/bin/xdvipdfmx.exe",
+          "bytes": 6144,
+          "sha256": "aebf8242f8d6e73cd57ce6f9b2675f2b5e8a6ee7590b6ee2bdcd03655273c4b1"
+        },
+        {
+          "member": "bin/windows/dvipdfmx.dll",
+          "target": "tex/bin/dvipdfmx.dll",
+          "bytes": 1187328,
+          "sha256": "b83b1d85416ec10c1c4bcb6917feb8f2b65cd3042cdaf80d46e1c1b98127aaa9"
+        }
+      ]
+    },
+    {
+      "name": "kpathsea.windows",
+      "revision": "77973",
+      "urls": [
+        "https://ctan.math.illinois.edu/systems/texlive/tlnet/archive/kpathsea.windows.tar.xz"
+      ],
+      "archive_bytes": 518904,
+      "archive_sha512": "5fbd94efe5f18ee6e4cf27447105563d9b4d9c9fe580ca881fedc3490f02efe85f35108a1097f927bcff0d9af3641432bfbd0e83d87903cb60ff86fceb7447b8",
+      "files": [
+        {
+          "member": "bin/windows/kpathsealibw64.dll",
+          "target": "tex/bin/kpathsealibw64.dll",
+          "bytes": 106496,
+          "sha256": "15cf439229281d38ab208b7598e20b3b248c1738e60d0bf2af80f01905ee7b8a"
+        },
+        {
+          "member": "bin/windows/msvcr100.dll",
+          "target": "tex/bin/msvcr100.dll",
+          "bytes": 829264,
+          "sha256": "1d1a1ae540ba132f998d60d3622f0297b6e86ae399332c3b47462d7c0f560a36"
+        }
+      ]
+    }
+  ],
+  "system_imports": [
+    "kernel32.dll",
+    "user32.dll",
+    "advapi32.dll",
+    "shell32.dll"
+  ],
+  "dynamic_dependency_audit": "pending"
+}

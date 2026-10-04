@@ -1,9 +1,7 @@
-"""Trusted child launcher: set limits after exec, never run Python preexec_fn in a threaded server."""
-import os
-import resource
-import sys
+"""Compatibility entry point for pre-adapter macOS callers."""
+from pathlib import Path
+import runpy
 
-resource.setrlimit(resource.RLIMIT_CPU, (30, 30))
-resource.setrlimit(resource.RLIMIT_FSIZE, (64 * 1024**2, 64 * 1024**2))
-resource.setrlimit(resource.RLIMIT_NOFILE, (128, 128))
-os.execv(sys.argv[1], sys.argv[1:])
+
+if __name__ == '__main__':
+    runpy.run_path(str(Path(__file__).resolve().parents[1] / 'platform_adapters/macos_exec.py'), run_name='__main__')

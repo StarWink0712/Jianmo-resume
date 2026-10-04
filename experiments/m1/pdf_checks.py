@@ -4,7 +4,7 @@ from pathlib import Path
 
 from pypdf import PdfReader, PdfWriter
 from pypdf.generic import DecodedStreamObject, NameObject
-from experiments.m1.runtime import RUNTIME
+from core.tex_pipeline import RUNTIME
 
 
 def ensure_unicode_maps(path, cmap=None):

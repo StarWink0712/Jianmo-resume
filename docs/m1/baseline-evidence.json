@@ -1,5 +1,7 @@
 {
+  "platform_key": "darwin-arm64",
+  "implementation_policy": "platform-v1",
   "inputs_sha256": "c439c4ee1102e48c36f5c11348301dd381b61bbcf1f190db98c8534117a84701",
-  "results_sha256": "eee6cb41750a0ae1eaa76e8d234f7a5729e05fad74a88c166b6717c345f52156",
-  "implementation_sha256": "69218acdd75a3c603423fd6de71f8367c8ba3a1946f87090a7c0cecd9681020a"
+  "results_sha256": "fd4cb209949afab2971d8fe6bd8762abe885ac066315295ed095987c2618564c",
+  "implementation_sha256": "ac46fed0da34b1b6f253f10383784266fdb0aa2fbda65cb630203e99c3ee9658"
 }

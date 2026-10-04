@@ -15,7 +15,8 @@ if str(ROOT) not in sys.path:
 from backend.backup import export_backup, import_backup
 from experiments.m1.fonts import uses_bundled_fonts
 from experiments.m1.pdf_checks import inspect_pdf
-from experiments.m1.run import compact, expected_text
+from core.resume_checks import compact, expected_text
+
 from scripts.check_backend import Harness
 from scripts.check_contracts import json_bytes
 

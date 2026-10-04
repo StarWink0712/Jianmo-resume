@@ -7,7 +7,7 @@ import math
 from scripts.check_contracts import ROOT
 
 
-STYLE_CONFIG = json.loads((ROOT / 'web/style-config.json').read_text())
+STYLE_CONFIG = json.loads((ROOT / 'web/style-config.json').read_text(encoding='utf-8'))
 RHYTHM = STYLE_CONFIG['rhythm']
 
 
