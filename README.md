@@ -25,7 +25,7 @@ Start with a built-in Java, algorithm, or QA reference resume, or create a blank
 
 ### 安装与启动
 
-环境：**Windows 11 x64**（本机验证 Python 3.12.6 x64）或 **macOS Apple Silicon**（Python 3.12+）。**无需安装完整 TeX、WSL 或 C++ 工具链。**
+环境：**Windows 11 x64**（测试用是 Python 3.12.6 x64）或 **macOS Apple Silicon**（Python 3.12+）。**无需安装完整 TeX、WSL 或 C++ 工具链。**
 
 **Windows**：先安装 64 位 Python 3.12+ 和 Git，再在 PowerShell 执行：
 
@@ -35,11 +35,8 @@ cd Jianmo-resume
 py -3 scripts/bootstrap.py
 ```
 
-首次启动会自动创建 `.venv`、安装 Python 依赖、准备编译引擎并执行 PDF 自检，请联网等待几分钟。以后在项目目录运行以下命令即可离线启动：
+首次启动会自动创建 `.venv`、安装 Python 依赖、准备编译引擎并执行 PDF 自检，初次启动会下载23MB左右的Python和tex依赖，请联网等待几分钟。以后在项目目录运行以下命令即可离线启动：
 也可以用ai帮你写一个启动脚本放到桌面，这样点击即可启动
-```powershell
-py -3 scripts/bootstrap.py --offline
-```
 
 也可使用 `.\scripts\start-local.ps1`。端口被占用时添加 `--port 8775`。保持终端运行，用 Edge 或 Chrome 打开 [http://127.0.0.1:8770/](http://127.0.0.1:8770/)，用完后在终端按 `Ctrl+C` 退出；内嵌浏览器可能不支持文件下载。
 
