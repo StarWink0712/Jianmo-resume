@@ -1,0 +1,30 @@
+{
+  "stage": "M2 local integration, not release acceptance",
+  "checks": {
+    "shared_bundled_font_assets": true,
+    "http_security": true,
+    "preview_equals_download": true,
+    "header_fields_and_blank_link_label": true,
+    "sans_hyphen_arrow_and_italic_text_fidelity": true,
+    "real_compilation": true,
+    "copy_independence": true,
+    "failure_retains_data_and_old_pdf": true,
+    "avatar_one_mb_limit_and_wide_photo_normalization": true,
+    "restart_restores_revision_attachments_pdf": true,
+    "token_rotates_and_job_temp_cleaned": true,
+    "backup_import_into_fresh_database_with_avatar": true
+  },
+  "pdfs": {
+    "m2-standard.pdf": {
+      "pages": 1,
+      "sha256": "615e8f09df65a3d40cd98623422092ca0a64d122a9896bc659f2db116b6ff716",
+      "text_and_fonts": true
+    },
+    "m2-long.pdf": {
+      "pages": 2,
+      "sha256": "362b80b3cd58e3ecb20b22d97cc913b16dad187ca11c526c4d3663bb8c928ea4",
+      "text_and_fonts": true
+    }
+  },
+  "passed": true
+}

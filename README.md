@@ -27,10 +27,10 @@ Start with a built-in Java, algorithm, or QA reference resume, or create a blank
 
 环境：**Windows 11 x64**（本机验证 Python 3.12.6 x64）或 **macOS Apple Silicon**（Python 3.12+）。**无需安装完整 TeX、WSL 或 C++ 工具链。**
 
-**Windows（`windows-native` 分支）**：先安装 64 位 Python 3.12+ 和 Git，再在 PowerShell 执行：
+**Windows**：先安装 64 位 Python 3.12+ 和 Git，再在 PowerShell 执行：
 
 ```powershell
-git clone --branch windows-native https://github.com/StarWink0712/Jianmo-resume.git
+git clone https://github.com/StarWink0712/Jianmo-resume.git
 cd Jianmo-resume
 py -3 scripts/bootstrap.py
 ```
@@ -45,7 +45,7 @@ py -3 scripts/bootstrap.py --offline
 
 Windows 首次下载约 **11.76 MB** 的固定引擎包（Python 依赖另计）；安装会执行实际 PDF 自检，因此首次准备比后续启动慢。编译使用 AppContainer、Job Object 和 DLL 哈希审计，失败不会退回系统 TeX 或无沙箱运行。支持本地磁盘和已测试的中文、空格路径；长路径、网络盘、Windows ARM64 和 Windows 10 不在本次验收范围。实测边界见 [Windows 应用验收记录](work-logs/2026-10-04-windows-application.md)。
 
-**macOS：** 以下启动方式适用于仓库的 `main` 分支。当前开发分支的共享源码与 Mac 已批准测试基线不一致，Mac 安装器会拒绝继续；需要在 Mac 上重新验收并更新基线后，才能作为两端均可用的共用版本。历史批准哈希没有手工更新。
+**macOS：** 当前 `main` 已在 Apple Silicon Mac 上完成原生回归，并通过完整候选验证更新了 Mac 基线。实测 macOS 26.5.2、Python 3.14.8，覆盖全新源码安装、离线编译、中文与空格路径、保存和重启恢复，以及 Chrome 预览、PDF/工程下载和备份导入。详见 [Mac 应用验收记录](work-logs/2026-10-04-macos-application.md)。Intel Mac 尚未支持。
 
 如果尚未安装 Python，可通过 [Homebrew](https://brew.sh/) 安装，已有兼容版本可跳过：
 
@@ -107,10 +107,10 @@ Three editable reference resumes are included. Click a preview to view its PDF, 
 
 Requirements: **Windows 11 x64** (locally verified with Python 3.12.6 x64), or **macOS Apple Silicon** with Python 3.12+. No full TeX distribution, WSL, or compiler toolchain is needed.
 
-**Windows (`windows-native` branch):** install 64-bit Python 3.12+ and Git, then run in PowerShell:
+**Windows:** install 64-bit Python 3.12+ and Git, then run in PowerShell:
 
 ```powershell
-git clone --branch windows-native https://github.com/StarWink0712/Jianmo-resume.git
+git clone https://github.com/StarWink0712/Jianmo-resume.git
 cd Jianmo-resume
 py -3 scripts/bootstrap.py
 ```
@@ -119,7 +119,7 @@ The first launch creates `.venv`, installs Python dependencies, prepares the com
 
 The Windows source build has passed native compilation, browser preview, save/restart and backup migration checks on this machine. It downloads 11,755,948 bytes of pinned engine archives, plus Python dependencies, and uses AppContainer, Job Objects and actual DLL hash auditing. See the [Windows application record](work-logs/2026-10-04-windows-application.md) for evidence and remaining platform coverage. Long paths, network drives, Windows ARM64 and Windows 10 are outside the verified scope.
 
-**macOS:** the following startup instructions apply to the repository's `main` branch. This development branch's shared source no longer matches the approved macOS test baseline, so the macOS installer will refuse to proceed. Native macOS acceptance and a baseline update are required before this branch can be used on both platforms. Historical approval hashes have not been rewritten.
+**macOS:** the current `main` has passed native regression on Apple Silicon, with the macOS baseline updated through the complete candidate validation workflow. Tested on macOS 26.5.2 with Python 3.14.8: fresh-source installation, offline compilation, Chinese/space paths, save/restart recovery, and Chrome preview, PDF/project downloads and backup import. See the [macOS application record](work-logs/2026-10-04-macos-application.md). Intel Macs are not yet supported.
 
 If Python is not installed, install it with [Homebrew](https://brew.sh/). Skip this if you already have a compatible version:
 

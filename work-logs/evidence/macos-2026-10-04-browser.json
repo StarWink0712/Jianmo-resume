@@ -1,0 +1,21 @@
+{
+  "platform": "darwin-arm64",
+  "browser": "Google Chrome",
+  "fictional_data_only": true,
+  "checks": {
+    "ui_chinese_edit_save_preview": true,
+    "ui_pdf_download_to_disk": true,
+    "ui_backup_download_to_disk": true,
+    "ui_file_picker_import_new_copy": true,
+    "restart_preserves_documents_and_pdf_descriptor": true
+  },
+  "documents_after_import": 4,
+  ".zip": {
+    "bytes": 3424,
+    "sha256": "4d8bc6c5715b4de4060547bad7b829d7045055fb29f942b4a18b2eacf8927cc1"
+  },
+  ".pdf": {
+    "bytes": 90777,
+    "sha256": "e02d9e44472451aed7ad174339d1a77359af8c1bd314fb6267b674fa09d13f7a"
+  }
+}

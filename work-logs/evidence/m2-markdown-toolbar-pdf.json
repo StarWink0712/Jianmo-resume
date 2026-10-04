@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "pages": 1,
+  "toolbar_markdown_compiles": true,
+  "chinese_and_latin_bold_runs": true,
+  "latin_italic_runs": true,
+  "bullet_count": 2,
+  "numbered_items": 2,
+  "markdown_markers_hidden": true,
+  "fonts_embedded": true,
+  "explicit_linebreaks_in_one_entry": true,
+  "reference_labels_are_not_bullets": true,
+  "linebreak_link_preserved": true
+}

@@ -85,7 +85,7 @@ sh scripts/start-local.sh
 
 普通安装直接从锁定的 TeX Live 包安装必要引擎，有经过验证的 HTTPS 镜像及带日期的历史快照后备，不依赖本项目 GitHub Release。不要把维护者的旧冻结运行时包当成公开发行版；对它另行分发仍需处理静态库源码及再分发义务，也不能宣称已有签名/公证。
 
-RSS 保护仍为采样式监控，不是硬内存上限。当前源码启动脚本仅支持 macOS arm64；Windows/Linux 及 Intel Mac 需要另行实现和验证。此处不把原开发机的测试冒充用户新电脑验收。
+RSS 保护仍为采样式监控，不是硬内存上限。`start-local.sh` 面向 macOS arm64；Windows 11 x64 使用 `scripts/bootstrap.py` 或 `start-local.ps1`，见 README。Linux 及 Intel Mac 尚未支持。此处不把原开发机的测试冒充用户新电脑验收。
 
 ## English Summary
 

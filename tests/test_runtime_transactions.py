@@ -25,7 +25,7 @@ class RuntimeNamesTests(unittest.TestCase):
     def test_archive_duplicate_case_and_links_are_rejected(self):
         for members in [('tex/file', 'tex/FILE'), ('tex/NUL',), ('tex/a:stream',), ('../escape',), ('link',)]:
             with self.subTest(members=members), tempfile.TemporaryDirectory() as temporary:
-                root = Path(temporary)
+                root = Path(temporary).resolve()
                 archive = root / 'archive.tar.xz'
                 with tarfile.open(archive, 'w:xz') as stream:
                     for name in members:
@@ -44,7 +44,9 @@ class RuntimeNamesTests(unittest.TestCase):
 
     def test_inventory_detects_tampering_and_hardlinks(self):
         with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary)
+            # macOS exposes its temporary directory through /var -> /private/var.
+            # Exercise file tampering below a real directory, not that OS alias.
+            root = Path(temporary).resolve()
             path = root / 'engine.exe'
             path.write_bytes(b'one')
             entries = inventory(root)
