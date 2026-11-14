@@ -6,10 +6,10 @@ from core.runtime_manifest import digest, plain_path
 from platform_adapters.detect import platform_key
 
 
-def verify_runtime(root):
+def verify_runtime(root, *, no_sandbox=False):
     if platform_key() == 'windows-x64':
         from scripts.install_windows_runtime import runtime_identity, verify
-        return verify(plain_path(root), runtime_identity())
+        return verify(plain_path(root), runtime_identity(no_sandbox=no_sandbox), no_sandbox=no_sandbox)
     from experiments.m1.managed import verify
     return verify(root)
 

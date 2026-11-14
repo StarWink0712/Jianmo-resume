@@ -126,7 +126,7 @@ def prepare(root, cache, offline):
     return selected
 
 
-def run(output, cache, offline=False, *, installed_runtime=None):
+def run(output, cache, offline=False, *, installed_runtime=None, no_sandbox=False):
     from platform_adapters import windows_native as native
     from core.resume_checks import case_passes, compact, expected_text
     from experiments.m1.pdf_checks import ensure_unicode_maps, inspect_pdf
@@ -161,9 +161,10 @@ def run(output, cache, offline=False, *, installed_runtime=None):
                 (job / 'fonts/cache').mkdir(parents=True, exist_ok=True)
                 (job / 'fonts.conf').write_text('<?xml version="1.0"?><!DOCTYPE fontconfig SYSTEM "fonts.dtd">'
                     '<fontconfig><dir prefix="cwd">fonts</dir><cachedir prefix="cwd">cache</cachedir></fontconfig>', encoding='utf-8')
-                with native.app_container() as (sid, text):
-                    native.grant_tree(runtime, text)
-                    native.grant_tree(job, text, True)
+                with native.compiler_identity(no_sandbox=no_sandbox, stage=f'运行时自检 {job.name}/{log_name}') as (sid, text):
+                    if text:
+                        native.grant_tree(runtime, text)
+                        native.grant_tree(job, text, True)
                     engine = tex / 'bin' / executable
                     env = native.environment(job, engine) | {
                         'TEXMFROOT': str(tex), 'TEXMFCNF': str(tex / 'web2c'),
@@ -175,7 +176,7 @@ def run(output, cache, offline=False, *, installed_runtime=None):
                         'openin_any': 'p', 'openout_any': 'p', 'shell_escape': 'f',
                         'SOURCE_DATE_EPOCH': '1790812800', 'FORCE_SOURCE_DATE': '1'}
                     result = native.run_in_container([str(engine), *args], job, env, sid, timeout=timeout,
-                                                     log_name=log_name, image_policy=image_policy)
+                                                     log_name=log_name, image_policy=image_policy, no_sandbox=no_sandbox)
                     report['stages'][job.name + '/' + log_name] = result
                     if result['reason'] != 'success':
                         raise ValueError('Native TeX stage failed: ' + job.name + '/' + log_name)
@@ -187,6 +188,8 @@ def run(output, cache, offline=False, *, installed_runtime=None):
                 execute(job, 'xetex.exe', ['-ini', '-etex', '-no-shell-escape', '-interaction=nonstopmode',
                         '-halt-on-error', '-recorder', '-jobname=xelatex', '-progname=xelatex', 'xelatex.ini'], 'format.log', format_mode=True)
                 shutil.copyfile(job / 'xelatex.fmt', runtime / 'tex/formats/xelatex.fmt')
+                if no_sandbox:
+                    return {'mode': 'no-sandbox', 'format_generated': True}
             def compile_document(kind, document, assets):
                 job = output / kind
                 native.private_directory(job)

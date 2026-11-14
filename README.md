@@ -40,6 +40,14 @@ py -3 scripts/bootstrap.py
 
 也可使用 `.\scripts\start-local.ps1`。端口被占用时添加 `--port 8775`。保持终端运行，用 Edge 或 Chrome 打开 [http://127.0.0.1:8770/](http://127.0.0.1:8770/)，用完后在终端按 `Ctrl+C` 退出；内嵌浏览器可能不支持文件下载。
 
+如果 Windows 提示 `CreateAppContainerProfile failed: 0x80070005`，或想用当前账户直接编译自己的简历，可用以下命令启动：
+
+```powershell
+py -3 scripts/bootstrap.py --no-sandbox
+```
+
+此参数同时用于首次安装、预览及 PDF 导出。TeX 以当前 Windows 账户的文件和网络权限运行，请只处理可信内容。每次启动都需带上该参数；如果 Python 依赖和引擎包已经缓存，可运行 `py -3 scripts/bootstrap.py --offline --no-sandbox`。如需排查默认模式的权限错误，可单独运行 `py -3 scripts/bootstrap.py --check-appcontainer`。
+
 **macOS：** 实测 macOS 26.5.2、Python 3.14.8。Intel Mac 尚未支持。
 
 如果尚未安装 Python，可通过 [Homebrew](https://brew.sh/) 安装，已有兼容版本可跳过：
@@ -113,6 +121,8 @@ py -3 scripts/bootstrap.py
 The first launch creates `.venv`, installs Python dependencies, prepares the compiler, and runs PDF checks. Stay online and allow a few minutes. For subsequent offline launches, run `py -3 scripts/bootstrap.py --offline` from the project directory. Alternatively, use `.\scripts\start-local.ps1`. Add `--port 8775` if the default port is occupied. Open [http://127.0.0.1:8770/](http://127.0.0.1:8770/) in Edge or Chrome; embedded browsers may block downloads. Keep the terminal open and press `Ctrl+C` to stop.
 
 The Windows source build has passed native compilation, browser preview, save/restart and backup migration checks on this machine. It downloads 11,755,948 bytes of pinned engine archives, plus Python dependencies, and uses AppContainer, Job Objects and actual DLL hash auditing. See the [Windows application record](work-logs/2026-10-04-windows-application.md) for evidence and remaining platform coverage. Long paths, network drives, Windows ARM64 and Windows 10 are outside the verified scope.
+
+For trusted local documents, start with `py -3 scripts/bootstrap.py --no-sandbox` to install and run TeX with your Windows account's file and network permissions. Include the flag on each launch. Add `--offline` when dependencies and engine archives are already available.
 
 **macOS:** the current `main` has passed native regression on Apple Silicon, with the macOS baseline updated through the complete candidate validation workflow. Tested on macOS 26.5.2 with Python 3.14.8: fresh-source installation, offline compilation, Chinese/space paths, save/restart recovery, and Chrome preview, PDF/project downloads and backup import. See the [macOS application record](work-logs/2026-10-04-macos-application.md). Intel Macs are not yet supported.
 

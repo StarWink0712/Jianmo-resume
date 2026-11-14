@@ -19,7 +19,7 @@ from core.runtime_install import install_release
 from core.runtime_manifest import digest, inventory, plain_path, verify_inventory
 
 
-def runtime_identity():
+def runtime_identity(*, no_sandbox=False):
     sources = [ROOT / 'runtime/locks/windows-x64.prototype.json', ROOT / 'runtime/tex.lock.json',
                ROOT / 'runtime/tex-support.tar.xz', ROOT / 'docs/m1/runtime-inputs.json',
                ROOT / 'scripts/probe_windows_engine.py', Path(__file__),
@@ -29,15 +29,18 @@ def runtime_identity():
                *sorted((ROOT / 'experiments/m1').glob('*.py')), ROOT / 'web/style-config.json',
                *sorted((ROOT / 'fixtures').rglob('*.json')), *sorted((ROOT / 'schemas').glob('*.json')),
                *sorted((ROOT / 'examples/resumes').glob('*.json'))]
-    return hashlib.sha256(json.dumps([(p.relative_to(ROOT).as_posix(), digest(p)) for p in sources],
-                                     separators=(',', ':')).encode()).hexdigest()
+    inputs = [(p.relative_to(ROOT).as_posix(), digest(p)) for p in sources]
+    if no_sandbox:
+        inputs.append(('execution-mode', 'no-sandbox'))
+    return hashlib.sha256(json.dumps(inputs, separators=(',', ':')).encode()).hexdigest()
 
 
-def verify(root, identity):
+def verify(root, identity, *, no_sandbox=False):
     root = plain_path(root)
     manifest = json.loads((root / 'runtime.json').read_text(encoding='utf-8'))
     if (manifest.get('schema') != 2 or manifest.get('platform') != 'windows-x64'
-            or manifest.get('identity') != identity or manifest.get('status') != 'development-validated'):
+            or manifest.get('identity') != identity
+            or manifest.get('status') != ('local-format-ready' if no_sandbox else 'development-validated')):
         raise ValueError('Windows runtime manifest is not valid for this build.')
     verify_inventory(root, manifest['files'])
     lock = json.loads((ROOT / 'runtime/locks/windows-x64.prototype.json').read_text(encoding='utf-8'))
@@ -46,6 +49,10 @@ def verify(root, identity):
             if digest(root / item['target']) != item['sha256']:
                 raise ValueError('Installed Windows engine differs from source lock.')
     report = json.loads((root / 'acceptance.json').read_text(encoding='utf-8'))
+    if no_sandbox:
+        if report != {'mode': 'no-sandbox', 'format_generated': True} or not (root / 'tex/formats/xelatex.fmt').stat().st_size:
+            raise ValueError('Local Windows runtime lacks its generated TeX format.')
+        return manifest
     from scripts.check_contracts import cases
     from core.resume_checks import case_passes
     fixtures = cases()
@@ -61,26 +68,29 @@ def verify(root, identity):
     return manifest
 
 
-def install(prefix, cache, offline=False):
+def install(prefix, cache, offline=False, *, no_sandbox=False):
     from platform_adapters import windows_native as native
     from scripts.probe_windows_engine import run
-    identity = runtime_identity()
+    identity = runtime_identity(no_sandbox=no_sandbox)
 
     def verify_build(root):
-        if runtime_identity() != identity:
+        if runtime_identity(no_sandbox=no_sandbox) != identity:
             raise ValueError('Source changed during installation; repeat after edits are complete.')
-        return verify(root, identity)
+        return verify(root, identity, no_sandbox=no_sandbox)
 
     def build(stage):
+        if not no_sandbox:
+            with native.app_container(stage='安装前检查'):
+                pass
         with tempfile.TemporaryDirectory(prefix='.native-check-', dir=stage.parent) as temporary:
             output = Path(temporary)
-            report = run(output, cache, offline)
+            report = run(output, cache, offline, no_sandbox=no_sandbox)
             for path in (output / 'runtime').iterdir():
                 path.rename(stage / path.name)
             (stage / 'acceptance.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
         native.private_tree(stage)
         manifest = {'schema': 2, 'platform': 'windows-x64', 'identity': identity,
-                    'status': 'development-validated', 'files': inventory(stage)}
+                    'status': 'local-format-ready' if no_sandbox else 'development-validated', 'files': inventory(stage)}
         (stage / 'runtime.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         native.private_file(stage / 'runtime.json')
 

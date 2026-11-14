@@ -13,10 +13,12 @@ from scripts.check_contracts import ROOT
 
 
 class Compiler:
-    def __init__(self, runtime, adapter=None):
+    def __init__(self, runtime, adapter=None, *, no_sandbox=False):
         self.adapter = adapter or get_adapter()
         self.adapter.CAPABILITIES.require_compilation()
-        verify_runtime(runtime)
+        if no_sandbox and self.adapter.KEY != 'windows-x64':
+            raise ValueError('--no-sandbox 仅支持 Windows x64。')
+        verify_runtime(runtime, no_sandbox=no_sandbox)
         self.root = Path(runtime).resolve()
         self.fonts_root = verify_fonts(self.root / 'tex/fonts')
         inputs = [self.root / 'runtime.json', Path(__file__),
@@ -27,6 +29,7 @@ class Compiler:
                   *sorted((ROOT / 'platform_adapters').rglob('*.py'))]
         self.fingerprint = hashlib.sha256((self.adapter.KEY + ''.join(digest(path) for path in inputs)).encode()).hexdigest()
         self.manifest = compiler_manifest(self.root)
+        self.manifest['no_sandbox'] = no_sandbox
 
     def __call__(self, document, assets, job):
         try:

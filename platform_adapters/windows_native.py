@@ -374,13 +374,32 @@ def acquire_lock(directory, name):
     return Lease(handle)
 
 
+class AppContainerAccessDenied(PermissionError):
+    pass
+
+
 @contextmanager
-def app_container():
+def compiler_identity(*, no_sandbox, stage):
+    if no_sandbox:
+        yield None, None
+    else:
+        with app_container(stage=stage) as identity:
+            yield identity
+
+
+@contextmanager
+def app_container(*, stage=None):
     """Unique identity per task: no shared container access to another task's files."""
     name, sid = 'Jianmo.Probe.' + uuid.uuid4().hex, P()
     status = CreateProfile(name, name, 'Jianmo isolated compiler', None, 0, C.byref(sid))
     if status < 0:
-        raise OSError(f'CreateAppContainerProfile failed: 0x{status & 0xffffffff:08x}')
+        hresult = status & 0xffffffff
+        message = f'CreateAppContainerProfile failed: 0x{hresult:08x}'
+        if stage:
+            message += f'（{stage}）'
+        if hresult == 0x80070005:
+            raise AppContainerAccessDenied(message + '。Windows 拒绝为当前账户创建编译沙箱。')
+        raise OSError(message)
     try:
         yield sid, sid_text(sid)
     finally:
@@ -417,7 +436,7 @@ def environment(job, engine):
 
 def run_in_container(command, cwd, env, sid, *, timeout=30, memory_limit_bytes=512 * 1024**2,
                      cpu_seconds=30, output_limit_bytes=64 * 1024**2, log_name='process.log', cancel=None,
-                     image_policy=None):
+                     image_policy=None, no_sandbox=False):
     """Create suspended -> assign Job -> resume. Every exit path kills and drains the Job.
 
     Memory uses Windows Job commit accounting (not RSS). Output is sampled across
@@ -430,8 +449,10 @@ def run_in_container(command, cwd, env, sid, *, timeout=30, memory_limit_bytes=5
     if timeout <= 0:
         return result | dict(timed_out=True, reason='wall_timeout')
     cwd = local_path(cwd)
-    if not command or not Path(command[0]).is_absolute() or not sid:
-        raise ValueError('An absolute executable and AppContainer SID are mandatory.')
+    if not command or not Path(command[0]).is_absolute():
+        raise ValueError('An absolute executable is mandatory.')
+    if bool(sid) == no_sandbox:
+        raise ValueError('AppContainer SID does not match the requested execution mode.')
     if Path(log_name).name != log_name or ':' in log_name:
         raise ValueError('Log name must be a filename.')
     job = checked(CreateJob(None, None))
@@ -455,12 +476,14 @@ def run_in_container(command, cwd, env, sid, *, timeout=30, memory_limit_bytes=5
                 raise C.WinError(C.get_last_error())
             handles.append(handle)
         size = SIZE()
-        InitializeAttributes(None, 3, 0, C.byref(size))
+        count = 2 if no_sandbox else 3
+        InitializeAttributes(None, count, 0, C.byref(size))
         attribute_list = C.create_string_buffer(size.value)
-        checked(InitializeAttributes(attribute_list, 3, 0, C.byref(size)))
+        checked(InitializeAttributes(attribute_list, count, 0, C.byref(size)))
         attributes_ready = True
-        capabilities = SecurityCapabilities(sid, None, 0, 0)
-        checked(UpdateAttribute(attribute_list, 0, 0x20009, C.byref(capabilities), C.sizeof(capabilities), None, None))
+        if not no_sandbox:
+            capabilities = SecurityCapabilities(sid, None, 0, 0)
+            checked(UpdateAttribute(attribute_list, 0, 0x20009, C.byref(capabilities), C.sizeof(capabilities), None, None))
         inherited = (W.HANDLE * len(handles))(*handles)
         checked(UpdateAttribute(attribute_list, 0, 0x20002, inherited, C.sizeof(inherited), None, None))
         # Disable extension-point injection and remote image loads. Keep the

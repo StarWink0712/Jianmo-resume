@@ -86,15 +86,18 @@ def compilation(manifest, job):
                 raise
             time.sleep(.1)
     with lease:
-        verify_runtime(root)
+        no_sandbox = manifest.get('no_sandbox', False)
+        verify_runtime(root, no_sandbox=no_sandbox)
         native.private_directory(job)
         lock = json.loads((Path(__file__).resolve().parents[1] / 'runtime/locks/windows-x64.prototype.json').read_text(encoding='utf-8'))
         policy = ImagePolicy({root / item['target']: item['sha256'] for package in lock['packages'] for item in package['files']})
         try:
-            with runtime_alias(root) as mapped, native.app_container() as (sid, text):
+            with runtime_alias(root) as mapped, native.compiler_identity(no_sandbox=no_sandbox, stage='简历 PDF 编译') as (sid, text):
                 tex = mapped / 'tex'
-                native.grant_tree(root, text)
-                context = {'root': root, 'tex': tex, 'job': job, 'sid': sid, 'sid_text': text, 'images': policy}
+                if text:
+                    native.grant_tree(root, text)
+                context = {'root': root, 'tex': tex, 'job': job, 'sid': sid, 'sid_text': text, 'images': policy,
+                           'no_sandbox': no_sandbox}
                 token = _active.set(context)
                 try:
                     yield manifest | {'tex_root': str(tex), 'engine': str(tex / 'bin/xelatex.exe'),
@@ -102,8 +105,9 @@ def compilation(manifest, job):
                 finally:
                     _active.reset(token)
         finally:
-            native.private_tree(root)
-            native.private_tree(job)
+            if not no_sandbox:
+                native.private_tree(root)
+                native.private_tree(job)
 
 
 def run_bounded(command, cwd, env, timeout=30, *, log_name='process.log', **unsupported):
@@ -115,9 +119,10 @@ def run_bounded(command, cwd, env, timeout=30, *, log_name='process.log', **unsu
         raise ValueError('Unsupported Windows execution options or job path.')
     if Path(command[0]) not in (context['tex'] / 'bin/xelatex.exe', context['tex'] / 'bin/xdvipdfmx.exe'):
         raise ValueError('Only pinned Windows TeX entry points are allowed.')
-    native.grant_tree(cwd, context['sid_text'], True)
+    if context['sid_text']:
+        native.grant_tree(cwd, context['sid_text'], True)
     env = env | {'FONTCONFIG_FILE': 'fonts.conf', 'FONTCONFIG_PATH': '.', 'XE_FONTCONFIG_PATH': '.',
                  'XE_FC_CACHEDIR': './cache', 'TEXMFVAR': '.', 'TEXMFCONFIG': '.', 'TEXMFCACHE': '.',
                  'openin_any': 'p', 'openout_any': 'p', 'shell_escape': 'f'}
     return native.run_in_container(command, cwd, env, context['sid'], timeout=timeout,
-                                   log_name=log_name, image_policy=context['images'])
+                                   log_name=log_name, image_policy=context['images'], no_sandbox=context['no_sandbox'])

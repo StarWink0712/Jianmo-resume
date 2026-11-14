@@ -9,12 +9,45 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 @unittest.skipUnless(sys.platform == 'win32', 'native PowerShell and socket semantics')
 class WindowsStartupTests(unittest.TestCase):
+    def test_appcontainer_check_without_dependencies(self):
+        result = subprocess.run([sys.executable, '-S', 'scripts/bootstrap.py', '--check-appcontainer'],
+                                cwd=ROOT, capture_output=True, encoding='utf-8',
+                                env=os.environ | {'PYTHONIOENCODING': 'utf-8'}, timeout=30)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('Build', result.stdout)
+        self.assertIn('成功创建并删除', result.stdout)
+
+    def test_appcontainer_check_reports_denied_profile(self):
+        from platform_adapters import windows_native as native
+        from scripts import bootstrap
+        with patch.object(sys, 'argv', ['bootstrap.py', '--check-appcontainer']), \
+                patch.object(native, 'CreateProfile', return_value=-2147024891), \
+                patch.object(native, 'DeleteProfile') as delete, \
+                self.assertRaises(SystemExit) as failure:
+            bootstrap.main()
+        self.assertIn('0x80070005', str(failure.exception))
+        self.assertIn('独立检查', str(failure.exception))
+        delete.assert_not_called()
+
+    def test_denied_install_stops_before_engine_download(self):
+        from platform_adapters import windows_native as native
+        from scripts import install_windows_runtime
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            with patch.object(native, 'CreateProfile', return_value=-2147024891), \
+                    patch('scripts.probe_windows_engine.run') as engine, \
+                    self.assertRaisesRegex(native.AppContainerAccessDenied, '0x80070005.*安装前检查'):
+                install_windows_runtime.install(root / 'install', root / 'cache')
+            engine.assert_not_called()
+            self.assertFalse((root / 'install/current.json').exists())
+
     def test_powershell_preserves_arguments_and_failed_setup_exit(self):
         with tempfile.TemporaryDirectory(prefix='startup 中文 & (test)-') as temporary:
             root = Path(temporary)

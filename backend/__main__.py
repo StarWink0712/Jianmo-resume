@@ -15,6 +15,7 @@ def main():
     parser.add_argument('--port', type=int, default=8770)
     parser.add_argument('--data-dir', type=Path, default=ROOT / '.local-data')
     parser.add_argument('--runtime', type=Path)
+    parser.add_argument('--no-sandbox', action='store_true', help='Run Windows TeX as the current user.')
     parser.add_argument('--no-examples', action='store_true', help='Start a new data directory without bundled reference resumes.')
     args = parser.parse_args()
     if not 1024 <= args.port <= 65535:
@@ -24,13 +25,22 @@ def main():
         adapter = get_adapter()
         adapter.initialize_process()
         if args.runtime is None:
-            from core.managed_runtime import default_runtime
-            args.runtime = default_runtime()
+            if args.no_sandbox:
+                from core.runtime_install import current_release
+                args.runtime = current_release(ROOT / '.m1-build/windows-local', 'windows-x64')
+            else:
+                from core.managed_runtime import default_runtime
+                args.runtime = default_runtime()
         adapter.configure_listener(listener)
         listener.bind(('127.0.0.1', args.port))
         # Claim the port before opening the database, including simultaneous starts.
         listener.listen(128)
-        app = create_app(args.data_dir, args.runtime, origin=f'http://127.0.0.1:{args.port}', seed_examples=not args.no_examples)
+        compiler = None
+        if args.no_sandbox:
+            from backend.compiler import Compiler
+            compiler = Compiler(args.runtime, no_sandbox=True)
+        app = create_app(args.data_dir, args.runtime, origin=f'http://127.0.0.1:{args.port}', compiler=compiler,
+                         seed_examples=not args.no_examples)
     except (OSError, AppError, ValueError) as error:
         listener.close()
         raise SystemExit('无法启动本地服务，请检查端口、数据目录或专用运行时：' + str(error))
